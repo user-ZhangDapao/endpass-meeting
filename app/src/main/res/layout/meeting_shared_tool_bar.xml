@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shared_bar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:visibility="visible"
+    android:background="@color/color_2B2F3D"
+    app:layout_constraintBottom_toTopOf="@+id/menu_content_layout"
+    app:layout_constraintHeight_percent="0.45"
+    tools:showIn="@layout/meeting_bottom_menu_bar">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_3F4662"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_left_internal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <TextView
+        android:id="@+id/tv_stop_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_red_r3"
+        android:paddingStart="@dimen/dp_13"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingEnd="@dimen/dp_13"
+        android:paddingBottom="@dimen/dp_5"
+        android:text="@string/meetingui_stop_share"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/min_sp_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_left_internal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/im_change_label"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/select_share_tool_tab_default"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@+id/tv_stop_share"
+        app:layout_constraintRight_toLeftOf="@+id/im_change_edit" />
+
+    <TextView
+        android:id="@+id/tv_tab_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/color_2B2F3D"
+        android:textSize="@dimen/min_sp_12"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintBottom_toBottomOf="@+id/im_change_label"
+        app:layout_constraintLeft_toLeftOf="@+id/im_change_label"
+        app:layout_constraintRight_toRightOf="@+id/im_change_label"
+        app:layout_constraintTop_toTopOf="@+id/im_change_label" />
+
+    <ImageView
+        android:id="@+id/im_change_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/select_share_tool_mark_default"
+        app:layout_constraintLeft_toRightOf="@+id/im_change_label"
+        app:layout_constraintRight_toLeftOf="@+id/im_shared_rotating" />
+
+    <ImageView
+        android:id="@+id/im_shared_rotating"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/select_share_tool_rotating_default"
+        app:layout_constraintLeft_toRightOf="@+id/im_change_edit"
+        app:layout_constraintRight_toLeftOf="@+id/im_shared_download" />
+
+    <ImageView
+        android:id="@+id/im_shared_download"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/select_share_tool_down_default"
+        app:layout_constraintLeft_toRightOf="@+id/im_shared_rotating"
+        app:layout_constraintRight_toLeftOf="@+id/im_shared_lock" />
+
+    <ImageView
+        android:id="@+id/im_shared_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/select_share_tool_unlock_default"
+        app:layout_constraintLeft_toRightOf="@+id/im_shared_download"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 参会人页面，“所有”参会人Tab的图标 -->
+    <item android:state_selected="true" android:drawable="@mipmap/ul_icon_user_focus" />
+    <item android:drawable="@mipmap/ul_icon_user" />
+</selector>

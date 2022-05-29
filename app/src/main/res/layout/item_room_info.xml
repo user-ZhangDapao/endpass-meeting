@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
+        android:paddingLeft="@dimen/dp15"
+        android:paddingTop="@dimen/dp20"
+        android:paddingRight="@dimen/dp15"
+        android:paddingBottom="@dimen/dp20">
+
+        <TextView
+            android:id="@+id/tv_room_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_ff28282d"
+            android:textSize="@dimen/size_sp_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="深圳总部研发中心设计中心产品分享会发中心设计中心产品分享会发中心设计中心产品分享会发中心设计中心产品分享会" />
+
+        <TextView
+            android:id="@+id/tv_room_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/room_sum_person"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_ffadb0b5"
+            android:textSize="@dimen/min_sp_12"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tv_room_code"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_room_code"
+            app:layout_constraintTop_toTopOf="@id/tv_room_code"
+            tools:text="200/300" />
+
+        <TextView
+            android:id="@+id/tv_room_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp10"
+            android:textColor="@color/color_ffadb0b5"
+            android:textSize="@dimen/min_sp_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintLeft_toRightOf="@id/tv_room_sum"
+            app:layout_constraintTop_toBottomOf="@id/tv_room_name"
+            app:layout_goneMarginLeft="0dp"
+            tools:text="会议号：123-456-789" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

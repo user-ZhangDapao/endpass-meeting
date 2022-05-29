@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_main"
+    >
+
+    <!-- 存放主要页面内容 -->
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/height_43"
+        >
+    </FrameLayout>
+
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/dividing_line_height"-->
+    <!--        android:background="@color/color_line"/>-->
+
+    <!-- 底层菜单 -->
+    <androidx.fragment.app.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_tab"
+        android:layout_height="@dimen/height_58"
+        android:layout_alignParentBottom="true"
+        >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0" >
+        </FrameLayout>
+    </androidx.fragment.app.FragmentTabHost>
+
+</RelativeLayout>

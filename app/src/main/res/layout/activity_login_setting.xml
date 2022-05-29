@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".activity.LoginSettingActivity">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:onClick="@{onClickListener}"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/setting_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/meetingui_setting"
+            android:textColor="#ff11161a"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+        <EditText
+            android:id="@+id/et_ip"
+            style="@style/login_edit_text_style"
+            android:layout_marginTop="100dp"
+            android:hint="@string/ip_address"
+            app:layout_constraintBottom_toTopOf="@id/et_port"
+            android:maxLength="128"
+            android:text="5uw.haoshitong.com "
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:digits="@string/legal_text_uri"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_port"
+            style="@style/login_edit_text_style"
+            android:layout_marginTop="18dp"
+            android:hint="@string/server_port"
+            android:inputType="number"
+            android:maxLength="5"
+            android:text="1089"
+            app:layout_constraintBottom_toTopOf="@id/et_client_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_ip" />
+
+        <EditText
+            android:id="@+id/et_client_id"
+            style="@style/login_edit_text_style"
+            android:layout_height="115dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@id/et_client_secret"
+            android:layout_marginTop="18dp"
+            android:gravity="left|top"
+            android:hint="@string/client_id"
+            android:maxLength="255"
+            android:paddingTop="@dimen/dp_13"
+            android:digits="@string/legal_text_uri"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHeight_percent="0.17"
+            android:text="b9264352-4ae2-4065-b48a-887048506660"
+            app:layout_constraintTop_toBottomOf="@id/et_port" />
+
+        <EditText
+            android:id="@+id/et_client_secret"
+            style="@style/login_edit_text_style"
+            android:layout_height="115dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@id/tv_save"
+            android:layout_marginTop="18dp"
+            android:gravity="left|top"
+            android:hint="@string/client_secret"
+            android:maxLength="255"
+            android:paddingTop="@dimen/dp_13"
+            android:digits="@string/legal_text_uri"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="df1ae16c-f5a9-4009-89e6-edbd4274a706"
+            app:layout_constraintHeight_percent="0.17"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/et_client_id" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <Button
+            android:id="@+id/tv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_save"
+            android:letterSpacing="0.2"
+            android:onClick="@{onClickListener}"
+            android:paddingLeft="40dp"
+            android:paddingTop="13dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="13dp"
+            android:text="@string/save"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_save"
+            app:layout_constraintVertical_bias="0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

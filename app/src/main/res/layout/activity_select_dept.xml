@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_EEEEEE"
+    >
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:backDrawbles="@drawable/icon_left_white"
+        app:themeColors="@color/color_4D6B4A"
+        app:leftTextColors="@color/color_FFFFFF"
+        app:rightTextColors="@color/color_FFFFFF"
+        />
+
+    <LinearLayout
+        android:id="@+id/llRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="*创建任务仅可选择一个部门"
+            android:textColor="@color/color_FD563C"
+            android:textSize="@dimen/text_size_11"
+            android:gravity="right"
+            android:padding="@dimen/margin_12"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/padding_10"
+            />
+    </LinearLayout>
+
+</LinearLayout>

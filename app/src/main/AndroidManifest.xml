@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sdcz.endpass">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+
+
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 连接网络权限，用于执行云端语音能力 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取当前wifi状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 读取手机信息权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 读取联系人权限，上传联系人需要用到此权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 外存储读权限，构建语法需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 配置权限，用来记录应用配置信息 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 主动拨打电话 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 保持屏幕亮起权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+
+    <application
+        android:name=".DemoApp"
+        android:allowBackup="false"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon_app"
+        android:supportsRtl="true"
+        android:theme="@style/MeetingAppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup"
+        android:requestLegacyExternalStorage="true"
+        >
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.JoinMeetingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MainActivityApp"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.RoomListActivity"
+            android:screenOrientation="portrait" />
+         <activity
+         android:name=".ui.RoomSearchActivity"
+         android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MobileMeetingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation|mcc|mnc"
+            android:launchMode="singleTop"
+            android:theme="@style/MobileMeetingActivityTheme"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <activity
+            android:name=".LoginSettingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.LikeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MailListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CreateTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.UserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ChangePassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SelectDeptActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SelectUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TaskUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LoginActivityApp"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:theme="@style/TranslucentTheme"
+            android:name=".gps.GPSActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        <provider
+            android:name=".SDKInitializer"
+            android:authorities="${applicationId}.SDKInitProvider" />
+
+        <service android:name="com.comix.meeting.modules.VncSendService" />
+        <service android:name=".gps.PosService" />
+    </application>
+
+</manifest>

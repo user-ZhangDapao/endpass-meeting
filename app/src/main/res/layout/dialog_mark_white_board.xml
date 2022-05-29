@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e9ebee">
+
+    <!--<FrameLayout
+        android:id="@+id/white_board_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar_layout"/>-->
+
+    <com.sdcz.endpass.widget.MarkZoomWbView
+        android:id="@+id/mark_zoom_wb_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar_layout"/>
+
+    <TextView
+        android:id="@+id/tv_wb_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/dp13"
+        android:layout_marginTop="@dimen/dp13"
+        android:paddingTop="@dimen/dp2"
+        android:paddingBottom="@dimen/dp2"
+        android:paddingStart="@dimen/dp8"
+        android:paddingEnd="@dimen/dp8"
+        android:background="@drawable/bg_gray_r45"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_12sp"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:maxEms="20"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:orientation="horizontal"
+        android:background="@color/color_2B2F3D"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/stop_share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingBottom="@dimen/margin_5dp"
+            android:paddingEnd="@dimen/margin_15dp"
+            android:paddingStart="@dimen/margin_15dp"
+            android:background="@drawable/bg_red_r3"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_10sp"
+            android:text="@string/meetingui_stop_mark"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:columnCount="3">
+
+            <ImageView
+                android:id="@+id/pencil_image_view"
+                android:layout_height="@dimen/dp34"
+                android:layout_width="@dimen/dp34"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/select_mark_white_board_pencil"/>
+
+            <ImageView
+                android:id="@+id/color_select_image_view"
+                android:layout_height="@dimen/dp34"
+                android:layout_width="@dimen/dp34"
+                android:layout_gravity="center"
+                android:layout_columnWeight="1"
+                android:src="@drawable/select_mark_white_board_color_black"/>
+
+            <ImageView
+                android:id="@+id/earser_image_view"
+                android:layout_height="@dimen/dp34"
+                android:layout_width="@dimen/dp34"
+                android:layout_gravity="center"
+                android:layout_columnWeight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/select_mark_white_board_eraser"/>
+
+        </GridLayout>
+
+    </LinearLayout>
+    
+    <!--<GridLayout
+        android:id="@+id/color_panel_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_bar_layout"
+        android:padding="@dimen/dp8"
+        android:layout_marginBottom="@dimen/dp4"
+        android:columnCount="4"
+        android:visibility="gone"
+        android:background="@drawable/meetingui_bg_layerlist_mark_color">
+
+        <ImageView
+            android:id="@+id/rb_black"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_black"
+            android:button="@null"
+            android:checked="true" />
+
+        <ImageView
+            android:id="@+id/rb_gray"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_gray"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/rb_blue"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_blue"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/rb_blue2"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_iceblue"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/rb_green"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_green"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/rb_yellow"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_yellow"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/rb_orange"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_orange"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/rb_red"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_margin="@dimen/dp4"
+            android:background="@drawable/meetingui_shape_mark_color_red"
+            android:button="@null" />
+        
+    </GridLayout>-->
+
+</RelativeLayout>

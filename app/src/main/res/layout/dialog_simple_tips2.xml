@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp298"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dp148"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shape_white_cornor8"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp64"
+            android:gravity="center"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_20sp"
+            tools:text="Title"/>
+
+        <TextView
+            android:id="@+id/tvTips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp32"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            android:gravity="center"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_14sp"
+            tools:hint="Hugo123456"
+            android:textCursorDrawable="@drawable/shape_edit_cursor"
+            android:background="#00FFFFFF"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:background="@color/color_ECEDEE" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp48"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/meetingui_cancel"
+                android:textColor="#63c926"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_ECEDEE" />
+
+            <TextView
+                android:id="@+id/tvSure"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp48"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/meetingui_confirm"
+                android:textColor="#f05b5b"
+                android:textSize="@dimen/text_size_16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

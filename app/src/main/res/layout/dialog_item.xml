@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+
+     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_white_5"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:textColor="@color/color_595959"
+            android:textSize="@dimen/text_size_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_12"
+            android:gravity="center"
+            android:text="自定义弹窗"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:paddingLeft="@dimen/margin_33"
+            android:paddingRight="@dimen/margin_33"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:textColor="@color/color_A6A6A6"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="创  建  人:"
+                    android:minWidth="72dp"
+                    android:layout_marginRight="@dimen/margin_33"
+                    />
+
+                <TextView
+                    android:background="#ffffff"
+                    android:id="@+id/message"
+                    android:textColor="@color/color_595959"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="创 建 人:"
+                    android:layout_marginRight="@dimen/margin_33"
+                    android:lines="1"
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_15"
+                >
+                <TextView
+                    android:textColor="@color/color_A6A6A6"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="创建时间:"
+                    android:minWidth="72dp"
+                    android:layout_marginRight="@dimen/margin_33"
+                    />
+
+                <TextView
+                    android:background="#ffffff"
+                    android:id="@+id/message2"
+                    android:textColor="@color/color_595959"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="创 建 人:"
+                    android:layout_marginRight="@dimen/margin_33"
+                    android:lines="1"
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_15"
+                >
+                <TextView
+                    android:textColor="@color/color_A6A6A6"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="总  人  数:"
+                    android:minWidth="72dp"
+                    android:layout_marginRight="@dimen/margin_33"
+                    />
+
+                <TextView
+                    android:background="#ffffff"
+                    android:id="@+id/message3"
+                    android:textColor="@color/color_595959"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="创 建 人:"
+                    android:layout_marginRight="@dimen/margin_33"
+                    android:lines="1"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_15"
+                >
+                <TextView
+                    android:textColor="@color/color_A6A6A6"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="任务描述:"
+                    android:minWidth="72dp"
+                    android:layout_marginRight="@dimen/margin_33"
+                    />
+
+                <TextView
+                    android:background="#ffffff"
+                    android:id="@+id/message6"
+                    android:textColor="@color/color_595959"
+                    android:textSize="@dimen/text_size_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:lineSpacingMultiplier="1"
+                    android:text="创 建 人:"
+                    android:layout_marginRight="@dimen/margin_33"
+                    android:lines="1"
+                    />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_white_10"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_15"
+            >
+
+            <TextView
+                android:id="@+id/negativeTextView"
+                android:layout_weight="1"
+                android:textColor="@color/color_CCCCCC"
+                android:textSize="13sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/shape_f6f6f6_left_btm_5"
+                android:text="ok"
+                android:clickable="true"
+                />
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/positiveTextView"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_4d6b4a_right_btm_5"
+                android:gravity="center"
+                android:text="cancel"
+                android:clickable="true"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/size_dp_298"
+    android:layout_height="wrap_content"
+    android:background="@drawable/btn_dialog_background"
+    android:minHeight="@dimen/size_dp_148"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_20"
+            android:text="@string/warn"
+            android:textColor="@color/textcolor_28282d"
+            android:textSize="@dimen/min_sp_16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/content_textview"
+            android:layout_width="@dimen/size_dp_240"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="5dp"
+            android:minHeight="@dimen/btnHeight_45"
+            android:paddingTop="@dimen/padding_20"
+            android:text="@string/non_wifi_tip"
+            android:textColor="@color/textcolor_28282d"
+            android:textSize="@dimen/min_sp_16" />
+
+        <LinearLayout
+            android:id="@+id/cancel_tip_linearlayout"
+            android:layout_width="@dimen/size_dp_240"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_20"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/cancel_tip"
+                android:textColor="@color/textcolor_adb0b5"
+                android:textSize="@dimen/min_sp_14" />
+
+            <CheckBox
+                android:id="@+id/cancel_tip_checkbox"
+                android:layout_width="@dimen/paddingMid"
+                android:layout_height="@dimen/paddingMid"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/remind_checkbox"
+                android:button="@null" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn48"
+        android:layout_marginTop="@dimen/padding_20"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/left_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/btn48"
+            android:layout_weight="1"
+            android:background="@drawable/rect_left_button"
+            android:text="@string/receive_video_data"
+            android:textColor="@color/textcolor_63c926"
+            android:textSize="@dimen/min_sp_16" />
+
+        <Button
+            android:id="@+id/right_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/btn48"
+            android:layout_weight="1"
+            android:background="@drawable/rect_right_button"
+            android:text="@string/receive_audio_data_only"
+            android:textColor="@color/textcolor_f05b5b"
+            android:textSize="@dimen/min_sp_16" />
+    </LinearLayout>
+</LinearLayout>

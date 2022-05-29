@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/meeting_voice_close" android:state_activated="true" />
+    <item android:state_pressed="true" android:drawable="@mipmap/meeting_voice_open_pressed" />
+    <item android:drawable="@mipmap/meeting_voice_open" />
+</selector>

@@ -1,0 +1,440 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="cancel" tools:ignore="ExtraTranslation">取消</string>
+    <string name="RESULT_ROOM_NUM_NOT_EXIST" tools:ignore="ExtraTranslation">该会议室号不存在，请重新输入</string>
+    <string name="top_title_attendee" tools:ignore="ExtraTranslation">参会人</string>
+
+
+    <string name="join_meeting" tools:ignore="ExtraTranslation">加入会议</string>
+    <string name="account_login_account_hint" tools:ignore="ExtraTranslation">用户名/邮箱/手机号</string>
+    <string name="password" tools:ignore="ExtraTranslation">密码</string>
+    <string name="about" tools:ignore="ExtraTranslation">关于</string>
+
+
+    <string name="warn" tools:ignore="ExtraTranslation">提醒</string>
+    <string name="non_wifi_tip" tools:ignore="ExtraTranslation">非无线网络环境下，接收视频会消耗您的数据流量，如果选择“仅接收音频”，您将无法接收视频和共享本地桌面</string>
+    <string name="receive_video_data" tools:ignore="ExtraTranslation">接收音视频</string>
+    <string name="receive_audio_data_only" tools:ignore="ExtraTranslation">仅接收音频</string>
+
+
+    <string name="login_tip" tools:ignore="ExtraTranslation">提示消息</string>
+    <string name="create_group" tools:ignore="ExtraTranslation">创建群组</string>
+    <string name="call" tools:ignore="ExtraTranslation">呼叫</string>
+    <string name="permission_fail" tools:ignore="ExtraTranslation">应用缺少必要的运行权限，请前往设置开启权限，否则将无法正常运行</string>
+    <string name="to_android_setting" tools:ignore="ExtraTranslation">立即设置</string>
+    <string name="cancel_tip" tools:ignore="ExtraTranslation">不再提醒</string>
+    <string name="meeting_room_number_or_code" tools:ignore="ExtraTranslation">会议室号/邀请码</string>
+
+
+    <string name="meetingui_camera_permission_denied" tools:ignore="ExtraTranslation">应用无法访问你的摄像头,请允许访问摄像头。</string>
+    <string name="meetingui_camera_unknown_error" tools:ignore="ExtraTranslation">未能正常开启相机预览，是否再次尝试打开相机？</string>
+
+    <string name="meetingui_settings_receive_video" tools:ignore="ExtraTranslation">开会时接收视频</string>
+    <string name="meetingui_settings_receive_video_wifi" tools:ignore="ExtraTranslation">只在无线网络时</string>
+    <string name="meetingui_settings_receive_video_wifi_and_data" tools:ignore="ExtraTranslation">无线网络和移动数据网络时</string>
+    <string name="meetingui_settings_receive_video_no" tools:ignore="ExtraTranslation">不接收</string>
+    <string name="meetingui_settings_no_interruption_meeting" tools:ignore="ExtraTranslation">会中免打扰</string>
+    <string name="meetingui_settings_open_mic_after_join" tools:ignore="ExtraTranslation">入会打开麦克风</string>
+    <string name="meetingui_settings_open_camera_after_join" tools:ignore="ExtraTranslation">入会打开摄像头</string>
+    <string name="meetingui_settings_beauty_level" tools:ignore="ExtraTranslation">美颜</string>
+    <string name="meetingui_settings_vflip" tools:ignore="ExtraTranslation">视频镜像</string>
+    <string name="meetingui_settings_screen_setting" tools:ignore="ExtraTranslation">横竖屏设置</string>
+    <string name="meetingui_settings_screen_tips" tools:ignore="ExtraTranslation">关闭后，会中只能横屏或者竖屏。</string>
+    <string name="meetingui_settings_about" tools:ignore="ExtraTranslation">关于</string>
+    <string name="meetingui_comma" tools:ignore="ExtraTranslation">，</string>
+    <string name="meetingui_me" tools:ignore="ExtraTranslation">我</string>
+    <string name="meetingui_search" tools:ignore="ExtraTranslation">搜索</string>
+    <string name="meetingui_administrator" tools:ignore="ExtraTranslation">管理员</string>
+    <string name="meetingui_main_speaker" tools:ignore="ExtraTranslation">主持人</string>
+    <string name="meetingui_open_mic" tools:ignore="ExtraTranslation">打开音频</string>
+    <string name="meetingui_close_mic" tools:ignore="ExtraTranslation">关闭音频</string>
+    <string name="meetingui_open_camera" tools:ignore="ExtraTranslation">打开视频</string>
+    <string name="meetingui_close_camera" tools:ignore="ExtraTranslation">关闭视频</string>
+    <string name="meetingui_apply_main_speaker" tools:ignore="ExtraTranslation">申请主持人</string>
+    <string name="meetingui_applying_main_speaker" tools:ignore="ExtraTranslation">主持人申请中</string>
+    <string name="meetingui_give_up_applying_main_speaker" tools:ignore="ExtraTranslation">放弃主持人</string>
+    <string name="meetingui_award_main_speaker" tools:ignore="ExtraTranslation">授予主持人</string>
+    <string name="meetingui_cancel_main_speaker" tools:ignore="ExtraTranslation">取消主持人</string>
+    <string name="meetingui_mute_all" tools:ignore="ExtraTranslation">全场静音</string>
+    <string name="meetingui_applying_main_speaker_tips" tools:ignore="ExtraTranslation">您正在申请主持人</string>
+    <string name="meetingui_give_up_applying_main_speaker_tips" tools:ignore="ExtraTranslation">您已放弃申请主持人</string>
+    <string name="meetingui_have_main_speaker_right" tools:ignore="ExtraTranslation">您已成为主持人</string>
+    <string name="meetingui_give_up_main_speaker_tips" tools:ignore="ExtraTranslation">您已放弃主持人</string>
+    <string name="meetingui_mute_all_success" tools:ignore="ExtraTranslation">您已成功取消广播参会人的音频</string>
+    <string name="meetingui_kick_user" tools:ignore="ExtraTranslation">请出会议室</string>
+    <string name="meetingui_attendee_rename" tools:ignore="ExtraTranslation">修改昵称</string>
+    <string name="meetingui_user_leaved" tools:ignore="ExtraTranslation">用户已经离开会议室</string>
+    <string name="meetingui_apply_manager" tools:ignore="ExtraTranslation">申请管理员</string>
+    <string name="meetingui_apply_manager_denied" tools:ignore="ExtraTranslation">当前会议室不允许申请管理员！</string>
+    <string name="meetingui_abandon_manager" tools:ignore="ExtraTranslation">放弃管理员</string>
+    <string name="meetingui_input_manager_pwd_hint" tools:ignore="ExtraTranslation">输入管理员密码</string>
+    <string name="meetingui_give_up_manager_tips" tools:ignore="ExtraTranslation">您确定要放弃管理员权限？</string>
+    <string name="meetingui_manager_pwd_wrong" tools:ignore="ExtraTranslation">管理员密码错误！</string>
+    <string name="meetingui_permission_denied" tools:ignore="ExtraTranslation">用户权限不足</string>
+    <string name="meetingui_sharing" tools:ignore="ExtraTranslation">正在共享</string>
+    <string name="meetingui_recording" tools:ignore="ExtraTranslation">正在录制</string>
+    <string name="meetingui_share" tools:ignore="ExtraTranslation">共享</string>
+    <string name="meeting_attender" tools:ignore="ExtraTranslation">参会人</string>
+    <string name="meetingui_chat" tools:ignore="ExtraTranslation">聊天</string>
+    <string name="meetingui_more" tools:ignore="ExtraTranslation">更多</string>
+    <string name="meetingui_quit_room" tools:ignore="ExtraTranslation">退出</string>
+    <string name="meetingui_shared_select" tools:ignore="ExtraTranslation">选择共享</string>
+    <string name="meetingui_switch_select" tools:ignore="ExtraTranslation">切换共享</string>
+    <string name="meetingui_screen_shared" tools:ignore="ExtraTranslation">屏幕共享</string>
+    <string name="meetingui_media_shared" tools:ignore="ExtraTranslation">媒体共享</string>
+    <string name="meetingui_white_board" tools:ignore="ExtraTranslation">白板</string>
+    <string name="meetingui_word" tools:ignore="ExtraTranslation">文档</string>
+    <string name="meetingui_take_picture" tools:ignore="ExtraTranslation">拍照</string>
+    <string name="meetingui_shared_photo" tools:ignore="ExtraTranslation">照片</string>
+    <string name="meetingui_change_layout" tools:ignore="ExtraTranslation">切换布局</string>
+    <string name="meetingui_follow_layout" tools:ignore="ExtraTranslation">跟随布局</string>
+    <string name="meetingui_layout_data" tools:ignore="ExtraTranslation">数据</string>
+    <string name="meetingui_layout_data_tile" tools:ignore="ExtraTranslation">数据+视频(平铺)</string>
+    <string name="meetingui_layout_data_tile_pop" tools:ignore="ExtraTranslation">数据+视频(弹出)</string>
+    <string name="meetingui_layout_video_split" tools:ignore="ExtraTranslation">视频均分 (均分)</string>
+    <string name="meetingui_layout_video_focus_1" tools:ignore="ExtraTranslation">视频一焦点</string>
+    <string name="meetingui_layout_video_focus_2" tools:ignore="ExtraTranslation">视频二焦点</string>
+    <string name="meetingui_layout_video_one" tools:ignore="ExtraTranslation">一分屏</string>
+    <string name="meetingui_layout_video_two" tools:ignore="ExtraTranslation">二分屏</string>
+    <string name="meetingui_layout_video_pip" tools:ignore="ExtraTranslation">画中画</string>
+    <string name="meetingui_layout_video_four" tools:ignore="ExtraTranslation">四分屏</string>
+    <string name="meetingui_layout_video_six" tools:ignore="ExtraTranslation">六分屏</string>
+    <string name="meetingui_invite" tools:ignore="ExtraTranslation">邀请</string>
+    <string name="meetingui_setting" tools:ignore="ExtraTranslation">设置</string>
+    <string name="meetingui_input_manager_password" tools:ignore="ExtraTranslation">请输入管理员密码</string>
+    <string name="meetingui_manager_not_empty" tools:ignore="ExtraTranslation">管理员密码不能为空</string>
+    <string name="meetingui_enable_mic" tools:ignore="ExtraTranslation">本地麦克风</string>
+    <string name="meetingui_enable_camera" tools:ignore="ExtraTranslation">本地摄像头</string>
+    <string name="meetingui_video_open" tools:ignore="ExtraTranslation">本地视频预览</string>
+    <string name="meetingui_voice_stimulate" tools:ignore="ExtraTranslation">语音激励</string>
+    <string name="meetingui_quit_meeting" tools:ignore="ExtraTranslation">结束会议</string>
+    <string name="meetingui_confirm" tools:ignore="ExtraTranslation">确定</string>
+    <string name="meetingui_cancel" tools:ignore="ExtraTranslation">取消</string>
+    <string name="meetingui_quit_room_tips" tools:ignore="ExtraTranslation">你要退出会议还是结束会议?</string>
+    <string name="meetingui_quit_room_restricted" tools:ignore="ExtraTranslation">退出会议后其他人继续会议,确定退出?</string>
+    <string name="meetingui_finish_meeting" tools:ignore="ExtraTranslation">结束会议,所有人退出会议</string>
+    <string name="meetingui_temporary_quit_meeting" tools:ignore="ExtraTranslation">退出会议,其他人继续会议</string>
+    <string name="meetingui_select_apply_for" tools:ignore="ExtraTranslation">举手</string>
+    <string name="meetingui_select_give_apply" tools:ignore="ExtraTranslation">放下</string>
+    <string name="meetingui_give_up_mic" tools:ignore="ExtraTranslation">您已关闭发言</string>
+    <string name="meetingui_mic_applied" tools:ignore="ExtraTranslation">您已开启发言</string>
+    <string name="meetingui_camera_opened" tools:ignore="ExtraTranslation">您已开启视频</string>
+    <string name="meetingui_camera_closed" tools:ignore="ExtraTranslation">您已停止视频</string>
+    <string name="meetingui_unmute" tools:ignore="ExtraTranslation">解除静音</string>
+    <string name="meetingui_give_up_open" tools:ignore="ExtraTranslation">您已放弃申请</string>
+    <string name="meetingui_apply_open_camera" tools:ignore="ExtraTranslation">您正在申请开启视频</string>
+    <string name="meetingui_room_closed" tools:ignore="ExtraTranslation">对不起,会议室已被关闭(%1$ss)</string>
+    <string name="meetingui_speech_applying" tools:ignore="ExtraTranslation">您正在申请发言</string>
+    <string name="meetingui_permission_not_permitted_admin" tools:ignore="ExtraTranslation">您没有操作权限，请联系管理员</string>
+    <string name="meetingui_wb_count_limit_tips" tools:ignore="ExtraTranslation">您打开的文档数量已超过限制，请先关闭一些已打开的文档</string>
+    <string name="meetingui_share_limit_tip" tools:ignore="ExtraTranslation">会议同时只允许一个人共享,请等待对方结束后再共享</string>
+    <string name="meetingui_open_wb_failed" tools:ignore="ExtraTranslation">白板打开失败</string>
+    <string name="meetingui__chat_rescve_yu" tools:ignore="ExtraTranslation">我对 </string>
+    <string name="meetingui__chat_sendto" tools:ignore="ExtraTranslation">对</string>
+    <string name="meetingui__chat_sendto_you" tools:ignore="ExtraTranslation">我</string>
+    <string name="meetingui_chat_sendto_said" tools:ignore="ExtraTranslation">说</string>
+    <string name="meetingui_chat_send_all" tools:ignore="ExtraTranslation">所有人</string>
+    <string name="meetingui_permission_pub_chat_not_allow" tools:ignore="ExtraTranslation">已被禁止发送群聊消息</string>
+    <string name="meetingui_media_share_pause" tools:ignore="ExtraTranslation">多媒体已暂停播放</string>
+    <string name="meetingui_no_data_share" tools:ignore="ExtraTranslation">暂无共享</string>
+    <string name="meetingui_save_success" tools:ignore="ExtraTranslation">保存成功</string>
+    <string name="meetingui_save_fail" tools:ignore="ExtraTranslation">保存失败</string>
+    <string name="meetingui_give_up" tools:ignore="ExtraTranslation">弃权</string>
+    <string name="meetingui_vote" tools:ignore="ExtraTranslation">投票</string>
+    <string name="meetingui_vote_des_format" tools:ignore="ExtraTranslation">描述:%1$s</string>
+    <string name="meetingui_give_up_already" tools:ignore="ExtraTranslation">已弃权</string>
+    <string name="meetingui_vote_already" tools:ignore="ExtraTranslation">已投票</string>
+    <string name="meetingui_stoped_already" tools:ignore="ExtraTranslation">已结束</string>
+    <string name="meetingui_multiple_choice_title_format" tools:ignore="ExtraTranslation">%1$s(多选)</string>
+    <string name="meetingui_registered_vote" tools:ignore="ExtraTranslation">投票方式:记名投票</string>
+    <string name="meetingui_anonymous_vote" tools:ignore="ExtraTranslation">投票方式:匿名投票</string>
+    <string name="meetingui_vote_time_format" tools:ignore="ExtraTranslation">投票剩余时长:%1$s</string>
+    <string name="meetingui_vote_no_select" tools:ignore="ExtraTranslation">您暂未选择有效选项</string>
+    <string name="meetingui_has_no_share_permission" tools:ignore="ExtraTranslation">%1$s&#160; 没有截取屏幕的权限</string>
+    <string name="meetingui_screen_share_content" tools:ignore="ExtraTranslation">正在共享桌面…</string>
+    <string name="meetingui_share_screen_notification" tools:ignore="ExtraTranslation">%1$s&#160; 正在共享桌面</string>
+    <string name="meetingui_sharing_screen_if_stop" tools:ignore="ExtraTranslation">要停止共享，请点击进入&#160; %1$s</string>
+    <string name="meetingui_other_user_share_screen" tools:ignore="ExtraTranslation">%1$s正在在共享桌面，请等待对方结束后再共享</string>
+    <string name="meeting_disable_chat" tools:ignore="ExtraTranslation">\t主持人禁止聊天</string>
+    <string name="meeting_not_support_check_local" tools:ignore="ExtraTranslation">您正在广播视频，不支持本地视频查看</string>
+    <string name="meeting_network_disable" tools:ignore="ExtraTranslation">当前网络不可用!</string>
+
+    <string name="meetingui_remind" tools:ignore="ExtraTranslation">提醒</string>
+    <string name="meetingui_audio_nonsupport" tools:ignore="ExtraTranslation">纯语音会议不支持视频</string>
+    <string name="meetingui_stop_share" tools:ignore="ExtraTranslation">停止共享</string>
+    <string name="meetingui_i_see" tools:ignore="ExtraTranslation">我知道了</string>
+    <string name="meetingui_onclick_sign" tools:ignore="ExtraTranslation">点击签到按钮完成签到</string>
+    <string name="meetingui_sign" tools:ignore="ExtraTranslation">签到</string>
+    <string name="meetingui_sign_succeed" tools:ignore="ExtraTranslation">恭喜您，签到成功！</string>
+    <string name="meetingui_to_drive_out" tools:ignore="ExtraTranslation">你已经被管理员请出会议室(%1$ss)</string>
+    <string name="meetingui_open_camera_permission" tools:ignore="ExtraTranslation">未获得相机权限,请前往设置中开启</string>
+    <string name="meetingui_open_mic_permission" tools:ignore="ExtraTranslation">未获得麦克风权限,请前往设置中开启</string>
+    <string name="meetingui_no_mic_permission" tools:ignore="ExtraTranslation">没有麦克风权限</string>
+    <string name="meetingui_no_camera_permission" tools:ignore="ExtraTranslation">没有相机权限</string>
+    <string name="meetingui_select_attender" tools:ignore="ExtraTranslation">选择聊天对象</string>
+    <string name="meetingui_manager_succeed" tools:ignore="ExtraTranslation">申请成为管理员成功</string>
+    <string name="meetingui_manager_cancel" tools:ignore="ExtraTranslation">已放弃管理员</string>
+
+    <string name="meetingui_permission_auth_remind" tools:ignore="ExtraTranslation">授权提醒</string>
+    <string name="meetingui_permission_read_contacts" tools:ignore="ExtraTranslation">允许程序访问手机通讯录中的联系人，以便您拨打电话给有手机号码信息的联系人，并呼叫联系人入会</string>
+    <string name="meetingui_permission_write_contacts" tools:ignore="ExtraTranslation">请允许程序修改手机通讯录,以便您保存联系人到手机通讯录</string>
+    <string name="meetingui_session_close" tools:ignore="ExtraTranslation">您已与服务器断开连接!</string>
+    <string name="meetingui_session_reconnecting" tools:ignore="ExtraTranslation">与服务器连接断开，正在尝试连接···</string>
+    <string name="meetingui_session_reconnected" tools:ignore="ExtraTranslation">已与服务器恢复连接。</string>
+    <string name="meetingui_no_net_tips" tools:ignore="ExtraTranslation">您当前没有网络连接，请检查您的网络设置。</string>
+    <string name="meetingui_check_net" tools:ignore="ExtraTranslation">查看网络设置</string>
+    <string name="meetingui_current_content_can_not_be_save" tools:ignore="ExtraTranslation">当前内容不支持保存</string>
+    <string name="meetingui_current_content_unable_to_rotate" tools:ignore="ExtraTranslation">当前内容不支持旋转</string>
+    <string name="meetingui_current_content_unable_to_mark" tools:ignore="ExtraTranslation">当前内容不支持标注</string>
+    <string name="meetingui_screen_share_success" tools:ignore="ExtraTranslation">共享屏幕成功</string>
+    <string name="meetingui_demo" tools:ignore="ExtraTranslation">MeetingDemo</string>
+    <string name="meetingui_taking_roll_call" tools:ignore="ExtraTranslation">&#160; 主持人正在点名,请回到会中点击签到按钮完成点名</string>
+    <string name="meeting_disable_camera" tools:ignore="ExtraTranslation">摄像头已关闭，请在"更多"中启用</string>
+    <string name="meeting_disable_mic" tools:ignore="ExtraTranslation">麦克风已关闭，请在"更多"中启用</string>
+    <string name="meetingui_pub_chat_not_hint" tools:ignore="ExtraTranslation">已关闭群聊功能</string>
+    <string name="meetingui_mic" tools:ignore="ExtraTranslation">发言</string>
+    <string name="meetingui_video" tools:ignore="ExtraTranslation">视频</string>
+    <string name="server_address" tools:ignore="ExtraTranslation">服务器地址</string>
+    <string name="server_port" tools:ignore="ExtraTranslation">端口号</string>
+    <string name="entrance_config_fail" tools:ignore="ExtraTranslation">服务器连接失败，请检测服务器地址或稍后再试</string>
+    <string name="check_password" tools:ignore="ExtraTranslation">会议室密码错误，请重新输入</string>
+    <string name="join_meeting_failed" tools:ignore="ExtraTranslation">加入会议失败</string>
+    <string name="login_failed" tools:ignore="ExtraTranslation">登录失败</string>
+    <string name="meetingui_stop_video" tools:ignore="ExtraTranslation">停止视频</string>
+    <string name="meetingui_turn_on_video" tools:ignore="ExtraTranslation">开启视频</string>
+    <string name="meetingui_mute" tools:ignore="ExtraTranslation">静音</string>
+    <string name="login" tools:ignore="ExtraTranslation">登录</string>
+    <string name="edt_txt_nickname" tools:ignore="ExtraTranslation">昵称</string>
+    <string name="user_jion_meeting_password" tools:ignore="ExtraTranslation">密码，无密码可不填写</string>
+    <string name="meetingui_opening_wb" tools:ignore="ExtraTranslation" />
+    <string name="ok" tools:ignore="ExtraTranslation">确定</string>
+    <string name="needInputRoomPassword" tools:ignore="ExtraTranslation">需要输入会议密码才能加入。</string>
+    <string name="meetingui_uploading_mention" tools:ignore="ExtraTranslation">正在上传文档</string>
+    <string name="meetingui_convert_wait_mention" tools:ignore="ExtraTranslation">正在排队等待转换文档</string>
+    <string name="meetingui_converting_mention" tools:ignore="ExtraTranslation">正在转换文档</string>
+    <string name="meetingui_unsupported_wb_format" tools:ignore="ExtraTranslation">不支持的文档转换格式</string>
+    <string name="meetingui_wb_last_page_tip" tools:ignore="ExtraTranslation">已是最后一页</string>
+    <string name="meetingui_wb_first_page_tip" tools:ignore="ExtraTranslation">已是第一页</string>
+    <string name="meetingui_stop_mark" tools:ignore="ExtraTranslation">停止标注</string>
+    <string name="meetingui_permission_changed" tools:ignore="ExtraTranslation">您的权限已发生变化</string>
+    <string name="meetingui_settings_audio_data" tools:ignore="ExtraTranslation">会中音频数据</string>
+    <string name="cloud_meeting_room" tools:ignore="ExtraTranslation">云会议室</string>
+    <string name="conference_reservation" tools:ignore="ExtraTranslation">预约会议</string>
+    <string name="instant_meeting" tools:ignore="ExtraTranslation">即时会议</string>
+    <string name="meeting_info" tools:ignore="ExtraTranslation">会议信息</string>
+    <string name="meeting_theme" tools:ignore="ExtraTranslation">会议主题</string>
+    <string name="meeting_invite_code" tools:ignore="ExtraTranslation">邀请码</string>
+    <string name="meeting_info_copy" tools:ignore="ExtraTranslation">复制邀请信息</string>
+    <string name="copy_success" tools:ignore="ExtraTranslation">复制成功</string>
+    <string name="meeting_info_copy_format" tools:ignore="ExtraTranslation">"%s"正在邀请您参加会议，可通过邀请码"%s"入会</string>
+    <string name="UNKNOWN_ERROR" tools:ignore="ExtraTranslation">未知错误</string>
+    <string name="EXCEPTION" tools:ignore="ExtraTranslation">异常错误</string>
+    <string name="CONFIG_CENTER_TIME_OUT" tools:ignore="ExtraTranslation">请求配置中心超时</string>
+    <string name="SERVICE_ERROR" tools:ignore="ExtraTranslation">服务器内部错误</string>
+    <string name="INVALID_SESSION" tools:ignore="ExtraTranslation">无效的会话</string>
+    <string name="USER_NOT_FOUND" tools:ignore="ExtraTranslation">用户未找到</string>
+    <string name="ACCESS_DENIED" tools:ignore="ExtraTranslation">用户无权访问</string>
+    <string name="PARAM_ERROR" tools:ignore="ExtraTranslation">参数错误</string>
+    <string name="SYSTEM_MAINTENANCE" tools:ignore="ExtraTranslation">系统正在维护，暂停服务</string>
+    <string name="TOO_ACCESS" tools:ignore="ExtraTranslation">访问人数过多，暂停服务</string>
+    <string name="UNAUTHORIZED" tools:ignore="ExtraTranslation">服务器未授权!</string>
+    <string name="UNSUPPORTED" tools:ignore="ExtraTranslation">您所购买的产品不支持移动端登录，如有需要，请联系客服</string>
+    <string name="PASSWORD_ERROR" tools:ignore="ExtraTranslation">用户密码错误</string>
+    <string name="ROOM_NOT_FOUND" tools:ignore="ExtraTranslation">会议室未找到</string>
+    <string name="ROOM_FULL" tools:ignore="ExtraTranslation">会议室已满</string>
+    <string name="APP_NOT_MATCH" tools:ignore="ExtraTranslation">应用类型不匹配</string>
+    <string name="SERVICE_NOT_MATCH" tools:ignore="ExtraTranslation">服务器不匹配</string>
+    <string name="SERVICE_NOT_FOUND" tools:ignore="ExtraTranslation">未找到指定的服务器</string>
+    <string name="SERVICE_FULL" tools:ignore="ExtraTranslation">服务器已满员</string>
+    <string name="USER_EXISTED" tools:ignore="ExtraTranslation">用户重复进入同一个会议室</string>
+    <string name="NEED_ROOM_PASSWORD" tools:ignore="ExtraTranslation">需要输入会议室密码</string>
+    <string name="ROOM_LOCKED" tools:ignore="ExtraTranslation">会议室已锁定</string>
+    <string name="ROOM_EXPIRED" tools:ignore="ExtraTranslation">会议室已过期</string>
+    <string name="ROOM_CLOSED" tools:ignore="ExtraTranslation">会议室已关闭</string>
+    <string name="ADMIN_REFUSE" tools:ignore="ExtraTranslation">管理员拒绝用户进入锁定房间</string>
+    <string name="BLACK_LIST_REFUSE" tools:ignore="ExtraTranslation">被列入黑名单，禁止进入锁定房间</string>
+    <string name="SERVICE_FAILED" tools:ignore="ExtraTranslation">服务器级联失败</string>
+    <string name="SERVICE_NOT_START" tools:ignore="ExtraTranslation">服务器未启动</string>
+    <string name="SERVICE_STOP" tools:ignore="ExtraTranslation">服务器已停止</string>
+    <string name="NEED_PAYMENT" tools:ignore="ExtraTranslation">产品服务已到期或余额不足，请及时续费</string>
+    <string name="PRODUCT_STOP" tools:ignore="ExtraTranslation">您订购的产品服务已被停用，请联系客服人员</string>
+    <string name="ROOM_NOT_EXITED" tools:ignore="ExtraTranslation">该会议室号不存在，请重新输入</string>
+    <string name="ONLY_USER_PASSWORD" tools:ignore="ExtraTranslation">访问被拒绝，只允许以用户名密码方式登录</string>
+    <string name="INVITE_CODE_ERROR" tools:ignore="ExtraTranslation">邀请码错误，请重新输入</string>
+    <string name="INVITE_CODE_EXPIRED" tools:ignore="ExtraTranslation">邀请码已过期，请重新输入</string>
+    <string name="NOT_SUPPORT_APP" tools:ignore="ExtraTranslation">您购买的产品服务不包括手机app服务</string>
+    <string name="MEETING_NOT_START" tools:ignore="ExtraTranslation">会议未开始!</string>
+    <string name="PRODUCT_FULL" tools:ignore="ExtraTranslation">当前登录人数已达到产品购买最大点数</string>
+    <string name="PRODUCE_OCCUPY" tools:ignore="ExtraTranslation">产品服务已占用</string>
+    <string name="ACCOUNT_PWD_ERROR" tools:ignore="ExtraTranslation">账号密码错误</string>
+    <string name="CLIENT_INFO_ERROR" tools:ignore="ExtraTranslation">ClientID或ClientSecret信息错误</string>
+    <string name="LOGIN_PASS_FAIL" tools:ignore="ExtraTranslation">登录PaaS失败</string>
+    <string name="MEETING_NOT_FOUND" tools:ignore="ExtraTranslation">会议室未找到，请重新输入会议室号</string>
+    <string name="GETTING_VERSION" tools:ignore="ExtraTranslation">正在获取版本信息...</string>
+    <string name="CONNECTING_SERVER" tools:ignore="ExtraTranslation">正在连接服务器...</string>
+    <string name="LOGIN_ROOM" tools:ignore="ExtraTranslation">登录会议室...</string>
+    <string name="ROOM_LOCKED_WAITING" tools:ignore="ExtraTranslation">管理员已锁定会议室，请等待管理员允许...</string>
+    <string name="INITIALIZING_COMPONENT" tools:ignore="ExtraTranslation">正在初始化会议室组件...</string>
+    <string name="INITIALIZING_AUDIO_DEVICE" tools:ignore="ExtraTranslation">正在初始化音频设备...</string>
+    <string name="INITIALIZING_VIDEO_DEVICE" tools:ignore="ExtraTranslation">正在初始化视频设备...</string>
+    <string name="INITIALIZING_ROOM" tools:ignore="ExtraTranslation">正在初始化会议室...</string>
+    <string name="LOGIN_GROUP_ROOM" tools:ignore="ExtraTranslation">正在登录分组会议...</string>
+    <string name="LOGIN_MAIN_ROOM" tools:ignore="ExtraTranslation">正在入会...</string>
+    <string name="CONFIG_CENTER" tools:ignore="ExtraTranslation">正在连接配置中心...</string>
+    <string name="GET_LOCAL_CONFIG" tools:ignore="ExtraTranslation">正在更新本地配置...</string>
+    <string name="GET_ROOM_INFO" tools:ignore="ExtraTranslation">更新会议室信息...</string>
+    <string name="GET_NET_CONFIG" tools:ignore="ExtraTranslation">正在同步网络配置...</string>
+    <string name="UPDATE_USER_INFO" tools:ignore="ExtraTranslation">正在更新用户信息...</string>
+    <string name="LOGIN" tools:ignore="ExtraTranslation">正在登录...</string>
+    <string name="PAAS_LOGIN" tools:ignore="ExtraTranslation">正在登录paas...</string>
+    <string name="ENTER_MEETING_ROOM" tools:ignore="ExtraTranslation">正在进入会议室...</string>
+    <string name="room_list_title" tools:ignore="ExtraTranslation">会议</string>
+    <string name="format_invite_room_code"  tools:ignore="ExtraTranslation">邀请码:%s</string>
+    <string name="format_room_id_room_code"  tools:ignore="ExtraTranslation">会议号:%s</string>
+    <string name="no_meeting" tools:ignore="ExtraTranslation">未查询到会议信息</string>
+    <string name="waiting" tools:ignore="ExtraTranslation">请稍候...</string>
+    <string name="instant_meeting_create_fail" tools:ignore="ExtraTranslation">即时会议创建失败</string>
+    <string name="create_instant_meeting" tools:ignore="ExtraTranslation">即时开会</string>
+    <string name="create_instant_meeting_format" tools:ignore="ExtraTranslation">"%s"的会议</string>
+    <string name="logging" tools:ignore="ExtraTranslation">正在登录···</string>
+    <string name="configure_server_success" tools:ignore="ExtraTranslation">服务器设置成功</string>
+    <string name="configure_server_fail" tools:ignore="ExtraTranslation">服务器连接失败，请检测服务器地址或稍后再试</string>
+    <string name="check_server_info_input" tools:ignore="ExtraTranslation">请检查输入的服务器配置信息</string>
+    <string name="need_input_nick_name" tools:ignore="ExtraTranslation">请输入昵称</string>
+    <string name="need_input_user_name" tools:ignore="ExtraTranslation" >请输入用户名</string>
+    <string name="need_input_user_pwd" tools:ignore="ExtraTranslation">请输入用户密码</string>
+    <string name="user_name_login" tools:ignore="ExtraTranslation">用户名登录</string>
+    <string name="meeting_room_login" tools:ignore="ExtraTranslation">会议室号登录</string>
+    <string name="userName" tools:ignore="ExtraTranslation">用户名</string>
+    <string name="meeting_room_pwd" tools:ignore="ExtraTranslation">会议室密码</string>
+    <string name="ip_address" tools:ignore="ExtraTranslation">IP地址</string>
+    <string name="client_id" tools:ignore="ExtraTranslation">clientId</string>
+    <string name="client_secret" tools:ignore="ExtraTranslation">clientSecret</string>
+    <string name="save" tools:ignore="ExtraTranslation">保存</string>
+    <string name="need_input_room_num" tools:ignore="ExtraTranslation">请输入会议室号或邀请码</string>
+    <string name="netError" tools:ignore="ExtraTranslation">无法连接到网络</string>
+    <string name="check_service_config_info" tools:ignore="ExtraTranslation">请先设置服务器配置信息</string>
+
+
+    <string name="app_name" translatable="false">末端通_Debug</string>
+    <string name="legal_text_uri" translatable="false">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM`~!@#$%^*()-_=+\|]}[{:\'./?\&#34;&#60;&#62;&#38;</string>
+
+    <string name="msg_no_data" translatable="false">暂无数据</string>
+    <string name="msg_no_network" translatable="false">暂无网络</string>
+
+    <string name="s_skip">s 跳过</string>
+
+    <string name="rejoin">重新登录</string>
+    <string name="sure">确认</string>
+    <string name="login_hint_userid">请输入用户名</string>
+    <string name="login_hint_password">请输入密码</string>
+    <string name="login_state_ing">正在登录…</string>
+    <string name="login_state_fail">登录失败</string>
+    <string name="company">山东城政网络科技有限公司 版权所有</string>
+    <string name="copyright">Copyright © 2020 sdcz.com.All Rights Reserved.</string>
+
+    <string name="online">在线</string>
+    <string name="offline">离线</string>
+    <string name="busy">忙碌</string>
+    <string name="online_hint_groupid">请输入分组ID</string>
+    <string name="invite_to_join_group">邀请加入组</string>
+    <string name="refresh">刷新</string>
+    <string name="join_group">加入组</string>
+    <string name="join_group_fail">加入组失败,请重新尝试</string>
+    <string name="rejoin_group">重新加入组</string>
+
+    <string name="microphone">麦克风</string>
+    <string name="camera">摄像头</string>
+    <string name="speaker">扬声器</string>
+    <string name="shared">共享</string>
+    <string name="shared_whiteboard">共享白板</string>
+    <string name="shared_screen">共享屏幕</string>
+    <string name="shared_file">共享文件</string>
+    <string name="user">任务人员</string>
+    <string name="chat">聊天</string>
+    <string name="msg">信息</string>
+    <string name="more">更多</string>
+    <string name="record">录制</string>
+
+    <string name="setting">设置</string>
+    <string name="admin_setting">管理员模式</string>
+    <string name="basic_info">基本信息</string>
+    <string name="basic_setting">基础设置</string>
+    <string name="room_setting">房间设置</string>
+    <string name="login_out">退出登录</string>
+
+    <string name="join_call">邀请您视频通话</string>
+    <string name="join_call1">邀请您语音通话</string>
+    <string name="reject">拒绝</string>
+    <string name="accept">接听</string>
+
+
+    <string name="send">发送</string>
+    <string name="please_enter">请输入</string>
+
+    <string name="select_call_user">选择呼叫用户</string>
+    <string name="participant">任务人员</string>
+    <string name="select_all">全选</string>
+    <string name="search_">搜索...</string>
+    <string name="search">搜索</string>
+
+    <string name="system_notification">系统通知</string>
+    <string name="select_sender">选择发送人</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="notAvailable">Language is not available.</string>
+    <string name="itfly_id">5fd34302</string>
+    <string name="default_tts">com.iflytek.speechcloud</string>
+    <string name="new_version">发现新版本</string>
+    <string name="start_updata">立即更新</string>
+    <string name="close">取消</string>
+    <string name="now_setting">去设置</string>
+    <string name="other_setting">* 为保证末端通更好的运行，建议您进行如下设置</string>
+    <string name="suspended_window">显示在其它应用上层(悬浮窗)</string>
+    <string name="suspended_window_data">为了保证通话弹窗显示运行正常，请允许末端通显示在其它应用上层</string>
+    <string name="power_saving_mode">请勿开始【省电模式】</string>
+    <string name="power_saving_mode_data">如果开启了省电模式,将可能导致应用程序后台断开网络连接，建议关闭省电模式</string>
+    <string name="battery_optimization_white">电池优化白名单</string>
+    <string name="battery_optimization_white_data">系统为了省电可能会在后台运行过程中，进程进入休眠，影响用户使用，需要您将末端通加入保护白名单中</string>
+    <string name="turn_off_automatic_management">关闭自动管理</string>
+    <string name="turn_off_automatic_management_data">在使用过程中需要即时接收消息，需要关闭省电措施。找到末端通，关闭自动管理，打开允许后台活动</string>
+    <string name="allow_notifications">允许通知</string>
+    <string name="allow_notifications_data">如果没有开启允许通知程序可能记录异常。在设置【末端通】——【允许通知】(开启)，【锁屏通知】(显示)</string>
+    <string name="background_operation_permission">后台运行权限</string>
+    <string name="background_operation_permission_data">如果没有开启后台运行权限程序可能后台运行异常。出现通话接听不及时，网络连接中断等问题。</string>
+    <string name="protect_setting">设置受保护应用</string>
+    <string name="protect_setting_data">为了保证良好的应用体验，请为末端通设置设置受保护应用，可在【设置】-【高级设置】-【电池管理】-【受保护应用】中开启</string>
+    <string name="speck_setting">来电语音设置</string>
+    <string name="speck_setting_data">为保证末端通来电语音正常使用，请设置默认语音引擎</string>
+
+    <string name="tab_index">通讯录</string>
+    <string name="tab_dispath">指挥调度</string>
+    <string name="tab_mine">我的</string>
+    <string name="my_like">我的收藏</string>
+    <string name="mail_list">联系人列表</string>
+    <string name="mail">联系人</string>
+    <string name="search_mail">搜索联系人</string>
+    <string name="create_task">创建任务</string>
+    <string name="create">创建</string>
+    <string name="input_task_name">请输入任务名称</string>
+    <string name="select_task_user">请选择参与成员</string>
+    <string name="select_task_class">请选择归属部门</string>
+    <string name="task_name">任务名称</string>
+    <string name="belong_class">归属部门</string>
+    <string name="parteak_user">参与成员</string>
+    <string name="task_info">任务描述</string>
+    <string name="input_task_info">请输入任务描述..</string>
+    <string name="open_all_voice">一键静音</string>
+    <string name="close_all_voice">一键开麦</string>
+    <string name="delete_task">解散任务</string>
+    <string name="other_set">其它设置</string>
+    <string name="set_horizontal">横屏模式</string>
+    <string name="user_info">个人信息</string>
+    <string name="change_pass">修改密码</string>
+    <string name="set_ip">设置IP端口号</string>
+    <string name="updata_name">修改名称</string>
+    <string name="add_user">添加成员</string>
+    <string name="other_set_version">V1.0.2</string>
+
+</resources>
+

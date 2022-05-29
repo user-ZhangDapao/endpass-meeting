@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ml_root_layout"
+    android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/close_background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.23" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <!--    不可删除,横屏的时候用到，用于适配横竖屏-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <!--    不可删除,横屏的时候用到，用于适配横竖屏-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1" />
+
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/root_content_view"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:background="@drawable/shape_select_shared"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/cl_input_layout"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_top">-->
+
+    <include layout="@layout/meeting_chat_content_layout" />
+
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rl_chat_expression"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_333747"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/cl_input_layout"
+        app:layout_constraintLeft_toLeftOf="@+id/cl_input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/cl_input_layout" />
+
+    <RelativeLayout
+        android:id="@+id/cl_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_333747"
+        android:paddingTop="@dimen/margin_5dp"
+        android:paddingBottom="@dimen/margin_5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1">
+
+        <com.sdcz.endpass.widget.ChatEmotionEditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_toLeftOf="@+id/tv_send"
+            android:background="@drawable/meeting_chat_input_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:imeOptions="flagNoExtractUi"
+            android:paddingStart="@dimen/margin_10dp"
+            android:paddingTop="@dimen/margin_5dp"
+            android:paddingEnd="@dimen/margin_45dp"
+            android:paddingBottom="@dimen/margin_5dp"
+            android:singleLine="true"
+            android:textColor="@color/color_white"
+            android:textColorHint="@color/color_979DAC"
+            android:textCursorDrawable="@null"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/text_size_16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.75" />
+
+        <ImageView
+            android:id="@+id/im_expression_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_10dp"
+            android:paddingRight="@dimen/margin_10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/et_input"
+            android:layout_alignTop="@+id/et_input"
+            android:layout_alignBottom="@+id/et_input"
+            android:src="@drawable/select_chat_emotion_bnt"
+            app:layout_constraintBottom_toBottomOf="@+id/et_input"
+            app:layout_constraintRight_toRightOf="@+id/et_input"
+            app:layout_constraintTop_toTopOf="@+id/et_input" />
+
+        <ImageView
+            android:id="@+id/tv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:background="@drawable/select_chat_send"
+            android:textSize="@dimen/text_size_18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_input"
+            app:layout_constraintLeft_toRightOf="@+id/et_input"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_input" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

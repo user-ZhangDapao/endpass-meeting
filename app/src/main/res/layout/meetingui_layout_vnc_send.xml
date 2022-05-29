@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:gravity="center"
+    android:baselineAligned="false">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/padding_20"
+        android:gravity="center"
+        android:text="@string/meetingui_screen_share_content"
+        android:textColor="#929da7"
+        android:layout_marginBottom="@dimen/padding_20"
+        android:textSize="@dimen/min_sp_14"
+        android:drawableTop="@mipmap/meetingui_share_screen_default" />
+
+</LinearLayout>

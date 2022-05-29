@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:src="@mipmap/setting_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ff28282d"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:text="@string/room_list_title"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+    <TextView
+        android:id="@+id/tv_join_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:drawableTop="@mipmap/join_meeting"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp13"
+        android:text="@string/join_meeting"
+        android:textColor="#ff28282d"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_record"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+    <TextView
+        android:id="@+id/tv_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:drawableTop="@mipmap/create_meeting"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp13"
+        android:text="录音"
+        android:textColor="#ff28282d"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintRight_toLeftOf="@id/tv_create_meeting"
+        app:layout_constraintLeft_toRightOf="@id/tv_join_meeting"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+    <TextView
+        android:id="@+id/tv_create_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:drawableTop="@mipmap/create_meeting"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp13"
+        android:text="@string/create_instant_meeting"
+        android:textColor="#ff28282d"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toRightOf="@id/tv_record"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn48"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toTopOf="@id/vp_room_type"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/imgSearch"
+        app:layout_constraintTop_toBottomOf="@id/tv_create_meeting">
+
+        <RadioButton
+            android:id="@+id/rbMeetingRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:drawableBottom="@drawable/rd_bottom_line_bg"
+            android:ellipsize="end"
+            android:minWidth="@dimen/btn48"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:singleLine="true"
+            android:text="@string/cloud_meeting_room"
+            android:textColor="@color/radiobutton_text_color_1"
+            android:textSize="@dimen/min_sp_14"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rbMeetingSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:drawableBottom="@drawable/rd_bottom_line_bg"
+            android:ellipsize="end"
+            android:minWidth="@dimen/btn48"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:singleLine="true"
+            android:text="@string/conference_reservation"
+            android:textStyle="bold"
+            android:textColor="@color/radiobutton_text_color_1"
+            android:textSize="@dimen/min_sp_14" />
+
+        <RadioButton
+            android:id="@+id/rbMeetingInstant"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:drawableBottom="@drawable/rd_bottom_line_bg"
+            android:ellipsize="end"
+            android:minWidth="@dimen/btn48"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:text="@string/instant_meeting"
+            android:textColor="@color/radiobutton_text_color_1"
+            android:textSize="@dimen/min_sp_14" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/imgSearch"
+        android:layout_width="@dimen/dp60"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/search_qry"
+        app:layout_constraintBottom_toBottomOf="@id/radioGroup"
+        app:layout_constraintLeft_toRightOf="@id/radioGroup"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/radioGroup" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_room_type"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+    <!--        <com.scwang.smart.refresh.layout.SmartRefreshLayout-->
+    <!--            android:id="@+id/smart_refresh"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:background="#F3F4F8"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/radioGroup">-->
+
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/rl_room_list"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+    <!--        </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

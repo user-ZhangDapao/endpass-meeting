@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f2f6">
+
+    <RelativeLayout
+        android:id="@+id/rl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:background="@color/color_white">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp48"
+            android:layout_height="@dimen/dp48"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/meeting_titlebar_back"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_toRightOf="@id/btn_back"
+            android:text="@string/meetingui_settings_receive_video"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_20sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ll_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/rl_toolbar"
+        android:background="#f0f2f6"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_divider"
+        android:background="@color/color_white"
+        android:orientation="vertical">
+
+
+        <RadioGroup
+            android:id="@+id/rg_receive_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_receive_video_wifi_and_data"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginRight="@dimen/dp16"
+                android:background="@color/color_white"
+                android:button="@null"
+                android:checked="true"
+                android:drawablePadding="@dimen/dp8"
+                android:text="@string/meetingui_settings_receive_video_wifi_and_data"
+                android:textColor="#28282d"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f0f2f6" />
+
+            <RadioButton
+                android:id="@+id/rb_receive_video_wifi"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:layout_marginStart="@dimen/dp16"
+                android:layout_marginEnd="@dimen/dp16"
+                android:background="@color/color_transparent"
+                android:button="@null"
+                android:drawablePadding="@dimen/dp8"
+                android:text="@string/meetingui_settings_receive_video_wifi"
+                android:textColor="#28282d"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#f0f2f6" />
+
+            <RadioButton
+                android:id="@+id/rb_receive_video_no"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginRight="@dimen/dp16"
+                android:background="@color/color_white"
+                android:button="@null"
+                android:text="@string/meetingui_settings_receive_video_no"
+                android:textColor="#28282d"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f2f6" />
+        </RadioGroup>
+    </LinearLayout>
+
+</RelativeLayout>

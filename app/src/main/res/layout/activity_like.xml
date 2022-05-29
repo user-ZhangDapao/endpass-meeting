@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:id="@+id/rlTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:themeColors="@color/color_4D6B4A"
+        app:backDrawbles="@drawable/icon_left_white"
+        app:leftTextColors="@color/color_FFFFFF"
+        app:leftTextSizes="17"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rlRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_EEEEEE"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:background="@drawable/shape_white_5"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5" />
+
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/maillist_result_normal"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

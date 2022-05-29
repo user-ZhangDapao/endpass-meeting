@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F4F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_20"
+        android:paddingBottom="@dimen/padding_20"
+        android:paddingStart="@dimen/dp_13"
+        android:paddingEnd="@dimen/dp_13"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_vote_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/size_sp_16"
+            android:textStyle="bold"
+            android:textColor="#28282D"
+            android:maxLines="3"
+            android:ellipsize="end"
+            tools:text="请大家在一下设计方案中选择一个方案是你认为最好的设计方案，请投出您神圣的一票！"/>
+
+        <TextView
+            android:id="@+id/tv_vote_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/min_sp_14"
+            android:textColor="#ADB0B5"
+            android:maxLines="3"
+            android:ellipsize="end"
+            tools:text="描述：请大家根据自己的专业水平投票选出最优的设计方案，投票非常重要，请大家认真对待，谢谢"/>
+
+        <LinearLayout
+            android:id="@+id/layout_vote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10">
+            <TextView
+                android:id="@+id/tv_vote_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/min_sp_12"
+                android:textColor="#ADB0B5"
+                tools:text="投票方式：匿名投票"/>
+
+            <TextView
+                android:id="@+id/tv_vote_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="@dimen/min_sp_12"
+                android:textColor="#ADB0B5"
+                tools:text="投票剩余时长：13：28"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_give_up"
+                android:layout_width="@dimen/dp_162"
+                android:layout_height="@dimen/dp_34"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/meetingui_corners_white"
+                android:text="@string/meetingui_give_up"
+                android:textColor="#3290F6"
+                android:textSize="@dimen/min_sp_14"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_sent_result"
+                android:layout_width="@dimen/dp_162"
+                android:layout_height="@dimen/dp_34"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/meetingui_corners_blue"
+                android:text="@string/meetingui_vote"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/min_sp_14"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_result_show"
+                android:layout_width="@dimen/dp_162"
+                android:layout_height="@dimen/dp_34"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/meetingui_corners_gray"
+                android:textColor="#A1A3A8"
+                android:textSize="@dimen/min_sp_14"
+                android:gravity="center"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

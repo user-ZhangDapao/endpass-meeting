@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_maillist_list"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_5"
+    android:layout_marginBottom="@dimen/margin_9"
+    >
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/width_15"
+        android:layout_height="@dimen/height_15"
+        android:src="@drawable/grouping_icon_grouping_normal"
+        android:layout_marginTop="@dimen/margin_18"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_6"
+        android:layout_centerVertical="true"
+        />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_15"
+        android:text="技术部"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon"
+        android:textColor="@color/color_666666"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:maxWidth="@dimen/width_100"
+        />
+
+    <ImageView
+        android:id="@+id/icon_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_right"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_17"
+        />
+    <TextView
+        android:id="@+id/tv_class_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/text_size_13"
+        android:text="200/300"
+        android:layout_toLeftOf="@id/icon_right"
+        android:layout_marginRight="@dimen/margin_10"
+        android:textColor="@color/color_A6A6A6"
+        />
+
+</RelativeLayout>

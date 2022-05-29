@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F2F6">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp1"
+            android:orientation="vertical">
+
+            <!-- 美颜 -->
+            <RelativeLayout
+                android:id="@+id/rlBeautyLevel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:layout_marginTop="@dimen/dp1"
+                android:paddingStart="@dimen/dp16"
+                android:paddingEnd="@dimen/dp16"
+                android:background="@color/color_white">
+
+                <TextView
+                    style="@style/text_style_settings"
+                    android:text="@string/meetingui_settings_beauty_level" />
+
+                <CheckBox
+                    android:id="@+id/cbBeautyLevel"
+                    style="@style/checkbox_style_settings" />
+            </RelativeLayout>
+
+            <!-- 视频镜像 -->
+            <RelativeLayout
+                android:id="@+id/rlHorFlip"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:layout_marginTop="@dimen/dp1"
+                android:paddingStart="@dimen/dp16"
+                android:paddingEnd="@dimen/dp16"
+                android:background="@color/color_white">
+
+                <TextView
+                    style="@style/text_style_settings"
+                    android:text="@string/meetingui_settings_vflip" />
+
+                <CheckBox
+                    android:id="@+id/cbHorFlip"
+                    style="@style/checkbox_style_settings" />
+            </RelativeLayout>
+            <!-- 音频旁路 -->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_audio_data"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:layout_marginTop="@dimen/dp1"
+                android:background="@color/color_white"
+                android:paddingStart="@dimen/dp16"
+                android:paddingEnd="@dimen/dp16">
+
+                <TextView
+                    style="@style/text_style_settings"
+                    android:text="@string/meetingui_settings_audio_data" />
+
+                <CheckBox
+                    android:id="@+id/cb_audio_data"
+                    style="@style/checkbox_style_settings" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+

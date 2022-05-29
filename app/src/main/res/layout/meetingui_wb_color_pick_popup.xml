@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/color_panel_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/bottom_bar_layout"
+    android:padding="@dimen/dp8"
+    android:layout_marginBottom="@dimen/dp4"
+    android:columnCount="4"
+    android:background="@drawable/meetingui_bg_layerlist_mark_color">
+
+    <ImageView
+        android:id="@+id/rb_black"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_black"
+        android:button="@null"
+        android:checked="true" />
+
+    <ImageView
+        android:id="@+id/rb_gray"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_gray"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/rb_blue"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_blue"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/rb_blue2"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_iceblue"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/rb_green"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_green"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/rb_yellow"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_yellow"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/rb_orange"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_orange"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/rb_red"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_margin="@dimen/dp4"
+        android:background="@drawable/meetingui_shape_mark_color_red"
+        android:button="@null" />
+
+</GridLayout>

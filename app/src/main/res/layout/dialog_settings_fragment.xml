@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:background="@color/color_white">
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/dp48"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@mipmap/meeting_titlebar_back"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp12"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_size_20sp"
+            android:textColor="@color/color_28282D"
+            android:text="@string/meetingui_setting"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/settingsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

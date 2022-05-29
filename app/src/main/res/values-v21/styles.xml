@@ -1,0 +1,115 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--toolbar导航栏更多菜单颜色主题-->
+
+    <style name="MobileMeetingActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <!--Android 5.x开始需要把颜色设置为程序的主题色白色，否则导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor">@color/color_2B2F3D</item>
+    </style>
+
+
+    <!--所使用的DialogDown没有被使用-->
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!-- 模糊 -->
+    </style>
+
+    <!--创建请求的对话框使用，目前用于显示loading样式-->
+
+    <!--没有使用-->
+
+    <!--没有使用-->
+
+    <!--没有使用-->
+
+
+    <!--所关联的CustomerAlertDialog没有被使用-->
+
+    <!-- Add By Money -->
+    <!-- Button Style -->
+
+    <!-- 底色是蓝色的按钮 -->
+
+    <!-- 底色是白色，边边是蓝色的按钮 -->
+
+    <!-- TabLayout Style -->
+
+    <!--密码输入对话框-->
+
+    <!-- 正常对话框样式，注意它的属性值和inputRoomPasswordDialog一样 -->
+    <style name="NormalDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <!--全局对话框样式，其值和NormalDialog保持一致-->
+    <!--全局布局样式-->
+
+    <!--全局布局样式-->
+
+    <!--全屏对话框样式-->
+    <style name="dialog_full_screen_with_status_bar_style">
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--窗口背景透明-->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 无边框-->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否悬浮在activity上 -->
+        <item name="android:windowIsFloating">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="dialog_full_screen_style" parent="dialog_full_screen_with_status_bar_style">
+        <!--无actionbar-->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 全屏，添加以下窗口全屏会把系统的状态栏也给覆盖住-->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!--有状态栏color_accent颜色为白色-->
+
+    <!--colorAccent（控制edittext 等下划线的颜色）为白色的全屏对话框-->
+
+    <!--动画对话框样式，与上面的MyDialogStyle保持一致-->
+
+    <!--对话框从右边往左进入，从左往右滑出的动画-->
+    <style name="dialog_right_enter_left_exit_animation">
+        <item name="android:windowEnterAnimation">@anim/activity_right_to_left</item>
+        <item name="android:windowExitAnimation">@anim/activity_left_to_right</item>
+    </style>
+
+    <style name="group_edit_style" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/edit_input_hint</item>
+        <item name="colorControlActivated">@color/toolbarBackgroundColor</item>
+    </style>
+    <!--密码输入对话框-->
+    <style name="inputRoomPasswordDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@color/color_transparent</item>
+    </style>
+
+</resources>

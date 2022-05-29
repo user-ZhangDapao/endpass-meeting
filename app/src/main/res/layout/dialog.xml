@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:background="@drawable/shape_white_5"
+        android:paddingTop="@dimen/padding_15"
+        android:minWidth="@dimen/width_150"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:textColor="@color/color_595959"
+            android:textSize="@dimen/text_size_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="自定义弹窗"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="@dimen/margin_30"
+            android:paddingBottom="10dp"
+            >
+
+
+            <TextView
+                android:background="#ffffff"
+                android:id="@+id/message"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/color_A6A6A6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="确认解散此分组？"
+                />
+            <TextView
+                android:background="#ffffff"
+                android:id="@+id/message2"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/color_A6A6A6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="确认解散此分组？"
+                />
+
+            <EditText
+                android:background="@null"
+                android:id="@+id/etMessage"
+                android:textSize="13sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:maxLength="40"
+                android:longClickable="false"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_white_10"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_15"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/positiveTextView"
+                android:textColor="@color/color_CCCCCC"
+                android:textSize="13sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/shape_f6f6f6_left_btm_5"
+                android:text="ok"
+                android:clickable="true"
+                />
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/negativeTextView"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_4d6b4a_right_btm_5"
+                android:gravity="center"
+                android:text="cancel"
+                android:clickable="true"/>
+        </LinearLayout>
+    </LinearLayout>
+

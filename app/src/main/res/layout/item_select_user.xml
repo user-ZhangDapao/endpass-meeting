@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_maillist_user"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_50"
+    android:background="@color/color_FFFFFF"
+    >
+
+    <ImageView
+        android:id="@+id/ivIsOnline"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:button="@null"
+        android:background="@drawable/radio_button_selector"
+        android:layout_alignParentLeft="true"
+        />
+
+    <ImageView
+        android:id="@+id/ivHead"
+        android:layout_width="@dimen/width_32"
+        android:layout_height="@dimen/height_32"
+        android:layout_toRightOf="@id/ivIsOnline"
+        android:layout_centerVertical="true"
+        android:background="@drawable/icon_head"
+        android:layout_marginLeft="@dimen/margin_5"
+        />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/ivHead"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:gravity="left"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/text_size_15"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:layout_toLeftOf="@id/tvTask"
+        />
+
+    <TextView
+        android:id="@+id/tvTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_13"
+        android:textColor="@color/color_A6A6A6"
+        android:text="名字"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:maxWidth="@dimen/width_100"
+        android:layout_toLeftOf="@id/checkbox"
+        />
+
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="@dimen/width_15"
+        android:layout_height="@dimen/height_15"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_5"
+        android:button="@null"
+        android:background="@drawable/radio_button_selector"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_16"
+        />
+</RelativeLayout>

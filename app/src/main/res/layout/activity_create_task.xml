@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:backDrawbles="@drawable/icon_left_white"
+        app:themeColors="@color/color_4D6B4A"
+        app:leftTexts="@string/create_task"
+        app:leftTextColors="@color/color_FFFFFF"
+        app:leftTextSizes="17"
+        />
+
+    <ScrollView
+        android:id="@+id/scrollRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <LinearLayout
+            android:id="@+id/llRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center|top"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:background="@drawable/shape_white_5"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_15"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_18"
+                    android:textColor="@color/color_8C8C8C"
+                    android:text="@string/task_name"
+                    />
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/input_task_name"
+                    android:textSize="@dimen/text_size_15"
+                    android:textColor="@color/color_595959"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_23"
+                    android:background="@null"
+                    android:textCursorDrawable="@drawable/edit_cursor"
+                    android:maxLength="15"
+                    android:gravity="right"
+                    android:longClickable="false"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_40"
+                android:background="@drawable/shape_white_5"
+                android:layout_marginTop="@dimen/margin_6"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_15"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_18"
+                    android:textColor="@color/color_8C8C8C"
+                    android:text="@string/belong_class"
+
+                    />
+                <TextView
+                    android:id="@+id/tvDept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_task_class"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_23"
+                    android:drawableRight="@drawable/icon_right"
+                    android:drawablePadding="@dimen/margin_8"
+                    android:gravity="right"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:background="@drawable/shape_white_5"
+                android:layout_marginTop="@dimen/margin_6"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_15"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_18"
+                    android:textColor="@color/color_8C8C8C"
+                    android:text="@string/parteak_user"
+
+
+                    />
+                <TextView
+                    android:id="@+id/tvSelectUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_task_user"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_23"
+                    android:drawableRight="@drawable/icon_right"
+                    android:minWidth="@dimen/width_40"
+                    android:gravity="right"
+                    android:drawablePadding="@dimen/margin_8"
+                    />
+
+            </RelativeLayout>
+
+            <com.sdcz.endpass.widget.FlowLayout
+                android:id="@+id/flowLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_10"
+                >
+            </com.sdcz.endpass.widget.FlowLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white_5"
+                android:layout_marginTop="@dimen/margin_6"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_centerVertical="true"
+                    android:text="@string/task_info"
+                    android:textColor="@color/color_8C8C8C"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    />
+                <EditText
+                    android:id="@+id/etDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/input_task_info"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:minHeight="@dimen/height_120"
+                    android:layout_margin="@dimen/margin_10"
+                    android:gravity="left"
+                    android:background="@null"
+                    android:selectAllOnFocus="true"
+                    android:textCursorDrawable="@drawable/edit_cursor"
+                    android:textColor="@color/color_595959"
+                    android:longClickable="false"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="@dimen/width_130"
+                android:layout_height="@dimen/height_44"
+                android:background="@drawable/shape_green_20"
+                android:text="@string/create"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/text_size_14"
+                android:layout_marginTop="@dimen/margin_100"
+                android:layout_marginBottom="@dimen/margin_100"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

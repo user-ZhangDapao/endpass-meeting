@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context=".activity.LoginActivity">
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:onClick="@{onClickListener}"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/login_setting"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_login"
+            android:textColor="#ff0e0f10"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guide_title" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.26" />
+
+        <EditText
+            android:id="@+id/et_user_name"
+            style="@style/login_edit_text_style"
+            android:hint="@string/userName"
+            android:maxLength="32"
+            android:text="m00"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guide_edit_text" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Design.TextInputLayout"
+            android:id="@+id/til_user_pwd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:endIconDrawable="@drawable/pwd_toggle_bg"
+            app:endIconMode="password_toggle"
+            app:endIconTint="#FF746BF5"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextColor="#ff8491c9"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_user_name">
+
+            <EditText
+                android:id="@+id/et_user_pwd"
+                android:layout_width="match_parent"
+                style="@style/login_edit_text_style"
+                android:hint="@string/password"
+                android:maxLength="32"
+                android:text="mm123456"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_login"
+            android:layout_width="wrap_content"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="et_user_name,til_user_pwd" />
+
+        <EditText
+            android:id="@+id/et_room_id"
+            style="@style/login_edit_text_style"
+            android:layout_marginTop="18dp"
+            android:hint="@string/meeting_room_number_or_code"
+            android:maxLength="16"
+            android:inputType="number"
+            android:text="10008"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_user_pwd"
+            app:layout_goneMarginTop="0dp" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="et_nick_name,til_room_pwd" />
+
+        <EditText
+            android:id="@+id/et_nick_name"
+            style="@style/login_edit_text_style"
+            android:layout_marginTop="18dp"
+            android:hint="@string/edt_txt_nickname"
+            android:maxLength="20"
+            android:text="随意填"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_room_id" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Design.TextInputLayout"
+            android:id="@+id/til_room_pwd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:endIconDrawable="@drawable/pwd_toggle_bg"
+            app:endIconMode="password_toggle"
+            app:endIconTint="#FF746BF5"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextColor="#ff8491c9"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="123456"
+            app:layout_constraintTop_toBottomOf="@id/et_nick_name">
+
+            <EditText
+                android:id="@+id/et_room_pwd"
+                style="@style/login_edit_text_style"
+                android:layout_width="match_parent"
+                android:hint="@string/meeting_room_pwd"
+                android:inputType="textPassword"
+                android:text="123456"
+                android:maxLength="32" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/bt_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:layout_marginBottom="55dp"
+            android:background="@mipmap/login_bt_bg"
+            android:letterSpacing="0.2"
+            android:onClick="@{onClickListener}"
+            android:paddingBottom="20dp"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/ctv_room_login"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_room_pwd"
+            app:layout_constraintVertical_bias="1" />
+
+        <CheckedTextView
+            android:id="@+id/ctv_room_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:background="@null"
+            android:onClick="@{onClickListener}"
+            android:text="@string/meeting_room_login"
+            android:textColor="#ff3636cf"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

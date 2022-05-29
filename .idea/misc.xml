@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable-hdpi/main_toolbar_ll_right_bg_selector.xml" value="0.1" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/btm_text_color.xml" value="0.246" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/button_selector.xml" value="0.215" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/button_selector_call_bg.xml" value="0.2285" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/checkbox_login_see.xml" value="0.1955" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/edit_cursor.xml" value="0.246" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/radio_button_selector.xml" value="0.246" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/red_dots.xml" value="0.1955" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_4d6b4a_right_btm_5.xml" value="0.234" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_e5e5e5_10.xml" value="0.215" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_f6f6f6_left_btm_5.xml" value="0.234" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_gray_3.xml" value="0.195" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_green_10.xml" value="0.2285" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_green_20.xml" value="0.246" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_green_22.xml" value="0.1955" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_top_gray_10.xml" value="0.2285" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_top_right_f0c6dac4_13.xml" value="0.1" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_top_right_green_13.xml" value="0.1" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_top_white_10.xml" value="0.195" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_white_10.xml" value="0.234" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_white_20.xml" value="0.2285" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_white_22.xml" value="0.195" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/shape_white_5.xml" value="0.246" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/tab_dispatch_select.xml" value="0.1955" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_change_pass.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_create_task.xml" value="0.36614583333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_like.xml" value="0.2078125" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_login_app.xml" value="0.25" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_login_setting.xml" value="0.1875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_mail_list.xml" value="0.2078125" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_main.xml" value="0.2078125" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_main_app.xml" value="0.2078125" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_search.xml" value="0.2078125" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_select_dept.xml" value="0.36614583333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_select_user.xml" value="0.36614583333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_task_user.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/activity_user_info.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/base_empty.xml" value="0.22552083333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/custom_tab.xml" value="0.3223958333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/dialog.xml" value="0.3020833333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/dialog_item.xml" value="0.1875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/fragment_dispatch.xml" value="0.3223958333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/fragment_maillist.xml" value="0.221875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/fragment_mine.xml" value="0.3020833333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/fragment_task_list.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/fragment_task_manage.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_flow.xml" value="0.36614583333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_maillist_user.xml" value="0.3020833333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_my_group_list.xml" value="0.221875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_select_dept_list.xml" value="0.36614583333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_select_user.xml" value="0.3020833333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_task_info.xml" value="0.3223958333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_task_manage.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/item_task_user.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/layout_task_user_setting.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/ll_main.xml" value="0.1875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/meetingui_layout_dataview_loading.xml" value="0.3020833333333333" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/popup_concern_layout.xml" value="0.33" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/popup_selectimage_layout.xml" value="0.18697916666666667" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/popup_usernum_layout.xml" value="0.221875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/progress_dialog.xml" value="0.22552083333333334" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/tab_content.xml" value="0.1875" />
+        <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/titlebar_view.xml" value="0.22760416666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

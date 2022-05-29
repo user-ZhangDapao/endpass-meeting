@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/dp20"
+    android:paddingEnd="@dimen/dp12"
+    android:gravity="center_vertical"
+    tools:background="#2B2F3D">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp60"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="@dimen/dp178"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_size_14sp"
+                android:textColor="#FFFFFF"
+                tools:text="广州分会场" />
+
+            <LinearLayout
+                android:id="@+id/linearDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/imgDevice"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="3dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:src="@mipmap/ul_ic_phone" />
+
+                <TextView
+                    android:id="@+id/tvDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_777C8D"
+                    android:textSize="@dimen/text_size_10sp"
+                    tools:text="我" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgMute"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp40"
+                android:scaleType="centerInside"
+                android:padding="@dimen/dp4"
+                android:src="@mipmap/ul_voice_close" />
+
+            <ImageView
+                android:id="@+id/imgHost"
+                android:layout_width="@dimen/dp40"
+                android:layout_height="@dimen/dp40"
+                android:scaleType="centerInside"
+                android:padding="@dimen/dp8"
+                android:src="@mipmap/ul_speaker_applying" />
+
+            <ImageView
+                android:id="@+id/imgMic"
+                android:layout_width="@dimen/dp40"
+                android:layout_height="@dimen/dp40"
+                android:scaleType="centerInside"
+                android:padding="@dimen/dp8"
+                android:src="@mipmap/ul_mic" />
+
+            <ImageView
+                android:id="@+id/imgCamera"
+                android:layout_width="@dimen/dp40"
+                android:layout_height="@dimen/dp40"
+                android:scaleType="centerInside"
+                android:padding="@dimen/dp8"
+                android:src="@mipmap/ul_camera" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

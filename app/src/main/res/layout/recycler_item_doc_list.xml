@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp"
+    android:gravity="center_vertical"
+    android:clickable="true">
+    
+    <ImageView
+        android:id="@+id/doc_list_icon"
+        android:layout_width="@dimen/dp24"
+        android:layout_height="@dimen/dp24"
+        android:layout_marginStart="@dimen/dp20"
+        android:scaleType="fitCenter"/>
+    
+    <TextView
+        android:id="@+id/doc_list_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp12"
+        android:layout_marginEnd="@dimen/dp16"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        tools:text="123456"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_toEndOf="@id/doc_list_icon"
+        android:layout_toStartOf="@+id/doc_list_right_arrow"
+        />
+    
+    <ImageView
+        android:id="@+id/doc_list_right_arrow"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/more_share_arrow"/>
+
+</RelativeLayout>

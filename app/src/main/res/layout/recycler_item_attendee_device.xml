@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp47"
+    android:paddingStart="@dimen/dp20"
+    android:paddingEnd="@dimen/dp8"
+    android:gravity="center_vertical"
+    tools:background="@color/color_292C33">
+
+    <TextView
+        android:id="@+id/tvDeviceName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="@dimen/text_size_16sp"
+        android:textColor="#FFFFFF"
+        tools:text="USB 视频设备" />
+
+    <ImageView
+        android:id="@+id/imgCamera"
+        android:layout_width="@dimen/dp48"
+        android:layout_height="@dimen/dp48"
+        android:padding="@dimen/dp12"
+        tools:src="@mipmap/ul_camera" />
+
+</LinearLayout>

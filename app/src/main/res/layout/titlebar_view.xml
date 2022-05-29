@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlTitleBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="@dimen/width_45"
+        android:layout_height="@dimen/height_45"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/padding_15"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/margin_15"
+        android:layout_toRightOf="@id/ivBack"
+        >
+
+        <ImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="@dimen/width_32"
+            android:layout_height="@dimen/height_32"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tvLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/ivBack"
+            android:visibility="gone"
+            android:textSize="@dimen/text_size_17"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:maxWidth="@dimen/width_150"
+            />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivRight"
+        android:layout_width="@dimen/width_32"
+        android:layout_height="@dimen/height_32"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_alignParentRight="true"
+        android:scaleType="center"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:maxWidth="@dimen/width_250"
+        />
+
+    <TextView
+        android:id="@+id/tvRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:textSize="@dimen/text_size_17"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_15"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:maxWidth="@dimen/width_150"
+        />
+
+</RelativeLayout>

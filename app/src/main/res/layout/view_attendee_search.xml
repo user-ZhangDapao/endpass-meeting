@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/shape_select_shared">
+
+    <LinearLayout
+        android:id="@+id/linearSearchTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgSearchTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@mipmap/more_user" />
+
+        <TextView
+            android:id="@+id/tvSearchTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp16"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_14sp"
+            tools:text="没有查找到符合条件的用户" />
+    </LinearLayout>
+
+    <!--   搜索    -->
+    <LinearLayout
+        android:id="@+id/linearSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:layout_marginStart="@dimen/dp20"
+            android:layout_marginEnd="@dimen/dp20"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp34"
+                android:layout_weight="1"
+                android:background="@drawable/shape_attendee_search">
+
+                <EditText
+                    android:id="@+id/edtSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp35"
+                    android:background="#00FFFFFF"
+                    android:gravity="center_vertical"
+                    android:hint="@string/meetingui_search"
+                    android:singleLine="true"
+                    android:textColor="@color/color_white"
+                    android:textColorHint="#494F64"
+                    android:textCursorDrawable="@drawable/shape_edit_cursor"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <ImageView
+                    android:id="@+id/imgSearch2"
+                    android:layout_width="@dimen/dp27"
+                    android:layout_height="@dimen/dp34"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/meeting_ui_search" />
+
+                <ImageView
+                    android:id="@+id/imgClear"
+                    android:layout_width="@dimen/dp24"
+                    android:layout_height="@dimen/dp24"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/dp10"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ul_search_ul_clear" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp34"
+                android:gravity="end|center_vertical"
+                android:paddingStart="@dimen/dp13"
+                android:paddingEnd="@dimen/dp1"
+                android:text="@string/meetingui_cancel"
+                android:textColor="@color/color_4479FF"
+                android:textSize="@dimen/text_size_14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:background="#353948" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</FrameLayout>

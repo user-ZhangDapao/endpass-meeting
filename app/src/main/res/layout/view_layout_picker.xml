@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/close_background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.23" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+
+    <!--    不可删除,横屏的时候用到，用于适配横竖屏-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <!--    不可删除,横屏的时候用到，用于适配横竖屏-->
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1" />
+
+
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fl_parent_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/shape_select_shared"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_top">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:background="@drawable/shape_select_shared">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_layout"
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/margin_20dp"
+                android:paddingRight="@dimen/margin_7dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingTop="@dimen/dp8"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:layout_marginRight="@dimen/margin_15dp"
+                    android:src="@mipmap/back" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_toRightOf="@+id/imgBack"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/dp11"
+                    android:layout_weight="1"
+                    android:text="@string/meetingui_change_layout"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_20sp"
+                    android:textStyle="bold" />
+
+
+                <CheckBox
+                    android:id="@+id/cbFollowLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp"
+                    android:layout_toStartOf="@id/imgCloseLayout"
+                    android:text="@string/meetingui_follow_layout"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_size_16sp" />
+                <ImageView
+                    android:id="@+id/imgCloseLayout"
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_10dp"
+                    android:src="@mipmap/close" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectLayoutRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp33"
+                android:layout_marginEnd="@dimen/dp26" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp48"
+                android:background="@color/color_55383C4B"
+                android:gravity="center"
+                android:text="@string/meetingui_confirm"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_20sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

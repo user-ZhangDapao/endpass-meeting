@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_EEEEEE"
+
+    >
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/height_5"
+            />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <TextView
+        android:id="@+id/tvCreate"
+        android:layout_width="@dimen/height_133"
+        android:layout_height="@dimen/height_44_5"
+        android:text="@string/create_task"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_18"
+        android:background="@drawable/shape_white_22"
+        android:textColor="@color/color_FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_27"
+        android:layout_centerHorizontal="true"
+        />
+
+</RelativeLayout>

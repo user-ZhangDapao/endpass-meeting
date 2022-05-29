@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_EEEEEE"
+
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_25"
+        android:background="@color/color_4D6B4A"
+        />
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:id="@+id/rlTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:leftDrawbles="@drawable/icon_head"
+        app:centerTitles="@string/mail"
+        app:centerTextColors="@color/color_FFFFFF"
+        app:rightDrawbles="@drawable/icon_refach"
+        app:themeColors="@color/color_4D6B4A"
+        app:centerTextSizes="17"
+        />
+
+    <RelativeLayout
+        android:id="@+id/layout_find"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_11"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:background="@drawable/shape_white_20"
+        >
+        <ImageView
+            android:layout_width="@dimen/width_18"
+            android:layout_height="@dimen/height_18"
+            android:src="@drawable/icon_find"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_centerVertical="true"
+
+            />
+        <TextView
+            android:layout_weight="5"
+            android:id="@+id/et_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:hint="@string/search"
+            android:background="@null"
+            android:textColor="@color/color_A6A6A6"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+
+
+
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/rlLike"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_50"
+                    android:background="@drawable/shape_white_5"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    >
+                    <ImageView
+                        android:id="@+id/icon_like"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_like"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        />
+                    <TextView
+                        android:id="@+id/tv_collection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/icon_like"
+                        android:text="@string/my_like"
+                        android:textSize="@dimen/text_size_15"
+                        android:padding="10dp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/color_666666"
+                        />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/icon_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_17"
+                        />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mail_list"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:textSize="@dimen/text_size_13"
+                    android:textColor="@color/color_A6A6A6"
+                    android:layout_marginTop="@dimen/margin_10"
+                    />
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:paddingTop="@dimen/padding_5"
+                    android:paddingBottom="@dimen/padding_5"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:paddingTop="@dimen/padding_5"
+                    android:paddingBottom="@dimen/padding_5"
+                    android:background="@drawable/shape_white_5"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_User"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </RelativeLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+
+
+</LinearLayout>

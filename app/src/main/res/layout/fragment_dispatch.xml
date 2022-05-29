@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/color_EEEEEE"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_25"
+        android:background="@color/color_4D6B4A"
+        />
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:id="@+id/rlTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:centerTitles="@string/tab_dispath"
+        app:centerTextColors="@color/color_FFFFFF"
+        app:themeColors="@color/color_4D6B4A"
+        app:centerTextSizes="17"
+        />
+
+<!--    <include layout="@layout/titlebar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/height_45"-->
+<!--        />-->
+
+
+<!--    <android.support.design.widget.TabLayout-->
+<!--        android:id="@+id/tab"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/height_50"-->
+<!--        app:tabSelectedTextColor="@color/color_5D7709"-->
+<!--        app:tabIndicatorColor="@color/color_5D7709"-->
+<!--        android:background="@color/color_FFFFFF"-->
+<!--        app:tabIndicatorHeight="0dp"-->
+<!--        />-->
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_30"
+        android:background="@color/color_FFFFFF"
+        app:tl_divider_width="0dp"
+        app:tl_indicator_color="@color/color_4D6B4A"
+        app:tl_indicator_height="@dimen/height_3"
+        app:tl_indicator_width="@dimen/height_78"
+        app:tl_tab_padding="@dimen/padding_10"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/color_4D6B4A"
+        app:tl_textUnselectColor="@color/color_A6A6A6"
+        app:tl_textsize="@dimen/text_size_15"
+        app:tl_indicator_corner_radius="@dimen/width_2"
+        app:tl_indicator_margin_top="@dimen/margin_5"
+        />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

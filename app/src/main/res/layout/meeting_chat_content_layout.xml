@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:id="@+id/root_content_view"
+    android:background="@drawable/shape_select_shared"
+    app:layout_constraintBottom_toTopOf="@+id/cl_input_layout"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_top"
+    tools:showIn="@layout/meeting_chat_layout">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_left_internal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_right_internal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+    <RelativeLayout
+        android:id="@+id/rl_layout"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:paddingRight="@dimen/margin_7dp"
+        android:paddingTop="@dimen/dp8"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_vertical_left_internal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/dp11"
+            android:drawableLeft="@mipmap/back"
+            android:drawablePadding="@dimen/margin_15dp"
+            android:layout_weight="1"
+            android:text="@string/meetingui_chat"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/im_close"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/close" />
+
+    </RelativeLayout>
+
+    <com.sdcz.endpass.widget.ChatRecyclerView
+        android:id="@+id/rv_chat_window"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_vertical_left_internal"
+        app:layout_constraintRight_toRightOf="@id/guideline_vertical_right_internal"
+        app:layout_constraintTop_toBottomOf="@+id/rl_layout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

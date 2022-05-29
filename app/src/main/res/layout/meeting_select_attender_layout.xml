@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_chat_select_attender"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@drawable/shape_select_shared"
+    android:visibility="invisible"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/root_content_view"
+    tools:showIn="@layout/meeting_chat_layout">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_left_internal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_right_internal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <TextView
+        android:id="@+id/tv_select_attender_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/back"
+        android:drawablePadding="@dimen/margin_15dp"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/margin_15dp"
+        android:paddingBottom="@dimen/margin_15dp"
+        android:text="@string/meetingui_select_attender"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_size_20sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline_vertical_left_internal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/im_close"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:src="@mipmap/close"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_select_attender_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_right_internal"
+        app:layout_constraintTop_toTopOf="@+id/tv_select_attender_title" />
+
+    <ImageView
+        android:id="@+id/im_search"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:src="@mipmap/meeting_ui_search"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_select_attender_title"
+        app:layout_constraintEnd_toStartOf="@+id/im_close"
+        app:layout_constraintTop_toTopOf="@+id/tv_select_attender_title" />
+
+    <TextView
+        android:id="@+id/tv_cancel_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_2B2F3D"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp5"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp5"
+        android:text="@string/meetingui_cancel"
+        android:textColor="@color/color_4064CC"
+        android:textSize="@dimen/text_size_18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_select_attender_title"
+        app:layout_constraintRight_toRightOf="@+id/guideline_vertical_right_internal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fl_search_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp15"
+        android:layout_marginBottom="@dimen/dp5"
+        android:background="@drawable/shape_attendee_search"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_select_attender_title"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_vertical_left_internal"
+        app:layout_constraintRight_toLeftOf="@+id/tv_cancel_search"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp35"
+            android:background="#00FFFFFF"
+            android:gravity="center_vertical"
+            android:hint="@string/meetingui_search"
+            android:imeOptions="flagNoExtractUi"
+            android:singleLine="true"
+            android:textColor="@color/color_white"
+            android:textColorHint="#494F64"
+            android:textCursorDrawable="@drawable/shape_edit_cursor"
+            android:textSize="@dimen/text_size_14sp" />
+
+        <ImageView
+            android:id="@+id/imgSearch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp8"
+            android:src="@mipmap/meeting_ui_search" />
+    </FrameLayout>
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="fl_search_layout,tv_cancel_search" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat_attender"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_vertical_left_internal"
+        app:layout_constraintRight_toRightOf="@id/guideline_vertical_right_internal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_attender_title" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

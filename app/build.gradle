@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'com.kezong.fat-aar'
+
+android {
+    compileSdkVersion 32
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.example.metingdemo"
+        minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+repositories {
+    flatDir {
+        dirs '../libs'
+    }
+}
+
+
+dependencies {
+
+
+//    implementation fileTree (include: ['*.jar','*.aar'], dir: 'libs')
+    implementation (name:"AndroidPhoneSdk-3.36.8.12", ext:'aar')
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.blankj:utilcodex:1.30.6'
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation "androidx.annotation:annotation:1.2.0"
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
+    //implementation   "com.squareup.okhttp3:okhttp:3.12.0"
+    //implementation   "com.squareup.okhttp3:logging-interceptor:3.12.0"
+
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.8.1"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.8.1"
+    implementation "com.tencent:mmkv:1.2.8"
+    implementation 'org.zeroturnaround:zt-zip:1.14'
+    implementation 'org.eclipse.ecf:org.apache.commons.codec:1.9.0.v20170208-1614'
+    implementation ('cn.robotpen.pen:penservice:1.6.22.63') { exclude group: 'commons-codec' }
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
+        exclude group: 'org.json', module: 'json'
+    }
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    implementation 'com.annimon:stream:1.2.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
+    implementation 'com.annimon:stream:1.2.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    //rxjava框架
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    //图片加载
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    //阿里json
+    implementation 'com.alibaba:fastjson:1.2.73'
+    //下拉刷新
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
+    //tablayout
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'
+    //状态栏
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
+
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.9.2"
+    annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.2"
+}

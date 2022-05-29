@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="@dimen/dp360"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/shape_select_shared_right"
+    android:layout_gravity="end">
+
+    <RelativeLayout
+        android:id="@+id/rl_layout"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/margin_20dp"
+        android:paddingRight="@dimen/margin_7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingTop="@dimen/dp8"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="@dimen/margin_15dp"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_toRightOf="@+id/back_iv"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/dp11"
+            android:layout_weight="1"
+            android:text="@string/meetingui_switch_select"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/close_iv"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10dp"
+            android:src="@mipmap/close" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"
+        android:paddingStart="@dimen/dp20"
+        android:paddingEnd="@dimen/dp20"/>
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbarHeight"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/paddingMid_16"
+    app:contentInsetStart="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/back_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/titlebar_back_background"/>
+
+        <TextView
+            android:id="@+id/title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_toRightOf="@id/back_imageview"
+            android:text="@string/top_title_attendee"
+            android:textColor="@color/title_bar_text_color"
+            android:textSize="@dimen/textSizeMax"/>
+
+        <TextView
+            android:id="@+id/right_one_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/create_group"
+            android:textSize="@dimen/min_sp_16"
+            android:textColor="@color/textcolor_cececf"
+            android:layout_marginRight="@dimen/marginMin_16"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/right_one_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/call"
+            android:textSize="@dimen/min_sp_16"
+            android:textColor="@color/textcolor_cececf"
+            android:layout_marginRight="@dimen/marginMin_16"
+            android:visibility="gone"/>
+    </RelativeLayout>
+</androidx.appcompat.widget.Toolbar>

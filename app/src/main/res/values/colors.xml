@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="media_loading_bg">#293048</color>
+    <color name="color_292C33">#292c33</color>
+    <color name="textcolor_979DAC">#979DAC</color>
+    <color name="textcolor_EE6161">#EE6161</color>
+    <color name="color_3F4662">#3F4662</color>
+    <color name="color_translucent">#44000000</color>
+    <color name="color_2B2F3D">#2B2F3D</color>
+    <color name="color_55000000">#55000000</color>
+    <color name="edit_input_hint">#B1B1B1</color>
+    <color name="color_transparent">#00000000</color>
+    <color name="color_777C8D">#777C8D</color>
+    <color name="color_F0834D">#F0834D</color>
+    <color name="color_4479FF">#4479FF</color>
+    <color name="color_409CF9">#409CF9</color>
+    <color name="color_white">#ffffff</color>
+    <color name="color_0EFFFFFF">#0eFFFFFF</color>
+    <color name="color_black">#000000</color>
+    <color name="color_808080">#808080</color>
+    <color name="color_F5F5F5">#F5F5F5</color>
+    <color name="color_4064CC">#4064CC</color>
+    <color name="color_333747">#333747</color>
+    <color name="color_979DAC">#979DAC</color>
+    <color name="color_ADB0B5">#ADB0B5</color>
+    <color name="color_28282D">#28282D</color>
+    <color name="color_F37171">#F37171</color>
+    <color name="color_55383C4B">#55383C4B</color>
+    <color name="color_DE4C4C">#DE4C4C</color>
+    <color name="color_E55963">#E55963</color>
+    <color name="color_686D7C">#686D7C</color>
+    <color name="color_74809E">#74809E</color>
+    <color name="color_383C4B">#383C4B</color>
+    <color name="color_ECEDEE">#ECEDEE</color>
+    <color name="color_17C8A5">#17C8A5</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- 3.9.4 -->
+
+    <!-- Add By Money -->
+    <!-- Background -->
+    <color name="toolbarBackgroundColor">#1C90F2</color>
+    <color name="colorAccent">@color/toolbarBackgroundColor</color>
+    <color name="colorControlNormal">#CCCCCC</color>
+    <!-- TabLayout -->
+    <!-- ListView -->
+    <!-- TextColor -->
+    <color name="textColorWhite">#FFFFFF</color>
+    <color name="textColorGrayHint">#CCCCCC</color>
+    <!-- white board draw -->
+    <!-- status bar -->
+    <!-- 不要在此添加先 -->
+
+
+    <!-- 3.10.0 rancho -->
+    <!--用于全局设置的1px的风格线的颜色-->
+
+    <!--导航栏文字被选中颜色-->
+    <!--通话背景-->
+
+    <color name="title_bar_text_color">#28282D</color>
+    <color name="textcolor_3290f6">#3290F6</color>
+    <color name="textcolor_adb0b5">#ADB0B5</color>
+    <color name="textcolor_28282d">#28282D</color>
+    <color name="textcolor_6fbcff">#6FBCFF</color>
+    <color name="textcolor_cececf">#CECECF</color>
+    <color name="textcolor_808082">#808082</color>
+    <color name="textcolor_63c926">#63C926</color>
+    <color name="textcolor_f05b5b">#F05B5B</color>
+    <color name="textcolor_d0d2d5">#d0d2d5</color>
+    <!--3.31-->
+    <color name="whiteBoardBlack">#000000</color>
+    <color name="whiteBoardGray">#808080</color>
+    <color name="whiteBoardBlue">#0000FF</color>
+    <color name="whiteBoardBlue2">#0099FF</color>
+    <color name="whiteBoardGreen">#00FF00</color>
+    <color name="whiteBoardYellow">#FFFF00</color>
+    <color name="whiteBoardOrange">#FF6600</color>
+    <color name="whiteBoardRed">#FF0000</color>
+    <color name="gray_meeting_menu_second">#ff777c8d</color>
+    <color name="blue_meeting_menu_copy">#ff3a88ff</color>
+    <color name="color_ff28282d">#ff28282d</color>
+    <color name="color_ffadb0b5">#ffadb0b5</color>
+    <color name="textcolor_bbbec3">#BBBEC3</color>
+    <color name="textColorGrayDeep">#757575</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black_64">#64000000</color>
+
+
+    <color name="color_262626">#262626</color>
+    <color name="color_FFFFFF">#FFFFFF</color>
+    <color name="color_99A6A6A6">#99A6A6A6</color>
+    <color name="color_FFAB00">#FFAB00</color>
+    <color name="color_BABECB">#BABECB</color>
+    <color name="color_FFB06C">#FFB06C</color>
+    <color name="color_fff2f2f2">#fff2f2f2</color>
+    <color name="color_FD563C">#FD563C</color>
+    <color name="color_F6F6F6">#F6F6F6</color>
+    <color name="color_ff231916">#ff231916</color>
+    <color name="color_00000000">#00000000</color>
+    <color name="color_0D000000">#0D000000</color>
+    <color name="color_E6000000">#E6000000</color>
+    <color name="color_a6000000">#a6000000</color>
+    <color name="color_73000000">#73000000</color>
+    <color name="color_19000000">#19000000</color>
+    <color name="color_d9000000">#d9000000</color>
+    <color name="color_B3000000">#B3000000</color>
+    <color name="color_ff333333">#ff333333</color>
+    <color name="color_5780FF">#5780FF</color>
+    <color name="color_BCCCFF">#BCCCFF</color>
+    <color name="color_565656">#565656</color>
+    <color name="color_6A7EFD">#6A7EFD</color>
+    <color name="color_33DCDCDC">#33DCDCDC</color>
+    <color name="color_86E267">#86E267</color>
+    <color name="color_8C8C8C">#8C8C8C</color>
+    <color name="color_CCCCCC">#CCCCCC</color>
+    <color name="color_06C261">#06C261</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_000000">#000000</color>
+    <color name="color_5D7709">#5D7709</color>
+    <color name="text_paragraph">#666666</color>
+    <color name="text_secondary">#999999</color>
+    <color name="back_space">#F8F9FA</color>
+    <color name="color_line">#F4F5F6</color>
+    <color name="color_Dc143C">#Dc143C</color>
+    <color name="color_ffff552e">#ffff552e</color>
+    <color name="color_E6E6E6">#E6E6E6</color>
+    <color name="color_E5E5E5">#E5E5E5</color>
+    <color name="color_A6A6A6">#A6A6A6</color>
+    <color name="color_51704F">#51704F</color>
+    <color name="color_4D6B4A">#4D6B4A</color>
+    <color name="color_595959">#595959</color>
+    <color name="color_EEEEEE">#EEEEEE</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_D9D9D9">#D9D9D9</color>
+    <color name="color_394835">#394835</color>
+    <color name="color_404040">#404040</color>
+    <color name="color_B2B2B2">#B2B2B2</color>
+    <color name="color_BFBFBF">#BFBFBF</color>
+    <color name="color_294835">#294835</color>
+    <color name="color_D94D4D4D">#D94D4D4D</color>
+    <color name="color_B34D4D4D">#B34D4D4D</color>
+    <color name="color_F0c6dac4">#F0c6dac4</color>
+</resources>

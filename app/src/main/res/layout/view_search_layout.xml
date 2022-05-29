@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/search_block"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp32"
+        android:orientation="horizontal"
+        android:background="@drawable/search_shape"
+        android:paddingRight="8dp"
+        android:paddingLeft="12dp"
+        >
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="234"
+            android:background="@null"
+            android:drawableStart="@drawable/search_icon_zoom"
+            android:drawablePadding="10dp"
+            android:hint="@string/meetingui_search"
+            android:textColorHint="@color/textcolor_bbbec3"
+            android:gravity="start|center_vertical"
+            android:visibility="gone"/>
+
+        <com.sdcz.endpass.widget.EditTextClear
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="234"
+            android:background="@null"
+            android:textCursorDrawable="@drawable/cursor_drawable"
+            android:drawableStart="@drawable/search_icon_zoom"
+            android:drawablePadding="10dp"
+            android:textColorHint="@color/textcolor_bbbec3"
+            android:gravity="start|center_vertical"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            />
+        <ImageView
+            android:layout_marginEnd="@dimen/paddingMin_8"
+            android:background="@color/color_transparent"
+            android:id="@+id/iv_clear_text"
+            android:layout_width="@dimen/padding_20"
+            android:layout_height="@dimen/padding_20"
+            android:src="@drawable/search_icon_clear"
+            android:layout_gravity="end|center_vertical"/>
+    </LinearLayout>
+
+</LinearLayout>

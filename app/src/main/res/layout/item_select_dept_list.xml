@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_maillist_list"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_50"
+    android:background="@drawable/shape_white_5"
+    android:layout_marginLeft="@dimen/margin_15"
+    android:layout_marginRight="@dimen/margin_15"
+    android:layout_margin="@dimen/margin_5"
+    >
+    <RadioButton
+        android:id="@+id/rb"
+        android:layout_width="@dimen/width_15"
+        android:layout_height="@dimen/width_15"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:button="@null"
+        android:background="@drawable/radio_button_selector"
+        android:buttonTint="@color/color_5D7709"
+        />
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/width_14"
+        android:layout_height="@dimen/height_14"
+        android:src="@drawable/grouping_icon_grouping_normal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="@dimen/margin_6"
+        android:layout_marginLeft="@dimen/margin_12"
+        android:layout_toRightOf="@id/rb"
+        />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_15"
+        android:text="技术部"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon"
+        android:textColor="@color/color_666666"
+        android:ellipsize="middle"
+        android:singleLine="true"        />
+
+    <ImageView
+        android:id="@+id/icon_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_right"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dp_10"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_line"
+        android:layout_below="@id/icon"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        />
+</RelativeLayout>

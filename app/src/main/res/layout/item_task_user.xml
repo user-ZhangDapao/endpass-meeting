@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="@dimen/height_50"
+    android:background="@color/color_FFFFFF"
+    android:layout_marginTop="@dimen/margin_2"
+    >
+    <ImageView
+        android:id="@+id/ivHead"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_centerVertical="true"
+        />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/color_000000"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/ivHead"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        />
+
+    <TextView
+        android:id="@+id/tvState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/color_000000"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tvName"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_toLeftOf="@id/ivDelete"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:maxWidth="@dimen/width_100"
+        />
+
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_delect"
+        android:padding="@dimen/padding_5"
+
+        />
+
+</RelativeLayout>
