@@ -101,10 +101,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() >= 1) {
                     ivClose.setVisibility(View.VISIBLE);
-//                    mPresenter.getUserByNameLike(SearchActivity.this,s.toString());
+                    mPresenter.getUserByNameLike(SearchActivity.this,s.toString());
                 } else {
                     ivClose.setVisibility(View.INVISIBLE);
-//                    mPresenter.getUserByNameLike(SearchActivity.this,"");
+                    mPresenter.getUserByNameLike(SearchActivity.this,"");
                 }
             }
 

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_25"
+        android:background="@color/color_4D6B4A"
+        />
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        android:background="@color/color_4D6B4A"
+        app:backDrawbles="@drawable/icon_left_white"
+        app:leftTexts="@string/pos_info"
+        app:leftTextColors="@color/color_FFFFFF"
+        app:leftTextSizes="17"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <LinearLayout
+            android:id="@+id/llRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="默认位置"
+                android:padding="@dimen/dp_10"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dp_10"
+                >
+                <TextView
+                    android:id="@+id/tvE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="经度:"
+                    android:layout_centerVertical="true"
+                    android:minWidth="@dimen/width_30"
+                    />
+                <EditText
+                    android:id="@+id/etLon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tvE"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:inputType="number|numberDecimal"
+                    android:minWidth="@dimen/width_40"
+                    android:maxLength="10"
+                    />
+                <TextView
+                    android:id="@+id/tvN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="纬度:"
+                    android:layout_toRightOf="@id/etLon"
+                    android:layout_centerVertical="true"
+                    />
+                <EditText
+                    android:id="@+id/etLat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tvN"
+                    android:inputType="number|numberDecimal"
+                    android:minWidth="@dimen/width_40"
+                    android:maxLength="9"
+                    />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnChange"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:text="修改位置"
+                android:layout_margin="@dimen/margin_20"
+                android:background="@drawable/shape_green"
+                android:textColor="@color/color_FFFFFF"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="位置记录"
+                android:padding="@dimen/dp_10"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rlPos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

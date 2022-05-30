@@ -30,7 +30,7 @@ public class GlideUtils {
     private static final String URL_TAG = "http";
     private static final String URL_LABEL = "https";
     private static Bitmap bitmap;
-    private static String baseUrl = Constants.HttpKey.BASE_URL + "/" + Constants.HttpKey.IMAGE_BASE_URL;
+    private static String baseUrl = Constants.HttpKey.BASE_URL;
 
 
     /**

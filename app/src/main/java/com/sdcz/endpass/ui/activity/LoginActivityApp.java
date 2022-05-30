@@ -20,12 +20,17 @@ import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.gms.common.util.Base64Utils;
+import com.inpor.sdk.callback.SetServerCallback;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LoginSettingActivity;
 import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseActivity;
+import com.sdcz.endpass.dialog.LoadingDialog;
+import com.sdcz.endpass.login.JoinMeetingManager;
 import com.sdcz.endpass.presenter.LoginPresenter;
 import com.sdcz.endpass.util.PackageUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ILoginView;
 
 import java.security.KeyStore;
@@ -154,8 +159,7 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
     @Override
     public void showData() {
         mPresenter.getUserInfo(this);
-        startActivity(new Intent(this, MainActivityApp.class));
-        finish();
+        saveParam();
     }
 
     @NeedsPermission({Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -177,4 +181,35 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
         mPresenter.doLogin(this, phone, pass);
     }
 
+    private void saveParam() {
+
+        String ip = "5uw.haoshitong.com";
+        String port = "1089";
+        String clientId = "b9264352-4ae2-4065-b48a-887048506660";
+        String clientSecret = "df1ae16c-f5a9-4009-89e6-edbd4274a706";
+
+        SharedPrefsUtil.putString(Constants.SP_KEY_SERVER_ADDRESS, ip);
+        SharedPrefsUtil.putString(Constants.SP_KEY_SERVER_PORT, port);
+        SharedPrefsUtil.putString(Constants.SP_KEY_CLIENT_ID, clientId);
+        SharedPrefsUtil.putString(Constants.SP_KEY_CLIENT_SECRET, clientSecret);
+        //更新clientId和clientSecret
+        JoinMeetingManager.getInstance().setClientIdInfo(clientId, clientSecret);
+        LoadingDialog loadingDialog = new LoadingDialog(this, R.string.CONNECTING_SERVER);
+        loadingDialog.show();
+        JoinMeetingManager.getInstance().setServer(ip, Integer.parseInt(port), new SetServerCallback() {
+            @Override
+            public void onSuccess() {
+                loadingDialog.dismiss();
+                ToastUtils.showShort(R.string.configure_server_success);
+                startActivity(new Intent(LoginActivityApp.this, MainActivityApp.class));
+                finish();
+            }
+
+            @Override
+            public void onFailed(int i, String s) {
+                loadingDialog.dismiss();
+                ToastUtils.showShort(R.string.configure_server_fail);
+            }
+        });
+    }
 }

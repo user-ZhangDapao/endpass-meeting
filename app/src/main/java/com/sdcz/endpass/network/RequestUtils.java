@@ -9,9 +9,12 @@ import com.sdcz.endpass.DemoApp;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.bean.MailListBean;
+import com.sdcz.endpass.bean.PosBean;
 import com.sdcz.endpass.bean.UserEntity;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import java.io.File;
+import java.security.KeyStore;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -373,16 +376,31 @@ public class RequestUtils {
                 .subscribe(observer);
     }
 
-//    /**
-//     * Post
-//     * 27.上传位置信息
-//     *
-//     * @param observer
-//     */
-//    public static void uploadLocation(String lon, String lat, MyObserver<Object> observer) {
-//        RetrofitUtils.getApiUrl()
-//                .uploadLocation(SharedPrefsUtil.getValue(DemoApp.getContext(), KeyStore.USERID, ""), lon, lat).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
-//                .subscribe(observer);
-//    }
+    /**
+     * Post
+     * 27.上传位置信息
+     *
+     * @param observer
+     */
+    public static void setUserLocation(String lon, String lat, MyObserver<Object> observer) {
+        JSONObject postInfo = new JSONObject();
+        postInfo.put("lon",lon);
+        postInfo.put("lat",lat);
+        RetrofitUtils.getApiUrl()
+                .uploadLocation(postInfo).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
+    /**
+     * Post
+     * 28.获取位置列表
+     *
+     * @param observer
+     */
+    public static void getUserLocationRecord(MyObserver<List<PosBean>> observer) {
+        RetrofitUtils.getApiUrl()
+                .getUserLocationRecord().compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
 }
 

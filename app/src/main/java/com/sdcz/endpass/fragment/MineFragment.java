@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.sdcz.endpass.Constants;
+import com.sdcz.endpass.LoginActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseFragment;
 import com.sdcz.endpass.base.BasePresenter;
@@ -17,7 +18,10 @@ import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.LoginPresenter;
 import com.sdcz.endpass.presenter.MinePresenter;
 import com.sdcz.endpass.ui.activity.ChangePassActivity;
+import com.sdcz.endpass.ui.activity.LoginActivityApp;
+import com.sdcz.endpass.ui.activity.PosActivity;
 import com.sdcz.endpass.ui.activity.UserInfoActivity;
+import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.GlideUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.IMineView;
@@ -38,8 +42,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
     private TextView tvRole;
     private ImageView ivHead;
     private RelativeLayout rlChangePassw;
-    private RelativeLayout rlOther;
+    private RelativeLayout rlPos;
     private RelativeLayout layoutOutline;
+    private double Lon;
+    private double Lat;
 
     @Override
     protected int provideContentViewId() {
@@ -56,7 +62,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
         ivHead = rootView.findViewById(R.id.ivHead);
         tvUserName = rootView.findViewById(R.id.tv_userName);
         rlChangePassw = rootView.findViewById(R.id.rl_changePassw);
-        rlOther = rootView.findViewById(R.id.rl_other);
+        rlPos = rootView.findViewById(R.id.rl_pos);
         layoutOutline = rootView.findViewById(R.id.layout_outline);
         tvRole = rootView.findViewById(R.id.tvRole);
     }
@@ -73,10 +79,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
         super.initListener();
         llUserdata.setOnClickListener(this);
         rlChangePassw.setOnClickListener(this);
-        rlOther.setOnClickListener(this);
         ivHead.setOnClickListener(this);
         ivHead.setOnClickListener(this);
         layoutOutline.setOnClickListener(this);
+        rlPos.setOnClickListener(this);
     }
 
     @Override
@@ -94,9 +100,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
             case R.id.rl_changePassw:
                 startActivity(new Intent(getActivity(), ChangePassActivity.class));
                 break;
-            case R.id.rl_other:
-//                startActivity(new Intent(getActivity(), OtherSettingActivity.class));
-                break;
+            case R.id.rl_pos:
+                Intent intent = new Intent(getContext(), PosActivity.class);
+                intent.putExtra(Constants.SharedPreKey.POS_LAT,Lat);
+                intent.putExtra(Constants.SharedPreKey.POS_LON,Lon);
+                startActivity(intent);                break;
             case R.id.layout_outline:
                 showLoginOutDialog();
                 break;
@@ -122,7 +130,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //设置你的操作事项
-//                leaveGroup();
+                leaveGroup();
             }
         });
         builder.setNegativeButton("取消",
@@ -145,6 +153,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
             tvPhone.setText(data.getPhonenumber());
             tvRole.setText(data.getRoles().get(0).getRoleName());
             GlideUtils.showCircleImage(getActivity(), ivHead, data.getAvatar(), R.drawable.icon_head);
+
+            Lon = data.getLon();
+            Lat = data.getLat();
 //            if (!data.getRole().equals(SharedPrefsUtil.getValue(getActivity(), KeyStore.ROLE, data.getRole()))){
 //                SharedPrefsUtil.putValue(getActivity(), KeyStore.ROLE, data.getRole());
 //                EventBus.getDefault().post(new EventRefarechLayout());
@@ -162,6 +173,12 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 //        }else {
 //            LeaveGroupResultSuccess();
 //        }
+        SharedPrefsUtil.clean(getActivity());
+        Intent intent = new Intent(getActivity(), LoginActivityApp.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        ActivityUtils.getInstance().finishAll();
     }
 
 //    //离开组成功

@@ -435,6 +435,7 @@
     <string name="updata_name">修改名称</string>
     <string name="add_user">添加成员</string>
     <string name="other_set_version">V1.0.2</string>
+    <string name="pos_info">位置信息</string>
 
 </resources>
 

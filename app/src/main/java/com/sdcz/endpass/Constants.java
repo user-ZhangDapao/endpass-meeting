@@ -27,7 +27,6 @@ public class Constants {
         public static final int DEFAULT_TIME = 10;
 
         public static final String BASE_URL = "http://49.232.143.181:8280";
-        public final static String IMAGE_BASE_URL = "image/headPic/";
 
         public static final int RESPONSE_0 = 0;
         public static final int RESPONSE_200 = 200;
@@ -55,6 +54,9 @@ public class Constants {
         public static final String SELECT_DEPT_ID = "selectDeptId";
         public static final String CHANNEL_CODE = "channelCode";
         public static final String CHANNEL_NAME = "channelName";
+
+        public static final String POS_LON = "lon";
+        public static final String POS_LAT = "lat";
 
     }
 

@@ -5,13 +5,17 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import androidx.core.app.ActivityCompat;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.sdk.callback.SetServerCallback;
 import com.sdcz.endpass.custommade.meetingover._interface._MeetingStateCallBack;
+import com.sdcz.endpass.dialog.LoadingDialog;
 import com.sdcz.endpass.login.JoinMeetingManager;
 import com.sdcz.endpass.util.PermissionUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 //import com.sdcz.endpass.util.YUVUtil;
 
 
@@ -86,4 +90,7 @@ public class DemoApp extends Application {
     public static Context getContext() {
         return context;
     }
+
+
+
 }

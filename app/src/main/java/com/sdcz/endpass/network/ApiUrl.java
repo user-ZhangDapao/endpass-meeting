@@ -8,6 +8,7 @@ import com.sdcz.endpass.bean.BaseResponse;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.bean.MailListBean;
+import com.sdcz.endpass.bean.PosBean;
 import com.sdcz.endpass.bean.UserEntity;
 
 
@@ -126,8 +127,12 @@ public interface ApiUrl {
     @GET("api/updateChannel")
     Observable<BaseResponse<Object>> updateChannel(@Query("channelCode") String channelCode, @Query("channelName") String channelName);
 
-//    @POST("api/uploadLocation")
-//    @FormUrlEncoded
-//    Observable<BaseResponse<Object>> uploadLocation(@Field("userId") String userId, @Field("lon") String lon, @Field("lat") String lat);
+    @GET("api/getUserLocationRecord")
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    Observable<BaseResponse<List<PosBean>>> getUserLocationRecord();
+
+    @POST("api/uploadLocation")
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    Observable<BaseResponse<Object>> uploadLocation(@Body JSONObject body);
 
 }

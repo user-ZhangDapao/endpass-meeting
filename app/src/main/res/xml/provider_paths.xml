@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path
+        path="Android/data/com/sdcz/endpass/"
+        name="files_root" />
     <external-path name="external_storage_root"  path="."/>
     <!-- 所有路径下 -->
 </paths>

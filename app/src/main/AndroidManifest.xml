@@ -50,7 +50,7 @@
         >
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityTheme"
             android:exported="true">
@@ -106,6 +106,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SelectUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PosActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.TaskUserActivity"

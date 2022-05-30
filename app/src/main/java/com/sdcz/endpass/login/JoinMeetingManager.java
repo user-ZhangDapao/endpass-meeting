@@ -229,9 +229,6 @@ public class JoinMeetingManager {
      * 初始化log(务必在获取权限之后调用一次)
      */
     public void initLogger(Context context) {
-        try {
-            sdkManager.initLogger(context);
-        }catch(Exception e){
-        }
+        sdkManager.initLogger(context);
     }
 }
