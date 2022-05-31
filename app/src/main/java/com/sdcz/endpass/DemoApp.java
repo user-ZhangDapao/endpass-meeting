@@ -69,7 +69,7 @@ public class DemoApp extends Application {
         super.onCreate();
         context = getApplicationContext();
 
-        JoinMeetingManager.getInstance().initSdk(this, null, null);
+        JoinMeetingManager.getInstance().initSdk(this, "b9264352-4ae2-4065-b48a-887048506660", "df1ae16c-f5a9-4009-89e6-edbd4274a706");
         if (PermissionUtils.checkPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             JoinMeetingManager.getInstance().initLogger(this);
         }

@@ -106,8 +106,8 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
 
             @Override
             public void onJoinItem(String Code) {
-                JoinMeetingManager.getInstance().loginRoomId("10008", SharedPrefsUtil.getUserInfo().getNickName(),
-                        "123456", false, new JoinMeetingCallback() {
+                JoinMeetingManager.getInstance().loginRoomId("10000", SharedPrefsUtil.getUserInfo().getNickName(),
+                        "", true, new JoinMeetingCallback() {
 
                             @Override
                             public void onStart(Procedure procedure) {
@@ -115,7 +115,7 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
 //                                    loadingDialog = new LoadingDialog(requireContext(), R.string.logging);
 //                                }
 //                                loadingDialog.show();
-                                showLoading();
+//                                showLoading();
                             }
 
                             @Override
@@ -127,13 +127,13 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
                             public void onBlockFailed(ProcessStep step, int code, String msg) {
                                 ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
 //                                loadingDialog.dismiss();
-                                hideLoading();
+//                                hideLoading();
                             }
 
                             @Override
                             public void onFailed() {
 //                                loadingDialog.dismiss();
-                                hideLoading();
+//                                hideLoading();
                             }
 
                             @Override
@@ -144,7 +144,7 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
                             @Override
                             public void onSuccess() {
 //                                loadingDialog.dismiss();
-                                hideLoading();
+//                                hideLoading();
                                 Intent intent = new Intent(requireActivity(), MobileMeetingActivity.class);
                                 intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);
                                 startActivity(intent);

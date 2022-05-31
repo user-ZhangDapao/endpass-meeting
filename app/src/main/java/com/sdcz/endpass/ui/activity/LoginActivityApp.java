@@ -201,6 +201,17 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
             public void onSuccess() {
                 loadingDialog.dismiss();
                 ToastUtils.showShort(R.string.configure_server_success);
+                String serverAddress = SharedPrefsUtil.getString(com.sdcz.endpass.Constants.SP_KEY_SERVER_ADDRESS);
+                String serverPort = SharedPrefsUtil.getString(com.sdcz.endpass.Constants.SP_KEY_SERVER_PORT);
+                String clientId = SharedPrefsUtil.getString(com.sdcz.endpass.Constants.SP_KEY_CLIENT_ID);
+                String clientSecret = SharedPrefsUtil.getString(com.sdcz.endpass.Constants.SP_KEY_CLIENT_SECRET);
+                if (TextUtils.isEmpty(serverAddress) || TextUtils.isEmpty(serverPort) ||
+                        TextUtils.isEmpty(clientId) || TextUtils.isEmpty(clientSecret)) {
+                    ToastUtils.showShort(R.string.check_service_config_info);
+                    return;
+                }
+                //更新clientId和clientSecret
+                JoinMeetingManager.getInstance().setClientIdInfo(clientId, clientSecret);
                 startActivity(new Intent(LoginActivityApp.this, MainActivityApp.class));
                 finish();
             }

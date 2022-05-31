@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/shape_33dcdcdc_20.xml" value="0.2555" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_login.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_mobile_meeting.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_pos.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_splash.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/fragment_mine.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/item_pos.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/meeting_bottom_menu_bar.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/meeting_more_menu_layout.xml" value="0.3619791666666667" />
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable-hdpi/main_toolbar_ll_right_bg_selector.xml" value="0.1" />
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/btm_text_color.xml" value="0.246" />
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/drawable/button_selector.xml" value="0.215" />

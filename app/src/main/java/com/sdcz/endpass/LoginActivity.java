@@ -292,8 +292,10 @@ public class LoginActivity extends AppCompatActivity implements DoubleButtonDial
         final String roomId = mBinding.etRoomId.getText().toString();
         final String nickName = mBinding.etNickName.getText().toString();
         final String roomPwd = mBinding.etRoomPwd.getText().toString();
+
         loadingDialog.updateText(R.string.logging);
         loadingDialog.show();
+        // isAnonymous是否是匿名入会
         JoinMeetingManager.getInstance().loginRoomId(roomId, nickName, roomPwd, true, new JoinMeetingCallback() {
             @Override
             public void onStart(Procedure procedure) {
