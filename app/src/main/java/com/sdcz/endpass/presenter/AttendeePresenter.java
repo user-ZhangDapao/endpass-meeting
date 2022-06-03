@@ -1,9 +1,15 @@
 package com.sdcz.endpass.presenter;
 
 import com.comix.meeting.entities.BaseUser;
+import com.sdcz.endpass.R;
+import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.contract.AttendeeCategory;
 import com.sdcz.endpass.contract.AttendeeContracts;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -86,9 +92,9 @@ public class AttendeePresenter implements AttendeeContracts.IPresenter {
             return;
         }
         view.onCountUser(AttendeeCategory.ALL, all);
-        view.onCountUser(AttendeeCategory.SPEAKING, speaking);
-        view.onCountUser(AttendeeCategory.REQUEST_SPEAKING, requestSpeaking);
-        view.onCountUser(AttendeeCategory.OFFLINE, offline);
+//        view.onCountUser(AttendeeCategory.SPEAKING, speaking);
+//        view.onCountUser(AttendeeCategory.REQUEST_SPEAKING, requestSpeaking);
+//        view.onCountUser(AttendeeCategory.OFFLINE, offline);
     }
 
     private int speakingUsers(List<BaseUser> all) {
@@ -114,6 +120,20 @@ public class AttendeePresenter implements AttendeeContracts.IPresenter {
     private int offlineUsers() {
         // FIXME 离线用户还没实现(貌似也不用实现)
         return 0;
+    }
+
+    private List<UserEntity> getChannelUser(String channelCode){
+        RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>() {
+            @Override
+            public void onSuccess(ChannelBean result) {
+
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+        return new ArrayList<>();
     }
 
 }

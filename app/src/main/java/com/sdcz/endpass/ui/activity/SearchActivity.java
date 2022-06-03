@@ -3,6 +3,7 @@ package com.sdcz.endpass.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -57,7 +58,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         rlRoot = findViewById(R.id.rlRoot);
         tvTitle = findViewById(R.id.tvTitle);
         ivBack = findViewById(R.id.ivBack);

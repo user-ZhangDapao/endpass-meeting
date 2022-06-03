@@ -67,6 +67,7 @@ public class AttendeeCategoryView extends FrameLayout implements OnItemClickList
         AttendeeContracts.IView, AttendeeAdapter.ItemListener, MicEnergyMonitor.AudioEnergyListener {
     private static final String TAG = "AttendeeCategoryView";
     private int category;
+    private String channelCode;
     private RecyclerView recyclerView;
     private AttendeeAdapter attendeeAdapter;
     private LinearLayoutManager layoutManager;
@@ -695,6 +696,15 @@ public class AttendeeCategoryView extends FrameLayout implements OnItemClickList
         } finally {
             attendeeAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * 设置任务code
+     * @param channelCode code
+     */
+    public void setChannelCode(String channelCode) {
+        this.channelCode = channelCode;
+        Log.i(TAG, "AttendeeCategoryView#setChannelCode()");
     }
 
 }

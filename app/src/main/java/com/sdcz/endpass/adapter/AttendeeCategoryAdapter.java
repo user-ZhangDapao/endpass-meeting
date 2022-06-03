@@ -20,6 +20,6 @@ public class AttendeeCategoryAdapter extends RecyclerViewAdapter<Integer> {
     public RecyclerViewHolder<Integer> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.recycler_item_attendee_category, parent, false);
-        return new AttendeeCategoryViewHolder(view);
+        return new AttendeeCategoryViewHolder(view, "");
     }
 }

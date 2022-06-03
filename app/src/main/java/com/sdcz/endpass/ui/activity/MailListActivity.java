@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,7 +62,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         ivBack = findViewById(R.id.ivBack);
         recyclerUser = findViewById(R.id.recycler_User);
         recyclerList = findViewById(R.id.recycler_List);

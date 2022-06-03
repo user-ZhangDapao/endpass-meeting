@@ -54,9 +54,8 @@ public interface ApiUrl {
     @GET("api/getAllUser")
     Observable<BaseResponse<Object>> getAllUser();
 
-//    @POST("api/getChannelByCode")
-//    @FormUrlEncoded
-//    Observable<BaseResponse<ChannelInfoBean>> getChannelByCode(@Field("channelCode") String channelCode);
+    @GET("api/getChannelByCode")
+    Observable<BaseResponse<ChannelBean>> getChannelByCode(@Query("channelCode") String channelCode);
 //
     @GET("api/dismissChannel")
     Observable<BaseResponse<Object>> deletChannel(@Query("channelCode") String channelCode);

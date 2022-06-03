@@ -3,6 +3,7 @@ package com.sdcz.endpass.ui;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -44,11 +46,14 @@ import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.ScreenSharingCreateListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.comix.meeting.listeners.WbCreateListener;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LiveDataBus;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
+import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
@@ -68,11 +73,13 @@ import com.sdcz.endpass.model.NotificationUtil;
 import com.sdcz.endpass.model.UiEntrance;
 import com.sdcz.endpass.presenter.MeetingBottomAndTopMenuContainer;
 import com.sdcz.endpass.presenter.MeetingQuitContainer;
+import com.sdcz.endpass.presenter.MobileMeetingPresenter;
 import com.sdcz.endpass.util.BrandUtil;
 import com.sdcz.endpass.util.HeadsetMonitorUtil;
 import com.sdcz.endpass.util.MediaUtils;
 import com.sdcz.endpass.util.MeetingTempDataUtils;
 import com.sdcz.endpass.util.UiHelper;
+import com.sdcz.endpass.view.IMobileMeetingView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
@@ -98,12 +105,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MobileMeetingActivity extends FragmentActivity implements MeetingModelListener,
+public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener,
         MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener {
 
     private static final String TAG = "MobileMeetingActivity";
     public static final String EXTRA_ANONYMOUS_LOGIN = "EXTRA_ANONYMOUS_LOGIN";
     public static final String EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID = "EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID";
+    private RelativeLayout rootView;
     private VariableLayout variableLayout;
     private MeetingTopTitleView meetingTopTitleView;
     private MeetingBottomMenuView meetingBottomMenuView;
@@ -122,13 +130,11 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
     private boolean isAnonymousLogin;
     private boolean isAnonymousLoginWithRoomId;
 
-    @SuppressLint("NewApi")
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private String channelCode;
 
-//        validateMicAvailability();
-//        Log.e("麦克风通道是否占用",validateMicAvailability()+"");
+    @Override
+    protected void requestWindowSet(Bundle savedInstanceState) {
+        super.requestWindowSet(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = getWindow();
@@ -148,14 +154,16 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
             getLifecycle().addObserver(cameraObserver);
         }
         isAnonymousLogin = getIntent().getBooleanExtra(EXTRA_ANONYMOUS_LOGIN, false);
+        channelCode = getIntent().getStringExtra(Constants.SharedPreKey.CHANNEL_CODE);
         isAnonymousLoginWithRoomId = getIntent().getBooleanExtra(EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID, false);
         //会议开始绑定会议退出状态监测管理类
         _MeetingStateManager.getInstance().bindActivity(this);
 
-
-
         SdkUtil.getAudioManager().initAudioRes(this);
-        setContentView(R.layout.activity_mobile_meeting);
+    }
+
+    @Override
+    public View initView(Bundle savedInstanceState) {
         meetingManager = SdkUtil.getMeetingManager();
         shareModel = SdkUtil.getShareManager();
         userModel = SdkUtil.getUserManager();
@@ -163,6 +171,7 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
         proxy = meetingManager.getMeetingModule();
         audioModel.setAudioParam(AudioParam.getDefault(Platform.ANDROID));
         MeetingInfo meetingInfo = proxy.getMeetingInfo();
+        rootView = findViewById(R.id.activity_root_view);
         variableLayout = findViewById(R.id.variableLayout);
         variableLayout.subscribe();
         variableLayout.onLayoutChanged(meetingInfo);
@@ -178,8 +187,17 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
             quitRoom();
             finish();
         }
+        return rootView;
+    }
 
+    @Override
+    protected MobileMeetingPresenter createPresenter() {
+        return new MobileMeetingPresenter(this);
+    }
 
+    @Override
+    protected int provideContentViewId() {
+        return R.layout.activity_mobile_meeting;
     }
 
     private boolean validateMicAvailability(){
@@ -217,12 +235,11 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
         bottomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        meetingBottomMenuView = new MeetingBottomMenuView(this);
+        meetingBottomMenuView = new MeetingBottomMenuView(this, channelCode);
         meetingBottomMenuView.setLayoutParams(bottomLayoutParams);
         RelativeLayout rootRelativeLayout = findViewById(R.id.activity_root_view);
         rootRelativeLayout.addView(meetingTopTitleView);
         rootRelativeLayout.addView(meetingBottomMenuView);
-        initData();
         initEvent();
     }
 
@@ -235,7 +252,8 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
                 meetingBottomAndTopMenuContainer.bottomAndTopMenuShowControl());
     }
 
-    private void initData() {
+    @Override
+    public void initData() {
         popupWindowBuilder = new PopupWindowBuilder(this);
         meetingBottomMenuView.setBottomMenuLocationUpdateListener(this);
         meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this);
@@ -243,6 +261,7 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
         meetingBottomAndTopMenuContainer.correlationMeetingTopMenu(meetingTopTitleView);
         meetingBottomAndTopMenuContainer.correlationMeetingBottomMenu(meetingBottomMenuView,
                 variableLayout.isDataLayoutShowing());
+//        mPresenter.getChannelByCode(this, channelCode);
     }
 
 
@@ -507,7 +526,6 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
         return countdownRunnable;
 
     }
-
 
     @Override
     public void finish() {
@@ -874,8 +892,6 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
         }
     }
 
-
-
     private File currentAudioDataFile;
 
     private void registAudioDataCallBack(BaseUser user, boolean isChecked) {
@@ -886,5 +902,10 @@ public class MobileMeetingActivity extends FragmentActivity implements MeetingMo
         } else if (objId != -1) {
             audioModel.removeAudioCaptureCallback(objId);
         }
+    }
+
+    @Override
+    public void showData(ChannelBean o) {
+
     }
 }

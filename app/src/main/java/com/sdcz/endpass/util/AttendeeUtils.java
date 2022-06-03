@@ -142,7 +142,9 @@ public class AttendeeUtils {
      * @return 麦克风的状态logo
      */
     public static int getMicStateLogo(BaseUser attendee) {
-        if (attendee.isSpeechNone()) {
+        if (null == attendee) {
+            return R.mipmap.ul_mic_closed;
+        }else if (attendee.isSpeechNone()) {
             return R.mipmap.ul_mic_closed;
         } else if (attendee.isSpeechWait()) {
             return R.mipmap.ul_mic_applying;
@@ -174,6 +176,7 @@ public class AttendeeUtils {
      * @return logo
      */
     public static int getCameraStateLogo(VideoChannel channel) {
+
         if (RoomUserInfo.STATE_DONE == channel.state) {
             return R.mipmap.ul_camera_open;
         }
@@ -190,7 +193,9 @@ public class AttendeeUtils {
      * @return 相机状态对应的logo
      */
     public static int getCameraStateLogo(BaseUser attendee) {
-        if (attendee.isVideoNone(attendee)) {
+        if(null == attendee) {
+            return R.mipmap.ul_camera_closed;
+        }else if (attendee.isVideoNone(attendee)) {
             return R.mipmap.ul_camera_open;
         } else if (attendee.isVideoWait()) {
             return R.mipmap.ul_camera_applying;

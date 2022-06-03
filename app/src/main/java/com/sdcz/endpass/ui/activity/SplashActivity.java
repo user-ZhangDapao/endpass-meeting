@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -52,15 +53,15 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         rlRoot = findViewById(R.id.rlRoot);
         tvTime = findViewById(R.id.tv_time);
         return rlRoot;
     }
 
     @Override
-    protected void requestWindowSet() {
-        super.requestWindowSet();
+    protected void requestWindowSet(Bundle savedInstanceState) {
+        super.requestWindowSet(savedInstanceState);
         StatusBarUtils.setTranslucentBar(this);
     }
 
@@ -70,7 +71,7 @@ public class SplashActivity extends BaseActivity {
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivityApp.class));
                 finish();
             }
         });

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@drawable/shape_white_5"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:layout_marginLeft="@dimen/margin_15"
+    android:layout_marginTop="@dimen/margin_10"
+    android:layout_marginRight="@dimen/margin_15"
+    android:paddingLeft="@dimen/padding_5"
+    android:paddingRight="@dimen/padding_5"
+    >
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:id="@+id/ivIsOnline"
+            android:layout_width="@dimen/width_9"
+            android:layout_height="@dimen/height_9"
+            android:layout_marginRight="@dimen/margin_3"
+            />
+
+        <ImageView
+            android:id="@+id/iv_headImg"
+            android:layout_width="@dimen/width_32"
+            android:layout_height="@dimen/height_32"
+            android:src="@drawable/icon_head"
+            />
+
+        <com.sdcz.endpass.widget.MarqueeTextView
+            android:id="@+id/group_user_item_tv_userid"
+            android:layout_width="@dimen/width_50"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_9"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/text_size_15"
+            android:textStyle="bold"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="25435434321"
+            />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+        <ImageView
+            android:id="@+id/ivVenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_venue_gray"
+            android:scaleType="fitXY"
+            android:padding="@dimen/padding_7"
+            />
+
+
+        <ImageView
+            android:id="@+id/group_user_item_iv_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/group_user_audio_close"
+            android:padding="@dimen/padding_7"
+            />
+
+        <ImageView
+            android:id="@+id/ivVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/group_user_video_close"
+            android:padding="@dimen/padding_7"
+            />
+
+
+        <ImageView
+            android:id="@+id/ivCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_call"
+            android:padding="@dimen/padding_7"
+            />
+
+        <ImageView
+            android:id="@+id/ivListen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_open_listen"
+            android:padding="@dimen/padding_7"
+            />
+
+        <ImageView
+            android:id="@+id/ivDelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_7"
+            android:src="@drawable/icon_delect"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

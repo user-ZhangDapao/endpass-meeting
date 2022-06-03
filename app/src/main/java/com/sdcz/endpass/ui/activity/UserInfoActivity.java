@@ -80,7 +80,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         popuView = LayoutInflater.from(getContext()).inflate(R.layout.popup_selectimage_layout,null);
         rootview = LayoutInflater.from(getContext()).inflate(R.layout.fragment_mine, null);
         llRoot = findViewById(R.id.llRoot);

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.sdcz.endpass.base.BaseMeetingMenuBar;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
 import com.inpor.base.sdk.user.UserManager;
 import com.inpor.nativeapi.adaptor.RolePermission;
+import com.sdcz.endpass.ui.activity.UserPopActivity;
 
 public class MeetingBottomMenuView extends BaseMeetingMenuBar {
     private static final String TAG = "MeetingBottomMenuView";
@@ -65,13 +67,16 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
     private MicViewState currentMicIconState;
     private CameraViewState currentCameraViewState;
 
+    private String channelCode;
+
     /**
      * 构造函数
      *
      * @param context 上下文
      */
-    public MeetingBottomMenuView(@NonNull Context context) {
+    public MeetingBottomMenuView(@NonNull Context context, String channelCode) {
         super(context);
+        this.channelCode = channelCode;
     }
 
 
@@ -81,8 +86,9 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
      * @param context 上下文
      * @param attrs   属性
      */
-    public MeetingBottomMenuView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public MeetingBottomMenuView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode) {
         super(context, attrs);
+        this.channelCode = channelCode;
     }
 
     /**
@@ -438,7 +444,7 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
             } else if (id == R.id.im_shared_lock) {
                 setShareLockState(!isAlwaysShowSharedBar);
             } else if (id == R.id.tv_menu_attender) {
-                meetingBottomMenuListener.onClickAttendeeListener();
+                meetingBottomMenuListener.onClickAttendeeListener(channelCode);
             }
         }
     }
@@ -605,7 +611,7 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
         /**
          * 点击“参会人”按钮回调
          */
-        void onClickAttendeeListener();
+        void onClickAttendeeListener(String channelCode);
 
         /**
          * 点击共享工具条锁定按钮

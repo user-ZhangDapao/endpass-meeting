@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.CallSuper;
 import androidx.annotation.CheckResult;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -17,7 +18,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
 
-public abstract class RxActivity extends AppCompatActivity implements LifecycleProvider<ActivityEvent> {
+public abstract class RxActivity extends FragmentActivity implements LifecycleProvider<ActivityEvent> {
 
     private final BehaviorSubject<ActivityEvent> lifecycleSubject = BehaviorSubject.create();
 

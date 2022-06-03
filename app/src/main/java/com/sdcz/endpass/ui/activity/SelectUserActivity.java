@@ -2,6 +2,7 @@ package com.sdcz.endpass.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,7 +54,7 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         ivBack = findViewById(R.id.ivBack);
         tvTitle = findViewById(R.id.tvTitle);
         tvRight = findViewById(R.id.tvRight);

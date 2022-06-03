@@ -13,15 +13,18 @@ import com.sdcz.endpass.widget.AttendeeCategoryView;
 class AttendeeCategoryViewHolder extends RecyclerViewHolder<Integer> {
 
     private final AttendeeCategoryView categoryView;
+    private String channelCode = "";
 
-    public AttendeeCategoryViewHolder(View itemView) {
+    public AttendeeCategoryViewHolder(View itemView, String channelCode) {
         super(itemView);
+        this.channelCode = channelCode;
         categoryView = itemView.findViewById(R.id.categoryView);
     }
 
     @Override
     protected void onBindViewHolder(int position, Integer item) {
         categoryView.setCategory(item);
+        categoryView.setChannelCode(channelCode);
     }
 
 }

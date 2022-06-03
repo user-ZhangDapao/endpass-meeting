@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +49,7 @@ public class ChangePassActivity extends BaseActivity<ChangePassPersenter> implem
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         llRoot = findViewById(R.id.llRoot);
         ivBack = findViewById(R.id.ivBack);
         tvTitle = findViewById(R.id.tvTitle);

@@ -3,6 +3,7 @@ package com.sdcz.endpass.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -52,7 +53,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         ivBack = findViewById(R.id.ivBack);
         rlRoot = findViewById(R.id.rlRoot);
         rlTitleBar =  findViewById(R.id.rlTitleBar);

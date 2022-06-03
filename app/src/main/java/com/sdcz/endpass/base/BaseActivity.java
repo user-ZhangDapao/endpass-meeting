@@ -39,7 +39,7 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-        requestWindowSet();
+        requestWindowSet(savedInstanceState);
         super.onCreate(savedInstanceState);
         //设定为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -55,7 +55,7 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
 //            ButterKnife.bind(this);
         }
 
-        stateView = StateView.inject(initView());
+        stateView = StateView.inject(initView(savedInstanceState));
         if (stateView != null) {
             /**设置数据为空时布局*/
             stateView.setEmptyResource(R.layout.base_empty);
@@ -115,7 +115,7 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
         }
     }
 
-    protected void requestWindowSet() {
+    protected void requestWindowSet(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 
@@ -126,7 +126,7 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
     /**
      * 初始化控件
      */
-    public abstract View initView();
+    public abstract View initView(Bundle savedInstanceState);
 
     /**
      * 初始化数据

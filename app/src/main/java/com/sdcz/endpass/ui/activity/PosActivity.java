@@ -1,5 +1,6 @@
 package com.sdcz.endpass.ui.activity;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +50,7 @@ public class PosActivity extends BaseActivity<PosPresenter> implements IPosView,
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         llRoot = findViewById(R.id.llRoot);
         etLon = findViewById(R.id.etLon);
         etLat = findViewById(R.id.etLat);

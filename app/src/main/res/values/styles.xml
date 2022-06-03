@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="MobileMeetingActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">false</item>
@@ -316,10 +316,20 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="DialogActivity" parent="android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/anim_bottonbar</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 
     <style name="anim_bottonbar" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/anim_bottonbar_in</item>
         <item name="android:windowExitAnimation">@anim/anim_bottonbar_out</item>
     </style>
+
+    <style name="Widget.AppCompat.ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal" tools:ignore="ResourceCycle"></style>
 
 </resources>

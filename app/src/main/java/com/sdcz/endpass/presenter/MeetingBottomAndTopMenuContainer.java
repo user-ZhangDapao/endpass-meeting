@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -22,6 +23,7 @@ import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.entities.WhiteBoard;
 //import com.comix.meeting.listeners.CustomYUVModelListener;
 import com.comix.meeting.listeners.ShareModelListener;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
@@ -34,12 +36,14 @@ import com.sdcz.endpass.dialog.GlobalPopupView;
 import com.sdcz.endpass.dialog.MarkWhiteBoardDialog;
 import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.model.MicEnergyMonitor;
+import com.sdcz.endpass.ui.activity.UserPopActivity;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.PermissionsPageUtils;
 import com.sdcz.endpass.widget.AttendeeView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
+import com.sdcz.endpass.widget.UserPopWidget;
 import com.sdcz.endpass.widget.VariableLayout;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.meeting.MeetingManager;
@@ -82,6 +86,8 @@ public class MeetingBottomAndTopMenuContainer implements
     private final MeetingManager meetingModel;
     //生命周期回调onPause 如果没有录音权限 则 下一次onResume 检查是否有此权限
     private boolean isBackgroupPermission = false;//true onPause之后没有权限
+
+    private UserPopWidget popWidget;
 
     /**
      * 构造函数
@@ -876,8 +882,21 @@ public class MeetingBottomAndTopMenuContainer implements
      * @Version: 1.0
      */
     @Override
-    public void onClickAttendeeListener() {
-        AttendeeView attendeeView = new AttendeeView(context);
+    public void onClickAttendeeListener(String channelCode) {
+////        AttendeeView attendeeView = new AttendeeView(context);
+////        popupWindowBuilder.setContentView(attendeeView)
+////                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
+//        popWidget = new UserPopWidget(context, channelCode);
+//
+//        //点击要弹出popupwindow时父控件显示为灰色
+////        WindowManager.LayoutParams lp = getWindow().getAttributes();
+////        lp.alpha = 0.3f;
+////        context.getWindow().setAttributes(lp);
+//        popWidget.showAtLocation(context.getResources().,
+//                Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+////        context.startActivity(new Intent(context, UserPopActivity.class).putExtra(Constants.SharedPreKey.CHANNEL_CODE, channelCode));
+
+        UserPopWidget attendeeView = new UserPopWidget(context, channelCode);
         popupWindowBuilder.setContentView(attendeeView)
                 .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
     }

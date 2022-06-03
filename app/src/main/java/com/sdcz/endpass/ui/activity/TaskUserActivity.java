@@ -3,6 +3,7 @@ package com.sdcz.endpass.ui.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +64,7 @@ public class TaskUserActivity extends BaseActivity<TaskUserPresenter> implements
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         rvRoot = findViewById(R.id.rvRoot);
         titleBar = findViewById(R.id.titleBar);
         tvTitle = findViewById(R.id.tvTitle);

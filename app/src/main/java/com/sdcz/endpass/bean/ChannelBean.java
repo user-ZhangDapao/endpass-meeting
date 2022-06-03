@@ -1,5 +1,7 @@
 package com.sdcz.endpass.bean;
 
+import java.util.List;
+
 public class ChannelBean {
 
     private Object searchValue;
@@ -16,13 +18,14 @@ public class ChannelBean {
     private int deptId;
     private int createUser;
     private int status;
-    private String endTime;
+    private Object endTime;
     private int venue;
     private int sort;
     private String deptName;
     private int peopleCount;
-    private Object channelUserList;
+    private List<ChannerUser> channelUserList;
     private Object channelUserIds;
+    private List<?> muteUserIds;
 
     public Object getSearchValue() {
         return searchValue;
@@ -136,11 +139,11 @@ public class ChannelBean {
         this.status = status;
     }
 
-    public String getEndTime() {
+    public Object getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Object endTime) {
         this.endTime = endTime;
     }
 
@@ -176,11 +179,11 @@ public class ChannelBean {
         this.peopleCount = peopleCount;
     }
 
-    public Object getChannelUserList() {
+    public List<ChannerUser> getChannelUserList() {
         return channelUserList;
     }
 
-    public void setChannelUserList(Object channelUserList) {
+    public void setChannelUserList(List<ChannerUser> channelUserList) {
         this.channelUserList = channelUserList;
     }
 
@@ -192,6 +195,15 @@ public class ChannelBean {
         this.channelUserIds = channelUserIds;
     }
 
+    public List<?> getMuteUserIds() {
+        return muteUserIds;
+    }
+
+    public void setMuteUserIds(List<?> muteUserIds) {
+        this.muteUserIds = muteUserIds;
+    }
+
     public static class ParamsBean {
     }
+
 }

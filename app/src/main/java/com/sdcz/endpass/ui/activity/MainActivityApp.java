@@ -5,6 +5,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.ConnectivityManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -53,7 +54,7 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         fragmentTabHost = findViewById(android.R.id.tabhost);
         llMain = findViewById(R.id.ll_main);
         fragmentTabHost.setup(this, getSupportFragmentManager(), R.id.content);

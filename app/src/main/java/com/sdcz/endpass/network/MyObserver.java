@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import com.sdcz.endpass.DemoApp;
+
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -28,11 +30,15 @@ public abstract class MyObserver<T> extends BaseObserver<T> {
         this(context,true);
     }
 
+
+    public MyObserver() {
+    }
+
     @Override
     public void onSubscribe(Disposable d) {
 //        hidDialog();
         this.d = d;
-        if (!isConnected(mContext)) {
+        if (!isConnected()) {
             Toast.makeText(mContext,"未连接网络", Toast.LENGTH_SHORT).show();
             if (d.isDisposed()) {
                 d.dispose();
@@ -66,11 +72,11 @@ public abstract class MyObserver<T> extends BaseObserver<T> {
 
     /**
      * 是否有网络连接，不管是wifi还是数据流量
-     * @param context
+     * @param
      * @return
      */
-    public static boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) DemoApp.context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         if (info == null)
         {

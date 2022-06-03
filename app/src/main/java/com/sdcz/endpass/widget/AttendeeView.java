@@ -359,9 +359,9 @@ public class AttendeeView extends BasePopupWindowContentView implements
     private void initViewPager() {
         adapter = new AttendeeCategoryAdapter();
         adapter.add(AttendeeCategory.ALL);
-        adapter.add(AttendeeCategory.SPEAKING);
-        adapter.add(AttendeeCategory.REQUEST_SPEAKING);
-        viewPager.setOffscreenPageLimit(4);
+//        adapter.add(AttendeeCategory.SPEAKING);
+//        adapter.add(AttendeeCategory.REQUEST_SPEAKING);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(adapter);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -378,12 +378,12 @@ public class AttendeeView extends BasePopupWindowContentView implements
 
     private void initTabs2() {
         tabAllUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_attendee_all));
-        tabSpeakingUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_mic_speaking));
-        tabRequestSpeakingUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_attendee_handup));
-        tabOfflineUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_attendee_offline));
+//        tabSpeakingUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_mic_speaking));
+//        tabRequestSpeakingUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_attendee_handup));
+//        tabOfflineUser = tabLayout.newTab().setCustomView(customTabView(R.drawable.selector_attendee_offline));
         tabLayout.addTab(tabAllUser);
-        tabLayout.addTab(tabSpeakingUser);
-        tabLayout.addTab(tabRequestSpeakingUser);
+//        tabLayout.addTab(tabSpeakingUser);
+//        tabLayout.addTab(tabRequestSpeakingUser);
         boolean isPort = ScreenUtils.isPortrait();
         tabLayout.setInlineLabel(isPort);
     }

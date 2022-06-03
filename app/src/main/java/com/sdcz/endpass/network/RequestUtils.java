@@ -116,18 +116,18 @@ public class RequestUtils {
                 .subscribe(observer);
     }
 
-//    /**
-//     * Post
-//     * 8.跟据任务编码获取 信息（包含用户列表）
-//     *
-//     * @param
-//     */
-//    public static void getChannelByCode(String channelCode, MyObserver<ChannelInfoBean> observer) {
-//        RetrofitUtils.getApiUrl()
-//                .getChannelByCode(channelCode).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
-//                .subscribe(observer);
-//    }
-//
+    /**
+     * Post
+     * 8.跟据任务编码获取 信息（包含用户列表）
+     *
+     * @param
+     */
+    public static void getChannelByCode(String channelCode, MyObserver<ChannelBean> observer) {
+        RetrofitUtils.getApiUrl()
+                .getChannelByCode(channelCode).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
     /**
      * Post
      * 9.解散任务

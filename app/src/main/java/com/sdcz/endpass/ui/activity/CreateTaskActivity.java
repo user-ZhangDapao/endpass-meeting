@@ -1,6 +1,7 @@
 package com.sdcz.endpass.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -60,7 +61,7 @@ public class CreateTaskActivity extends BaseActivity<CreateTaskPresenter> implem
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         llRoot = findViewById(R.id.llRoot);
         tvTitle = findViewById(R.id.tvTitle);
         ivBack = findViewById(R.id.ivBack);

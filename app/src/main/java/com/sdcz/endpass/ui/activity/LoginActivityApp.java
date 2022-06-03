@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -67,7 +68,7 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         rlRoot = findViewById(R.id.rlRoot);
         etLoginName = findViewById(R.id.etLoginName);
         etPassWord = findViewById(R.id.etPassWord);

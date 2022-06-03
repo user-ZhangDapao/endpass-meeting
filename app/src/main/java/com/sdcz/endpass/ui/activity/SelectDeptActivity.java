@@ -1,6 +1,7 @@
 package com.sdcz.endpass.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +44,7 @@ public class SelectDeptActivity extends BaseActivity<SelectDeptPresenter> implem
     }
 
     @Override
-    public View initView() {
+    public View initView(Bundle savedInstanceState) {
         llRoot = findViewById(R.id.llRoot);
         ivBack = findViewById(R.id.ivBack);
         tvRight = findViewById(R.id.tvRight);

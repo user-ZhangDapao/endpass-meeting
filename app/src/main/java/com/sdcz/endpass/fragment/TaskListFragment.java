@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.adapter.TaskListAdapter;
 import com.sdcz.endpass.base.BaseFragment;
@@ -145,8 +146,10 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
                             public void onSuccess() {
 //                                loadingDialog.dismiss();
 //                                hideLoading();
+                                if (Code.isEmpty()) return;
                                 Intent intent = new Intent(requireActivity(), MobileMeetingActivity.class);
                                 intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);
+                                intent.putExtra(Constants.SharedPreKey.CHANNEL_CODE,Code);
                                 startActivity(intent);
                             }
                         });

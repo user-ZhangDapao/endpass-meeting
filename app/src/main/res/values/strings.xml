@@ -288,8 +288,8 @@
     <string name="PAAS_LOGIN" tools:ignore="ExtraTranslation">正在登录paas...</string>
     <string name="ENTER_MEETING_ROOM" tools:ignore="ExtraTranslation">正在进入会议室...</string>
     <string name="room_list_title" tools:ignore="ExtraTranslation">会议</string>
-    <string name="format_invite_room_code"  tools:ignore="ExtraTranslation">邀请码:%s</string>
-    <string name="format_room_id_room_code"  tools:ignore="ExtraTranslation">会议号:%s</string>
+    <string name="format_invite_room_code" tools:ignore="ExtraTranslation">邀请码:%s</string>
+    <string name="format_room_id_room_code" tools:ignore="ExtraTranslation">会议号:%s</string>
     <string name="no_meeting" tools:ignore="ExtraTranslation">未查询到会议信息</string>
     <string name="waiting" tools:ignore="ExtraTranslation">请稍候...</string>
     <string name="instant_meeting_create_fail" tools:ignore="ExtraTranslation">即时会议创建失败</string>
@@ -300,7 +300,7 @@
     <string name="configure_server_fail" tools:ignore="ExtraTranslation">服务器连接失败，请检测服务器地址或稍后再试</string>
     <string name="check_server_info_input" tools:ignore="ExtraTranslation">请检查输入的服务器配置信息</string>
     <string name="need_input_nick_name" tools:ignore="ExtraTranslation">请输入昵称</string>
-    <string name="need_input_user_name" tools:ignore="ExtraTranslation" >请输入用户名</string>
+    <string name="need_input_user_name" tools:ignore="ExtraTranslation">请输入用户名</string>
     <string name="need_input_user_pwd" tools:ignore="ExtraTranslation">请输入用户密码</string>
     <string name="user_name_login" tools:ignore="ExtraTranslation">用户名登录</string>
     <string name="meeting_room_login" tools:ignore="ExtraTranslation">会议室号登录</string>

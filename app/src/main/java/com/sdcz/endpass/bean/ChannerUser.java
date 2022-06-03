@@ -1,5 +1,7 @@
 package com.sdcz.endpass.bean;
 
+import com.comix.meeting.entities.BaseUser;
+
 public class ChannerUser {
 
     private Object searchValue;
@@ -17,6 +19,7 @@ public class ChannerUser {
     private String nickName;
     private String phonenumber;
     private String deptName;
+    private BaseUser baseUser;
 
     public Object getSearchValue() {
         return searchValue;
@@ -139,5 +142,13 @@ public class ChannerUser {
     }
 
     public static class ParamsBean {
+    }
+
+    public BaseUser getBaseUser() {
+        return baseUser;
+    }
+
+    public void setBaseUser(BaseUser baseUser) {
+        this.baseUser = baseUser;
     }
 }
