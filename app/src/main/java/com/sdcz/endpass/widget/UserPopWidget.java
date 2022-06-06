@@ -28,7 +28,7 @@ import com.sdcz.endpass.network.RequestUtils;
 
 import java.util.List;
 
-public class UserPopWidget extends BasePopupWindowContentView implements View.OnClickListener {
+public class UserPopWidget extends BasePopupWindowContentView {
 
 
 
@@ -158,7 +158,22 @@ public class UserPopWidget extends BasePopupWindowContentView implements View.On
     }
 
     private void initListener() {
-        
+        taskUserAdapter.setClickListener(new TaskUserListAdapter.ItemClickEvent() {
+            @Override
+            public void clickCall(String mobile) {
+                Log.d("--mobile--",mobile);
+            }
+
+            @Override
+            public void clickCallKickOut(String userId) {
+                Log.d("--userId--",userId);
+            }
+
+            @Override
+            public void clickVonue(String userId, boolean isVonue) {
+                Log.d("--isVonue--",isVonue +"");
+            }
+        });
     }
 
     @Override
@@ -167,11 +182,6 @@ public class UserPopWidget extends BasePopupWindowContentView implements View.On
         if (m_handler != null) {
             m_handler.removeCallbacks(m_OneSecondRunnable);
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-
     }
 
     private void refashChannelUser() {

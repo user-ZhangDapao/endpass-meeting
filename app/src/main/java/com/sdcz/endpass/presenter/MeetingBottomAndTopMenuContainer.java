@@ -87,7 +87,7 @@ public class MeetingBottomAndTopMenuContainer implements
     //生命周期回调onPause 如果没有录音权限 则 下一次onResume 检查是否有此权限
     private boolean isBackgroupPermission = false;//true onPause之后没有权限
 
-    private UserPopWidget popWidget;
+    private boolean isAdmin = false;
 
     /**
      * 构造函数

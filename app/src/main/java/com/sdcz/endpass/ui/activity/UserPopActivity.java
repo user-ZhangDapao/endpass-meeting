@@ -167,7 +167,7 @@ public class UserPopActivity extends BaseActivity<MobileMeetingPresenter> implem
         rvRoot.setLayoutManager(new LinearLayoutManager(this));
         rvRoot.setAdapter(taskUserAdapter);
         channelCode = getIntent().getStringExtra(Constants.SharedPreKey.CHANNEL_CODE);
-        mPresenter.getChannelByCode(this, channelCode);
+//        mPresenter.getChannelByCode(this, channelCode);
         m_handler.post(new Runnable() {
             @Override
             public void run() {
@@ -239,9 +239,10 @@ public class UserPopActivity extends BaseActivity<MobileMeetingPresenter> implem
 //
 
     @Override
-    public void showData(ChannelBean o) {
-        userInfoList = o.getChannelUserList();
-        refashChannelUser();
+    public void showData(Boolean o) {
+
+//        userInfoList = o.getChannelUserList();
+//        refashChannelUser();
     }
 
 

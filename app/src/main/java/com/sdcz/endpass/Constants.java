@@ -48,6 +48,7 @@ public class Constants {
         public static final String Token = "token";
         public static final String UserInfo = "UserInfo";
         public static final String AllUser = "AllUser";
+        public static final String isAdmin = "isAdmin";
 
         public static final String SELECT_DEPT_NAME = "selectDeptName";
         public static final String SELECT_USER_LIST = "";
@@ -57,6 +58,23 @@ public class Constants {
 
         public static final String POS_LON = "lon";
         public static final String POS_LAT = "lat";
+
+
+        public static final String OPEN_AUDIO = "OPEN_AUDIO*";
+        public static final String OPEN_AUDIO_ALL = "OPEN_AUDIO*ALL";
+        public static final String OFF_AUDIO = "OFF_AUDIO*";
+        public static final String OFF_AUDIO_ALL = "OFF_AUDIO*ALL";
+        public static final String OPEN_VIDEO = "OPEN_VIDEO*";
+        public static final String OFF_VIDEO = "OFF_VIDEO*";
+        public static final String SWITCH_VIDEO = "SWITCH_VIDEO*";
+        public static final String MAIN_VENUE = "MAIN_VENUE*";
+        public static final String ON_LISTEN = "ON_LISTEN*";
+        public static final String ON_LISTEN_ALL = "ON_LISTEN*ALL";
+        public static final String OFF_LISTEN = "OFF_LISTEN*";
+        public static final String OFF_LISTEN_ALL = "OFF_LISTEN*ALL";
+        public static final String PLEASE_LEAVE = "PLEASE_LEAVE*";
+        public static final String PLEASE_LEAVE_ALL = "PLEASE_LEAVE*ALL";
+        public static final String ADD_CHANNEL_USER = "ADD_CHANNEL_USER";
 
     }
 

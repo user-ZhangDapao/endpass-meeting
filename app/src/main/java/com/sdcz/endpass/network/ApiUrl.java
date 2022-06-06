@@ -56,6 +56,9 @@ public interface ApiUrl {
 
     @GET("api/getChannelByCode")
     Observable<BaseResponse<ChannelBean>> getChannelByCode(@Query("channelCode") String channelCode);
+
+    @GET("api/getChannelByCode")
+    Observable<BaseResponse<Boolean>> checkChannelAdmin(@Query("channelCode") String channelCode);
 //
     @GET("api/dismissChannel")
     Observable<BaseResponse<Object>> deletChannel(@Query("channelCode") String channelCode);

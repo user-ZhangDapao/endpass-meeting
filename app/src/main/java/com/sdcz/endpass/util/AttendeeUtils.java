@@ -80,6 +80,9 @@ public class AttendeeUtils {
         return R.mipmap.ul_mic_closed;
     }
 
+
+
+
     /**
      * 麦克风能量值
      *
@@ -153,6 +156,20 @@ public class AttendeeUtils {
         }
     }
 
+
+
+    public static Boolean getMicState(BaseUser attendee) {
+        if (null == attendee) {
+            return false;
+        }else if (attendee.isSpeechNone()) {
+            return false;
+        } else if (attendee.isSpeechWait()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * 获取麦克风对应状态的描述(注意：描述是当前状态下一个状态的描述，而不是当前状态)
      *
@@ -201,6 +218,25 @@ public class AttendeeUtils {
             return R.mipmap.ul_camera_applying;
         } else {
             return R.mipmap.ul_camera_closed;
+        }
+    }
+
+
+    /**
+     * 获取相机状态的logo
+     *
+     * @param attendee 参会人
+     * @return 相机状态对应的logo
+     */
+    public static boolean getCameraState(BaseUser attendee) {
+        if(null == attendee) {
+            return false;
+        }else if (attendee.isVideoNone(attendee)) {
+            return true;
+        } else if (attendee.isVideoWait()) {
+            return false;
+        } else {
+            return false;
         }
     }
 

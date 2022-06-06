@@ -78,6 +78,7 @@ import com.sdcz.endpass.util.BrandUtil;
 import com.sdcz.endpass.util.HeadsetMonitorUtil;
 import com.sdcz.endpass.util.MediaUtils;
 import com.sdcz.endpass.util.MeetingTempDataUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.UiHelper;
 import com.sdcz.endpass.view.IMobileMeetingView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
@@ -130,7 +131,8 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private boolean isAnonymousLogin;
     private boolean isAnonymousLoginWithRoomId;
 
-    private String channelCode;
+    private String channelCode = "";
+    public static boolean isAdmin = false;
 
     @Override
     protected void requestWindowSet(Bundle savedInstanceState) {
@@ -161,6 +163,8 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
         SdkUtil.getAudioManager().initAudioRes(this);
     }
+
+
 
     @Override
     public View initView(Bundle savedInstanceState) {
@@ -261,7 +265,9 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         meetingBottomAndTopMenuContainer.correlationMeetingTopMenu(meetingTopTitleView);
         meetingBottomAndTopMenuContainer.correlationMeetingBottomMenu(meetingBottomMenuView,
                 variableLayout.isDataLayoutShowing());
-//        mPresenter.getChannelByCode(this, channelCode);
+        if (null != channelCode){
+            mPresenter.checkAdmin(channelCode);
+        }
     }
 
 
@@ -905,7 +911,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     }
 
     @Override
-    public void showData(ChannelBean o) {
-
+    public void showData(Boolean o) {
+        isAdmin = o;
     }
 }

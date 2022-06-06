@@ -128,6 +128,7 @@ public class RequestUtils {
                 .subscribe(observer);
     }
 
+
     /**
      * Post
      * 9.解散任务
@@ -400,6 +401,18 @@ public class RequestUtils {
     public static void getUserLocationRecord(MyObserver<List<PosBean>> observer) {
         RetrofitUtils.getApiUrl()
                 .getUserLocationRecord().compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
+    /**
+     *
+     * 29.跟据任务编码获取 是否是管理员
+     *
+     * @param
+     */
+    public static void checkChannelAdmin(String channelCode, MyObserver<Boolean> observer) {
+        RetrofitUtils.getApiUrl()
+                .checkChannelAdmin(channelCode).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
                 .subscribe(observer);
     }
 }
