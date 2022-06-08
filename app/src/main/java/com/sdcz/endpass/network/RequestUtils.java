@@ -329,30 +329,36 @@ public class RequestUtils {
 //                .subscribe(observer);
 //    }
 //
-//    /**
-//     * Post
-//     * 23.设置静音
-//     *
-//     * @param observer
-//     */
-//    public static void setMute(String channelCode, String userId, MyObserver<Object> observer) {
-//        RetrofitUtils.getApiUrl()
-//                .setMute(channelCode, userId).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
-//                .subscribe(observer);
-//    }
-//
-//    /**
-//     * Post
-//     * 24.取消静音
-//     *
-//     * @param observer
-//     */
-//    public static void cancelMute(String channelCode, String userId, MyObserver<Object> observer) {
-//        RetrofitUtils.getApiUrl()
-//                .cancelMute(channelCode, userId).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
-//                .subscribe(observer);
-//    }
-//
+    /**
+     * Post
+     * 23.设置静音
+     *
+     * @param observer
+     */
+    public static void setMute(String channelCode, long userId, MyObserver<Object> observer) {
+        JSONObject postInfo = new JSONObject();
+        postInfo.put("channelCode",channelCode);
+        postInfo.put("userId",userId);
+        RetrofitUtils.getApiUrl()
+                .setMute(postInfo).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
+    /**
+     * Post
+     * 24.取消静音
+     *
+     * @param observer
+     */
+    public static void cancelMute(String channelCode, long userId, MyObserver<Object> observer) {
+        JSONObject postInfo = new JSONObject();
+        postInfo.put("channelCode",channelCode);
+        postInfo.put("userId",userId);
+        RetrofitUtils.getApiUrl()
+                .cancelMute(postInfo).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
 //    /**
 //     * Post
 //     * 25.修改昵称

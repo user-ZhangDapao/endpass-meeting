@@ -11,6 +11,10 @@ import com.google.gson.reflect.TypeToken;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.bean.UserEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +78,21 @@ public class SharedPrefsUtil {
             return null;
         }
         return sharedPreferences.getString(key, defaultValue);
+    }
+
+
+    public static JSONObject getJSONValue() {
+
+        String allUserJSON = sharedPreferences.getString(Constants.SharedPreKey.AllUser, "");
+
+        try {
+            if (allUserJSON==""){
+                return new JSONObject();
+            }
+            return new JSONObject(allUserJSON);
+        } catch (JSONException e) {
+            return new JSONObject();
+        }
     }
 
     /**

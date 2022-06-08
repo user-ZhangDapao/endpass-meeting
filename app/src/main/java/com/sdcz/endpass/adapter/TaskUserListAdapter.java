@@ -16,6 +16,7 @@ import com.comix.meeting.entities.BaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
@@ -39,7 +40,7 @@ import java.util.List;
 public class TaskUserListAdapter extends RecyclerView.Adapter {
 
     private List<ChannerUser> mData;
-//    private HashSet<String> ids;
+    private HashSet<Long> ids = new HashSet<>();
     private Context mContext;
     private ItemClickEvent mClick;
 
@@ -57,51 +58,50 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void setMuteUserIds(HashSet<String> ids) {
-//        this.ids = ids;
+    public void setMuteUserIds(List<Long> ids) {
+        this.ids.addAll(ids);
         notifyDataSetChanged();
     }
 
-//    public HashSet<String> getMuteUserIds() {
-//        return ids;
-//    }
-
-    public void addMuteUserIds(String id) {
+    public void addMuteUserIds(Long id) {
         if (id == null) {
             return;
         }
-//        if (ids == null) {
-//            return;
-//        }
-//        ids.add(id);
+        if (ids == null) {
+            return;
+        }
+        ids.add(id);
         notifyDataSetChanged();
     }
 
-//    public void addAllMuteUserIds(String id) {
-//        if (ids == null) {
-//            return;
-//        }
-//        ids.addAll(FspManager.getInstance().getGroupUsers());
-//        if (ids.contains(id)){
-//            ids.remove(id);
-//        }
-//        notifyDataSetChanged();
-//    }
-//
-//    public void removeMuteUserIds(String id) {
-//        ids.remove(id);
-//        notifyDataSetChanged();
-//    }
+    public void addAllMuteUserIds(Long id) {
+        if (ids == null) {
+            return;
+        }
+        for (BaseUser user : SdkUtil.getUserManager().getAllUsers()){
+            ids.add(user.getUserId());
+        }
+//        ids.addAll(SdkUtil.getUserManager().getAllUsers());
+        if (ids.contains(id)){
+            ids.remove(id);
+        }
+        notifyDataSetChanged();
+    }
 
-//    public void removeAllMuteUserIds(String id) {
-//        if (ids.contains(id)){
-//            ids.clear();
-//            ids.add(id);
-//        }else {
-//            ids.clear();
-//        }
-//        notifyDataSetChanged();
-//    }
+    public void removeMuteUserIds(Long id) {
+        ids.remove(id);
+        notifyDataSetChanged();
+    }
+
+    public void removeAllMuteUserIds(Long id) {
+        if (ids.contains(id)){
+            ids.clear();
+            ids.add(id);
+        }else {
+            ids.clear();
+        }
+        notifyDataSetChanged();
+    }
 
     public void setClickListener(ItemClickEvent mClick) {
         this.mClick = mClick;
@@ -218,14 +218,14 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
 //            viewHolder.ivVenue.setVisibility(View.INVISIBLE);
 //        }
 
-//        /**
-//         * 听筒
-//         */
-//        if (ids.contains(userId)) {
-//            viewHolder.ivListen.setImageResource(style ? R.drawable.icon_off_listen : R.drawable.icon_off_listen2);
-//        } else {
-//            viewHolder.ivListen.setImageResource(style ? R.drawable.icon_open_listen : R.drawable.icon_open_listen2);
-//        }
+        /**
+         * 听筒
+         */
+        if (ids.contains(user.getUserId())) {
+            viewHolder.ivListen.setImageResource(R.drawable.icon_off_listen);
+        } else {
+            viewHolder.ivListen.setImageResource(R.drawable.icon_open_listen);
+        }
 
     }
 
@@ -298,11 +298,10 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
                                 if (mData.size() > getAdapterPosition()) {
                                     long id = (int) mData.get(getAdapterPosition()).getBaseUser().getUserId();
                                     if (AttendeeUtils.getCameraState(mData.get(getAdapterPosition()).getBaseUser())) {
-                                        int a = ChatManager.getInstance().sendMessage(0,Constants.SharedPreKey.OFF_VIDEO + id);
-                                        Log.d("=====asdas=====","send msg=====" + a);
+                                        ChatManager.getInstance().sendMessage(0,Constants.SharedPreKey.OFF_VIDEO + id);
                                     } else {
-                                        int a = ChatManager.getInstance().sendMessage(0,Constants.SharedPreKey.OPEN_VIDEO + id);
-                                        Log.d("=====asdas=====","send msg=====" + a);
+                                        ChatManager.getInstance().sendMessage(0,Constants.SharedPreKey.OPEN_VIDEO + id);
+
                                     }
                                 }
                             }
@@ -321,38 +320,37 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
                         }
                     });
 
-//                    ivVenue.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            if (ButtonDelayUtil.isFastClick()) {
-//                                if (mData.size() > getAdapterPosition()) {
+                    ivVenue.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (ButtonDelayUtil.isFastClick()) {
+                                if (mData.size() > getAdapterPosition()) {
 //                                    mClick.clickVonue(mData.get(getAdapterPosition()).getUserId(), mData.get(getAdapterPosition()).getIsVenue());
-//                                }
-//                            }
-//                        }
-//                    });
+                                }
+                            }
+                        }
+                    });
 
                     ivListen.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-//                            if (ButtonDelayUtil.isFastClick()) {
-//                                if (mData.size() > getAdapterPosition()) {
-//                                    int id = mData.get(getAdapterPosition()).getUserId();
-//                                    if (mData.get(getAdapterPosition()).getUserId() == SharedPrefsUtil.getUserId()) {
-//                                        return;
-//                                    }
-//                                    if (MobileMeetingActivity.isAdmin) {
-//                                        if (mData.get(getAdapterPosition()).getVoice() == 0) {
-//                                            FspManager.getInstance().sendGroupMsg(Constants.OPEN_LISEN + "-" + id);
-//                                            removeMuteUserIds(id);
-//                                        } else {
-//                                            FspManager.getInstance().sendGroupMsg(Constants.OFF_LISEN + "-" + id);
-//                                            addMuteUserIds(id);
-//                                        }
-//                                    }
-//                                }
-//                            }
+                            if (ButtonDelayUtil.isFastClick()) {
+                                int position = getAdapterPosition();
+                                if (mData.size() > position) {
+                                    long id = mData.get(position).getUserId();
+                                    if (mData.get(position).getUserId() == SharedPrefsUtil.getUserId()) {
+                                        return;
+                                    }
+                                    if (MobileMeetingActivity.isAdmin) {
+                                        if (ids.contains(mData.get(position).getUserId())) {
+                                            mClick.clickListen(mData.get(position).getUserId(),true);
+                                        } else {
+                                            mClick.clickListen(mData.get(position).getUserId(),false);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     });
 
@@ -367,6 +365,8 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
         void clickCallKickOut(String userId);
 
         void clickVonue(String userId, boolean isVonue);
+
+        void clickListen(long userId, boolean isListen);
     }
 
     @Override
@@ -396,5 +396,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         return position;
     }
+
+
 
 }

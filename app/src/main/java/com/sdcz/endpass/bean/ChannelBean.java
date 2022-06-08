@@ -25,7 +25,7 @@ public class ChannelBean {
     private int peopleCount;
     private List<ChannerUser> channelUserList;
     private Object channelUserIds;
-    private List<?> muteUserIds;
+    private List<Long> muteUserIds;
 
     public Object getSearchValue() {
         return searchValue;
@@ -195,11 +195,11 @@ public class ChannelBean {
         this.channelUserIds = channelUserIds;
     }
 
-    public List<?> getMuteUserIds() {
+    public List<Long> getMuteUserIds() {
         return muteUserIds;
     }
 
-    public void setMuteUserIds(List<?> muteUserIds) {
+    public void setMuteUserIds(List<Long> muteUserIds) {
         this.muteUserIds = muteUserIds;
     }
 

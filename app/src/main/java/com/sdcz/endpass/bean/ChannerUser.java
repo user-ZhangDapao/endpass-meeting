@@ -13,7 +13,7 @@ public class ChannerUser {
     private ParamsBean params;
     private int id;
     private String channelCode;
-    private int userId;
+    private long userId;
     private Object userIds;
     private int voice;
     private String nickName;
@@ -93,11 +93,11 @@ public class ChannerUser {
         this.channelCode = channelCode;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

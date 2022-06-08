@@ -114,14 +114,12 @@ public interface ApiUrl {
 //    @FormUrlEncoded
 //    Observable<BaseResponse<Object>> setVenue(@Field("channelCode") String channelCode, @Field("userId") String userId);
 //
-//    @POST("api/setMute")
-//    @FormUrlEncoded
-//    Observable<BaseResponse<Object>> setMute(@Field("channelCode") String channelCode, @Field("userId") String userId);
+    @POST("api/setMute")
+    Observable<BaseResponse<Object>> setMute(@Body JSONObject body);
 //
-//    @POST("api/cancelMute")
-//    @FormUrlEncoded
-//    Observable<BaseResponse<Object>> cancelMute(@Field("channelCode") String channelCode, @Field("userId") String userId);
-//
+    @POST("api/cancelMute")
+    Observable<BaseResponse<Object>> cancelMute(@Body JSONObject body);
+
 //    @POST("api/updateUserRealname")
 //    @FormUrlEncoded
 //    Observable<BaseResponse<Object>> updateUserRealname(@Field("userId") String userId, @Field("realname") String realname);

@@ -1,5 +1,6 @@
 package com.sdcz.endpass.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.Image;
 import android.os.Handler;
@@ -17,14 +18,19 @@ import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.inpor.base.sdk.meeting.MeetingManager;
 import com.inpor.base.sdk.user.UserManager;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.TaskUserListAdapter;
 import com.sdcz.endpass.base.BasePopupWindowContentView;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
+import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -166,12 +172,25 @@ public class UserPopWidget extends BasePopupWindowContentView {
 
             @Override
             public void clickCallKickOut(String userId) {
-                Log.d("--userId--",userId);
+                deleteChannelUser(channelCode, userId);
             }
 
             @Override
             public void clickVonue(String userId, boolean isVonue) {
-                Log.d("--isVonue--",isVonue +"");
+                if (isVonue) {
+//                    setMute(channelCode, userId);
+                } else {
+//                    cancelMute(channelCode, userId);
+                }
+            }
+
+            @Override
+            public void clickListen(long userId, boolean isListen) {
+                if (isListen) {
+                    cancelMute(channelCode, userId);
+                } else {
+                    setMute(channelCode, userId);
+                }
             }
         });
     }
@@ -204,7 +223,11 @@ public class UserPopWidget extends BasePopupWindowContentView {
 
             if (isIn == false) {
                 ChannerUser user = new ChannerUser();
-                user.setUserId((int)userPass.getUserId());
+                try {
+                    user.setUserId(SharedPrefsUtil.getJSONValue().getJSONObject(userPass.getNickName()).getLong("userId"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 user.setNickName(userPass.getNickName());
                 user.setBaseUser(userPass);
                 userInfoList.add(user);
@@ -222,6 +245,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 if (null == result) return;
                 userInfoList = result.getChannelUserList();
                 refashChannelUser();
+                taskUserAdapter.setMuteUserIds(result.getMuteUserIds());
             }
             @Override
             public void onFailure(Throwable e, String errorMsg) {
@@ -229,5 +253,53 @@ public class UserPopWidget extends BasePopupWindowContentView {
             }
         });
     }
+
+
+    public void setMute(String channelCode, long userId){
+        RequestUtils.setMute(channelCode, userId, new MyObserver<Object>(context) {
+            @Override
+            public void onSuccess(Object result) {
+                ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.OFF_LISTEN + userId);
+                taskUserAdapter.addMuteUserIds(userId);
+            }
+
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+    }
+
+
+    public void cancelMute(String channelCode, long userId){
+        RequestUtils.cancelMute(channelCode, userId, new MyObserver<Object>(context) {
+            @Override
+            public void onSuccess(Object result) {
+                ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.ON_LISTEN + userId);
+                taskUserAdapter.removeMuteUserIds(userId);
+            }
+
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+    }
+
+
+    public void deleteChannelUser(String channelCode, String userId){
+        RequestUtils.deleteChannelUser(channelCode, userId, new MyObserver<Object>(context) {
+            @Override
+            public void onSuccess(Object result) {
+                ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.PLEASE_LEAVE + userId);
+            }
+
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+            }
+        });
+    }
+
+
 
 }
