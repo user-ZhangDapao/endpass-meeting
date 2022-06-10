@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.transition.TransitionManager;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseMeetingMenuBar;
 import com.inpor.base.sdk.video.CustomImageOnOffEvent;
@@ -36,13 +37,15 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
     private long lastClickTime;
     private boolean mutesWitch;
 
+    private String channelCode;
     /**
      * 构造函数
      *
      * @param context 上下文
      */
-    public MeetingTopTitleView(@NonNull Context context) {
+    public MeetingTopTitleView(@NonNull Context context, String channelCode) {
         super(context);
+        this.channelCode = channelCode;
         if(EventBus.getDefault().isRegistered(this) == false )
         {
             EventBus.getDefault().register(this);
@@ -56,8 +59,9 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
      * @param context 上下文
      * @param attrs   属性
      */
-    public MeetingTopTitleView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public MeetingTopTitleView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode) {
         super(context, attrs);
+        this.channelCode = channelCode;
         if(EventBus.getDefault().isRegistered(this) == false )
         {
             EventBus.getDefault().register(this);
@@ -199,14 +203,16 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
             if (id == R.id.im_camera) {
                 meetingTopTitleListener.onClickChangeCameraItemListener(view);
             } else if (id == R.id.im_audio) {
-                if (mutesWitch) {
-                    volumeSwitch.setActivated(false);
-                    meetingTopTitleListener.onClickOpenAudioListener();
-                } else {
-                    volumeSwitch.setActivated(true);
-                    meetingTopTitleListener.onClickCloseAudioListener();
-                }
-                mutesWitch = !mutesWitch;
+//                if (mutesWitch) {
+//                    volumeSwitch.setActivated(false);
+//                    meetingTopTitleListener.onClickOpenAudioListener();
+//                } else {
+//                    volumeSwitch.setActivated(true);
+//                    meetingTopTitleListener.onClickCloseAudioListener();
+//                }
+//                mutesWitch = !mutesWitch;
+                ToastUtils.showShort("hahhhhahhh");
+                meetingTopTitleListener.onClickLeftOtherListener(channelCode);
             } else if (id == R.id.tv_out) {
                 meetingTopTitleListener.onClickQuitListener(view);
             } else if (id == R.id.im_tip) {
@@ -272,6 +278,12 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
          * 点击会议信息按钮回调
          */
         void onClickMeetingInfoListener();
+
+
+        /**
+         * 点击左上角其它
+         */
+        void onClickLeftOtherListener(String channelCode);
     }
 
 

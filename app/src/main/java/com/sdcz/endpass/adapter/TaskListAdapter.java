@@ -84,7 +84,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onJoinItem(mData.get(getAdapterPosition()).getChannelCode());
+                        onItemClickListener.onJoinItem(mData.get(getAdapterPosition()).getChannelCode(), mData.get(getAdapterPosition()).getRoomId());
                     }
                     notifyDataSetChanged();
                 }
@@ -94,7 +94,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
     public interface OnItemClickListener{
         void onSelectedItem(ChannelBean data);
-        void onJoinItem(String Code);
+        void onJoinItem(String Code, long roomId);
     }
 
     /**

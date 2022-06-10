@@ -5,10 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -37,9 +43,12 @@ import com.sdcz.endpass.dialog.MarkWhiteBoardDialog;
 import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.ui.activity.UserPopActivity;
+import com.sdcz.endpass.util.ButtonDelayUtil;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.PermissionsPageUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.widget.AttendeeView;
+import com.sdcz.endpass.widget.MeetLeftView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
@@ -60,6 +69,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyStore;
 import java.util.List;
 
 
@@ -705,6 +715,15 @@ public class MeetingBottomAndTopMenuContainer implements
         bottomAndTopMenuTimerControl(true);
     }
 
+
+    @Override
+    public void onClickLeftOtherListener(String channelCode) {
+        //左上角
+        MeetLeftView attendeeView = new MeetLeftView(context, channelCode);
+        popupWindowBuilder.setContentView(attendeeView)
+                .setAnimationType(PopupWindowBuilder.AnimationType.FADE).show();
+    }
+
     /**
      * 点击 更多 回调
      *
@@ -1088,6 +1107,7 @@ public class MeetingBottomAndTopMenuContainer implements
      */
     @Override
     public void onDisableMicListener(boolean isDisable) {
+
         updateBottomMenuMicIconState(isDisable);
     }
 
@@ -1222,4 +1242,5 @@ public class MeetingBottomAndTopMenuContainer implements
         List<String> permissionList = PermissionUtils.requestMeetingPermission();
         return permissionList == null || (!permissionList.contains(Manifest.permission.RECORD_AUDIO));
     }
+
 }

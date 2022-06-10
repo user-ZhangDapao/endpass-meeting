@@ -13,6 +13,7 @@ public class ChannelBean {
     private ParamsBean params;
     private int id;
     private String channelCode;
+    private Long roomId;
     private String channelName;
     private String details;
     private int deptId;
@@ -26,6 +27,14 @@ public class ChannelBean {
     private List<ChannerUser> channelUserList;
     private Object channelUserIds;
     private List<Long> muteUserIds;
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
 
     public Object getSearchValue() {
         return searchValue;

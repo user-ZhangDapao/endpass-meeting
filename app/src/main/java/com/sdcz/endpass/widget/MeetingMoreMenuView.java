@@ -61,6 +61,10 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
     private IMeetingMoreMenuListener meetingMoreContainerListener;
     private TextView chatMark;
     private TextView tvSetting;
+    private TextView tvOnAllListen;
+    private TextView tvOnOffListen;
+    private TextView tvOnAllAudio;
+    private TextView tvOffAllAudio;
     private TextView applyManagerView;
     private RelativeLayout exitMeetingLayout;
     private ConstraintLayout parentContentLayout;
@@ -155,6 +159,14 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
         chatMark = findViewById(R.id.tv_chat_mark);
         tvSetting = findViewById(R.id.tv_setting);
         tvSetting.setOnClickListener(this);
+        tvOnAllListen = findViewById(R.id.tv_on_all_listen);
+        tvOnAllListen.setOnClickListener(this);
+        tvOnOffListen = findViewById(R.id.tv_off_all_listen);
+        tvOnOffListen.setOnClickListener(this);
+        tvOnAllAudio = findViewById(R.id.tv_on_all_audio);
+        tvOnAllAudio.setOnClickListener(this);
+        tvOffAllAudio = findViewById(R.id.tv_off_all_audio);
+        tvOffAllAudio.setOnClickListener(this);
         applyManagerView = findViewById(R.id.tv_apply_manager);
         applyManagerView.setOnClickListener(this);
         TextView exitMeetingView = findViewById(R.id.tv_exit_meeting);
@@ -229,6 +241,18 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
         } else if (id == R.id.tv_exit_meeting) {
             dismissPopupWindow();
             meetingMoreContainerListener.onClickFinishMeetingListener();
+        } else if (id == R.id.tv_on_all_listen) {
+            dismissPopupWindow();
+            meetingMoreContainerListener.onClickListenListener(true);
+        } else if (id == R.id.tv_off_all_listen) {
+            dismissPopupWindow();
+            meetingMoreContainerListener.onClickListenListener(false);
+        } else if (id == R.id.tv_on_all_audio) {
+            dismissPopupWindow();
+            meetingMoreContainerListener.onClickAudioListener(true);
+        } else if (id == R.id.tv_off_all_audio) {
+            dismissPopupWindow();
+            meetingMoreContainerListener.onClickAudioListener(true);
         }
     }
 

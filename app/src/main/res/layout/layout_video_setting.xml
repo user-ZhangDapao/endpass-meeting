@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="right"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shape_gray_3"
+        android:padding="@dimen/margin_18"
+        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginRight="@dimen/margin_15"
+        >
+        <TextView
+            android:id="@+id/tvOffAudio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_all_voice"
+            android:textColor="@color/color_FFFFFF"
+            android:drawableLeft="@drawable/icon_colse_vioce"
+            android:drawablePadding="@dimen/margin_10"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/tvOpenAudio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close_all_voice"
+            android:textColor="@color/color_FFFFFF"
+            android:drawableLeft="@drawable/icon_open_vioce"
+            android:drawablePadding="@dimen/margin_10"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_26"
+            />
+
+        <TextView
+            android:id="@+id/tvSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/other_set"
+            android:textColor="@color/color_FFFFFF"
+            android:drawableLeft="@drawable/icon_setting"
+            android:drawablePadding="@dimen/margin_10"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_26"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tvHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_horizontal"
+            android:textColor="@color/color_FFFFFF"
+            android:drawableLeft="@drawable/icon_rotate"
+            android:drawablePadding="@dimen/margin_10"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_26"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/tvOpenHear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_hear"
+            android:textColor="@color/color_FFFFFF"
+            android:drawableLeft="@drawable/icon_rotate"
+            android:drawablePadding="@dimen/margin_10"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_26"
+            />
+        <TextView
+            android:id="@+id/tvCloseHear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close_hear"
+            android:textColor="@color/color_FFFFFF"
+            android:drawableLeft="@drawable/icon_rotate"
+            android:drawablePadding="@dimen/margin_10"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_26"
+            />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

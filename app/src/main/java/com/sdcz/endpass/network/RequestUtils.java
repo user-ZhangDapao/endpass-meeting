@@ -359,6 +359,35 @@ public class RequestUtils {
                 .subscribe(observer);
     }
 
+    /**
+     * Post
+     * 23.设置静音
+     *
+     * @param observer
+     */
+    public static void setAllMute(String channelCode, List<Long> userIds, MyObserver<Object> observer) {
+        JSONObject postInfo = new JSONObject();
+        postInfo.put("channelCode",channelCode);
+        postInfo.put("userIds",userIds);
+        RetrofitUtils.getApiUrl()
+                .setAllMute(postInfo).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
+    /**
+     * Post
+     * 24.取消静音
+     *
+     * @param observer
+     */
+    public static void cancelAllMute(String channelCode, MyObserver<Object> observer) {
+        JSONObject postInfo = new JSONObject();
+        postInfo.put("channelCode",channelCode);
+        RetrofitUtils.getApiUrl()
+                .cancelAllMute(postInfo).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
 //    /**
 //     * Post
 //     * 25.修改昵称

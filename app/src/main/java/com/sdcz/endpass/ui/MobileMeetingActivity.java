@@ -233,7 +233,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         RelativeLayout.LayoutParams topLayoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
-        meetingTopTitleView = new MeetingTopTitleView(this);
+        meetingTopTitleView = new MeetingTopTitleView(this, channelCode);
         meetingTopTitleView.setLayoutParams(topLayoutParams);
         RelativeLayout.LayoutParams bottomLayoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -833,6 +833,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     private void showQuitConfirmView() {
         MeetingQuitContainer meetingQuitContainer = new MeetingQuitContainer(this);
+        //todo
         meetingQuitContainer.onlyShowQuitMeetingView();
         meetingQuitContainer
                 .setMeetingQuitContainerListener(this::finish);
@@ -914,4 +915,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     public void showData(Boolean o) {
         isAdmin = o;
     }
+
+
 }

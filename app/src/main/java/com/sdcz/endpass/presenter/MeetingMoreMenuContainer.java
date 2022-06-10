@@ -1,26 +1,34 @@
 package com.sdcz.endpass.presenter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.listeners.UserModelListenerImpl;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseContainer;
+import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.callback.IMeetingMoreMenuListener;
 import com.sdcz.endpass.callback.IMeetingMultimediaDisableListener;
 import com.sdcz.endpass.dialog.SettingsFragmentDialog;
 import com.sdcz.endpass.gps.PosService;
 import com.sdcz.endpass.model.AppCache;
+import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.model.VideoController;
 //import com.sdcz.endpass.util.YUVUtil;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.widget.LayoutPickerView;
 import com.sdcz.endpass.widget.ManagerPasswordView;
 import com.sdcz.endpass.widget.MeetingMoreMenuView;
@@ -30,6 +38,11 @@ import com.inpor.base.sdk.video.CustomImageOnOffEvent;
 import com.inpor.base.sdk.video.VideoManager;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -46,7 +59,6 @@ public class MeetingMoreMenuContainer extends BaseContainer<MeetingMoreMenuView>
     private UserManager userModel;
 
 
-
     /**
      * 构造函数
      *
@@ -59,7 +71,6 @@ public class MeetingMoreMenuContainer extends BaseContainer<MeetingMoreMenuView>
         view.setIMeetingMoreMenuContainerListener(this);
         initData();
     }
-
 
     /**
      * 用户状态回调
@@ -214,6 +225,24 @@ public class MeetingMoreMenuContainer extends BaseContainer<MeetingMoreMenuView>
     public void onClickSettingListener() {
         SettingsFragmentDialog settings = new SettingsFragmentDialog();
         settings.show(((FragmentActivity) context).getSupportFragmentManager(), "settings");
+    }
+
+    /**
+     * 点击可不可以听
+     * @param isListen
+     */
+    @Override
+    public void onClickListenListener(boolean isListen) {
+//        queryChannelUser();
+    }
+
+    /**
+     * 点击能不能说话
+     * @param isAudio
+     */
+    @Override
+    public void onClickAudioListener(boolean isAudio) {
+
     }
 
     @Override
@@ -387,6 +416,6 @@ public class MeetingMoreMenuContainer extends BaseContainer<MeetingMoreMenuView>
         meetingMultimediaDisableListener = null;
         view.recycle();
         view = null;
-
     }
+
 }

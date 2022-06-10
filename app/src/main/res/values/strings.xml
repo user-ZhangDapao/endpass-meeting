@@ -429,6 +429,8 @@
     <string name="delete_task">解散任务</string>
     <string name="other_set">其它设置</string>
     <string name="set_horizontal">横屏模式</string>
+    <string name="close_hear">一键闭音</string>
+    <string name="open_hear">一键开音</string>
     <string name="user_info">个人信息</string>
     <string name="change_pass">修改密码</string>
     <string name="set_ip">设置IP端口号</string>

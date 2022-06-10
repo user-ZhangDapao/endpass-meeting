@@ -106,8 +106,8 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
             }
 
             @Override
-            public void onJoinItem(String Code) {
-                JoinMeetingManager.getInstance().loginRoomId("10000", SharedPrefsUtil.getUserInfo().getNickName(),
+            public void onJoinItem(String Code, long roomId) {
+                JoinMeetingManager.getInstance().loginRoomId(Long.toString(roomId), SharedPrefsUtil.getUserInfo().getNickName(),
                         "", true, new JoinMeetingCallback() {
 
                             @Override

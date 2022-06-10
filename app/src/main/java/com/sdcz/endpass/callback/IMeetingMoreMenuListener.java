@@ -27,6 +27,16 @@ public interface IMeetingMoreMenuListener {
      */
     void onClickSettingListener();
 
+    /**
+     * 点击是否可以听声音
+     */
+    void onClickListenListener(boolean isListen);
+
+    /**
+     * 点击是否可以说话
+     */
+    void onClickAudioListener(boolean isAudio);
+
     void onClickFinishMeetingListener();
 
     boolean dealDisableMicListener(boolean isDisableAudio);

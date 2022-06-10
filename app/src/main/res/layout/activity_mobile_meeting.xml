@@ -3,6 +3,7 @@
     android:id="@+id/activity_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp20"
     android:orientation="vertical">
 
     <com.sdcz.endpass.widget.VariableLayout
