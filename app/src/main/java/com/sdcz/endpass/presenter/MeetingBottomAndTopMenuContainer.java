@@ -402,7 +402,7 @@ public class MeetingBottomAndTopMenuContainer implements
      * @see MeetingBottomMenuView.MeetingBottomMenuListener
      */
     @Override
-    public void onClickMicListener(View micMenuView) {
+    public void onClickMicListener() {
         //点击“麦克风”按钮弹出popup时，底部和顶部菜单重新计时，5秒后隐藏
         bottomAndTopMenuTimerControl(true);
         List<String> permissionList = PermissionUtils.requestMeetingPermission();

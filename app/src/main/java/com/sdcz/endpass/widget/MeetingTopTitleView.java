@@ -211,7 +211,6 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
 //                    meetingTopTitleListener.onClickCloseAudioListener();
 //                }
 //                mutesWitch = !mutesWitch;
-                ToastUtils.showShort("hahhhhahhh");
                 meetingTopTitleListener.onClickLeftOtherListener(channelCode);
             } else if (id == R.id.tv_out) {
                 meetingTopTitleListener.onClickQuitListener(view);

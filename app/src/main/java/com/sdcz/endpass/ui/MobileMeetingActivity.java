@@ -46,6 +46,7 @@ import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.ScreenSharingCreateListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.comix.meeting.listeners.WbCreateListener;
+import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LiveDataBus;
 import com.sdcz.endpass.R;
@@ -66,6 +67,7 @@ import com.sdcz.endpass.dialog.GlobalPopupView;
 import com.sdcz.endpass.gps.PosService;
 import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.model.CameraObserver;
+import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.model.MeetingLifecycleObserver;
 import com.sdcz.endpass.model.MeetingSettings;
 import com.sdcz.endpass.model.MeetingSettingsModel;
@@ -106,7 +108,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener,
+public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener, ChatManager.ChatMessageListener,
         MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener {
 
     private static final String TAG = "MobileMeetingActivity";
@@ -126,6 +128,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private MeetingModule proxy;
     private UserManager userModel;
     private AudioManager audioModel;
+    private ChatManager chatManager;
     private ScreenShareManager shareModel;
     private int objId = -1;
     private boolean isAnonymousLogin;
@@ -172,6 +175,8 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         shareModel = SdkUtil.getShareManager();
         userModel = SdkUtil.getUserManager();
         audioModel = SdkUtil.getAudioManager();
+        chatManager = ChatManager.getInstance();
+        chatManager.setChatMessageListener(this);
         proxy = meetingManager.getMeetingModule();
         audioModel.setAudioParam(AudioParam.getDefault(Platform.ANDROID));
         MeetingInfo meetingInfo = proxy.getMeetingInfo();
@@ -916,5 +921,59 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         isAdmin = o;
     }
 
+
+    @Override
+    public void onChatMessage(ChatMsgInfo message) {
+        String res = new String(message.msg);
+        Log.d("====Msg====",res);
+        String[] strarray = res.split("\\*");
+        switch (strarray[0]){
+            case "OPEN_AUDIO":
+                if (strarray[1].equals("ALL")){
+                    meetingBottomAndTopMenuContainer.onClickMicListener();
+                }else {
+
+                }
+                break;
+            case "OFF_AUDIO":
+                if (strarray[1].equals("ALL")){
+
+                }else {
+
+                }
+                break;
+            case "OPEN_VIDEO":
+                break;
+            case "OFF_VIDEO":
+                break;
+            case "SWITCH_VIDEO":
+                break;
+            case "MAIN_VENUE":
+                break;
+            case "ON_LISTEN":
+                if (strarray[1].equals("ALL")){
+
+                }else {
+
+                }
+                break;
+            case "OFF_LISTEN":
+                if (strarray[1].equals("ALL")){
+
+                }else {
+
+                }
+                break;
+            case "PLEASE_LEAVE":
+                if (strarray[1].equals("ALL")){
+
+                }else {
+
+                }
+                break;
+            case "ADD_CHANNEL_USER":
+                break;
+        }
+    }
 
 }

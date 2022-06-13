@@ -424,7 +424,7 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
                 meetingBottomMenuListener.onClickQuitListener(itemView);
             } else if (id == R.id.tv_menu_mic) {
                 restartTime();
-                meetingBottomMenuListener.onClickMicListener(itemView);
+                meetingBottomMenuListener.onClickMicListener();
             } else if (id == R.id.tv_menu_camera) {
                 restartTime();
                 meetingBottomMenuListener.onClickCameraListener(itemView);
@@ -578,7 +578,7 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
          *
          * @param micMenuView 当前被点击的View
          */
-        void onClickMicListener(View micMenuView);
+        void onClickMicListener();
 
         /**
          * 点击相机按钮回调

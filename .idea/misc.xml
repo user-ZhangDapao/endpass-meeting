@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.11879432624113476" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/audio_states_progress_bar.xml" value="0.269" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/selector_attendee_all.xml" value="0.2385" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/selector_menu_attender_state.xml" value="0.269" />
@@ -90,6 +91,8 @@
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/progress_dialog.xml" value="0.22552083333333334" />
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/tab_content.xml" value="0.1875" />
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/titlebar_view.xml" value="0.22760416666666666" />
+        <entry key="app/src/main/res/layout/meeting_bottom_menu_bar.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/meeting_chat_msg_left_item.xml" value="0.12447916666666667" />
       </map>
     </option>
   </component>

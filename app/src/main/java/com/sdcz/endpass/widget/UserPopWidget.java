@@ -1,12 +1,9 @@
 package com.sdcz.endpass.widget;
 
-import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -35,8 +32,6 @@ import org.json.JSONException;
 import java.util.List;
 
 public class UserPopWidget extends BasePopupWindowContentView {
-
-
 
     private Context context;
     private String channelCode;
