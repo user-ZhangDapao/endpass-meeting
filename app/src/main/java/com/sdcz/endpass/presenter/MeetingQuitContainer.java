@@ -58,7 +58,7 @@ public class MeetingQuitContainer extends BaseContainer<MeetQuitView>
 
 
     @Override
-    public void onClickQuitMeetingListener(View view) {
+    public void onClickQuitMeetingListener() {
         //主动退出会议
         Map<String,Object> reason_map = new HashMap();
         ((HashMap)reason_map).put("code",2);
@@ -71,7 +71,7 @@ public class MeetingQuitContainer extends BaseContainer<MeetQuitView>
     }
 
     @Override
-    public void onClickCloseMeetingListener(View view) {
+    public void onClickCloseMeetingListener() {
 
         //本地管理员结束会议
         Map<String,Object> reason_map = new HashMap();

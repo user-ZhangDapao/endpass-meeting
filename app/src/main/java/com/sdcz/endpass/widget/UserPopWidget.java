@@ -1,5 +1,6 @@
 package com.sdcz.endpass.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.inpor.base.sdk.meeting.MeetingManager;
 import com.inpor.base.sdk.user.UserManager;
+import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
@@ -25,23 +27,25 @@ import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
+import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import org.json.JSONException;
 
 import java.util.List;
 
-public class UserPopWidget extends BasePopupWindowContentView {
+public class UserPopWidget extends BasePopupWindowContentView implements ChatManager.ChatMessageListener {
 
-    private Context context;
+    private Activity context;
     private String channelCode;
 
     private List<ChannerUser> userInfoList;
-    private TaskUserListAdapter taskUserAdapter;
+    static TaskUserListAdapter taskUserAdapter;
     private Handler m_handler = new Handler();
 
     private MeetingManager meetingModel;
     private UserManager userModel;
+    private ChatManager chatManager;
     private RecyclerView rvRoot;
     private ImageView ivClose;
 
@@ -126,7 +130,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
         }
     };
 
-    public UserPopWidget(@NonNull Context context, String channelCode) {
+    public UserPopWidget(@NonNull Activity context, String channelCode) {
         super(context);
         this.context = context;
         this.channelCode = channelCode;
@@ -136,6 +140,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
     }
 
 
+
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.activity_user_pop, this);
         rvRoot = findViewById(R.id.rvRoot);
@@ -143,6 +148,8 @@ public class UserPopWidget extends BasePopupWindowContentView {
 
         meetingModel = SdkUtil.getMeetingManager();
         meetingModel.addEventListener(meetingModelListener);
+        chatManager = ChatManager.getInstance();
+        chatManager.setChatMessageListener(this);
         userModel = SdkUtil.getUserManager();
         userModel.addEventListener(userModelListener);
         taskUserAdapter = new TaskUserListAdapter(context);
@@ -200,7 +207,6 @@ public class UserPopWidget extends BasePopupWindowContentView {
 
     private void refashChannelUser() {
         if (null == userInfoList) return;
-        Log.d("----------------","");
         //当前会议室所有的人
         List<BaseUser> inGroupUsers = userModel.getAllUsers();
 
@@ -295,6 +301,43 @@ public class UserPopWidget extends BasePopupWindowContentView {
         });
     }
 
+
+    @Override
+    public void onChatMessage(ChatMsgInfo message) {
+        String res = new String(message.msg);
+        Log.d("====Msg====",res);
+        String[] strarray = res.split("\\*");
+        switch (strarray[0]){
+            case "ON_LISTEN":
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (strarray[1].equals("ALL")){
+                            taskUserAdapter.removeAllMuteUserIds();
+                        }else {
+                            taskUserAdapter.removeMuteUserIds(Long.valueOf(strarray[1]));
+                        }
+                    }
+                });
+                break;
+            case "OFF_LISTEN":
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (strarray[1].equals("ALL")){
+                            taskUserAdapter.addAllMuteUserIds();
+                        }else {
+                            taskUserAdapter.addMuteUserIds(Long.valueOf(strarray[1]));
+                        }
+                    }
+                });
+
+                break;
+            case "ADD_CHANNEL_USER":
+
+                break;
+        }
+    }
 
 
 }

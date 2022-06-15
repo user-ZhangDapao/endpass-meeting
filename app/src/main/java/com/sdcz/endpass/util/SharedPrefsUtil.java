@@ -244,4 +244,9 @@ public class SharedPrefsUtil {
     public static int getUserId(){
        return SharedPrefsUtil.getUserInfo().getUserId();
     }
+
+    public static String getUserIdString(){
+        return String.valueOf(SharedPrefsUtil.getUserInfo().getUserId());
+    }
+
 }

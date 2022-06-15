@@ -1,6 +1,7 @@
 package com.sdcz.endpass.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -54,7 +55,6 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
-import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
@@ -86,6 +86,7 @@ import com.sdcz.endpass.view.IMobileMeetingView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
+
 import com.sdcz.endpass.widget.VariableLayout;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.audio.RawCapDataSinkCallback;
@@ -166,8 +167,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
         SdkUtil.getAudioManager().initAudioRes(this);
     }
-
-
 
     @Override
     public View initView(Bundle savedInstanceState) {
@@ -929,49 +928,47 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         String[] strarray = res.split("\\*");
         switch (strarray[0]){
             case "OPEN_AUDIO":
-                if (strarray[1].equals("ALL")){
-                    meetingBottomAndTopMenuContainer.onClickMicListener();
-                }else {
-
-                }
-                break;
             case "OFF_AUDIO":
-                if (strarray[1].equals("ALL")){
-
-                }else {
-
+                if (strarray[1].equals("ALL") || String.valueOf(SdkUtil.getUserManager().getLocalUser().getUserId()).equals(strarray[1])){
+                    meetingBottomAndTopMenuContainer.onClickMicListener();
                 }
                 break;
             case "OPEN_VIDEO":
-                break;
             case "OFF_VIDEO":
+                if(String.valueOf(SdkUtil.getUserManager().getLocalUser().getUserId()).equals(strarray[1])){
+                    meetingBottomAndTopMenuContainer.onClickCameraListener();
+                }
                 break;
             case "SWITCH_VIDEO":
+                if(String.valueOf(SdkUtil.getUserManager().getLocalUser().getUserId()).equals(strarray[1])){
+                    cameraObserver.switchCamera();
+                }
                 break;
             case "MAIN_VENUE":
                 break;
             case "ON_LISTEN":
-                if (strarray[1].equals("ALL")){
-
-                }else {
-
+                if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
+                    meetingBottomAndTopMenuContainer.onClickOpenAudioListener();
                 }
                 break;
             case "OFF_LISTEN":
-                if (strarray[1].equals("ALL")){
-
-                }else {
-
+                if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
+                    meetingBottomAndTopMenuContainer.onClickCloseAudioListener();
                 }
                 break;
             case "PLEASE_LEAVE":
-                if (strarray[1].equals("ALL")){
-
-                }else {
-
+                if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
+//                    MeetingQuitContainer.onClickCloseMeetingListener();
+                    //本地管理员结束会议
+                    Map<String,Object> reason_map = new HashMap();
+                    reason_map.put("code",1);
+                    reason_map.put("type",1);
+                    _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+                    meetingManager.closeMeeting(0, "");
                 }
                 break;
             case "ADD_CHANNEL_USER":
+
                 break;
         }
     }

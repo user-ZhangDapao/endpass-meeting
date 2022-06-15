@@ -184,10 +184,10 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
 
     private void saveParam() {
 
-        String ip = "5uw.haoshitong.com";
+        String ip = "webapp.haoshitong.com";
         String port = "1089";
-        String clientId = "b9264352-4ae2-4065-b48a-887048506660";
-        String clientSecret = "df1ae16c-f5a9-4009-89e6-edbd4274a706";
+        String clientId = "7cce02b4-c715-47a9-91f4-8bc177525c1c";
+        String clientSecret = "8593ab94-be6a-429d-803d-1808ea7bd8b5";
 
         SharedPrefsUtil.putString(Constants.SP_KEY_SERVER_ADDRESS, ip);
         SharedPrefsUtil.putString(Constants.SP_KEY_SERVER_PORT, port);

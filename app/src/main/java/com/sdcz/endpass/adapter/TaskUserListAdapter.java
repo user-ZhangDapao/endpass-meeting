@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.comix.meeting.entities.BaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.ChannerUser;
+import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.AttendeeUtils;
@@ -29,15 +31,17 @@ import com.sdcz.endpass.widget.MarqueeTextView;
 import org.json.JSONException;
 
 import java.security.KeyStore;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Administrator
  * CreateDate: 2021/7/6 9:22
  * Description: @任务视频界面适配器
  */
-public class TaskUserListAdapter extends RecyclerView.Adapter {
+public class TaskUserListAdapter extends RecyclerView.Adapter{
 
     private List<ChannerUser> mData;
     private HashSet<Long> ids = new HashSet<>();
@@ -60,7 +64,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
 
     public void setMuteUserIds(List<Long> ids) {
         this.ids.addAll(ids);
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     public void addMuteUserIds(Long id) {
@@ -71,36 +75,43 @@ public class TaskUserListAdapter extends RecyclerView.Adapter {
             return;
         }
         ids.add(id);
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
-    public void addAllMuteUserIds(Long id) {
+    public void addAllMuteUserIds() {
         if (ids == null) {
             return;
         }
-        for (BaseUser user : SdkUtil.getUserManager().getAllUsers()){
-            ids.add(user.getUserId());
+        for (ChannerUser channerUser : mData){
+            ids.add(channerUser.getUserId());
         }
 //        ids.addAll(SdkUtil.getUserManager().getAllUsers());
-        if (ids.contains(id)){
-            ids.remove(id);
-        }
-        notifyDataSetChanged();
+//        if (ids.contains(id)){
+//            ids.remove(id);
+//        }
+//        notifyDataSetChanged();
     }
 
     public void removeMuteUserIds(Long id) {
-        ids.remove(id);
-        notifyDataSetChanged();
+        if (null == id) return;
+        if (null == ids) return;
+
+        if (ids.contains(id)){
+            ids.remove(id);
+        }else {
+            return;
+        }
+//        notifyDataSetChanged();
     }
 
-    public void removeAllMuteUserIds(Long id) {
-        if (ids.contains(id)){
+    public void removeAllMuteUserIds() {
+//        if (ids.contains(id)){
+//            ids.clear();
+//            ids.add(id);
+//        }else {
             ids.clear();
-            ids.add(id);
-        }else {
-            ids.clear();
-        }
-        notifyDataSetChanged();
+//        }
+//        notifyDataSetChanged();
     }
 
     public void setClickListener(ItemClickEvent mClick) {

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/padding_56"
+    android:layout_height="76dp"
     android:background="#00000000"
     tools:ignore="MotionLayoutInvalidSceneFileReference">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_view"
+        android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_2B2F3D">

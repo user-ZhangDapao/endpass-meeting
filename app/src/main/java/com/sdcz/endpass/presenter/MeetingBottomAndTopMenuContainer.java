@@ -1,6 +1,7 @@
 package com.sdcz.endpass.presenter;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import com.comix.meeting.listeners.ShareModelListener;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.adapter.TaskUserListAdapter;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraEventOnWrap;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
@@ -84,7 +86,7 @@ public class MeetingBottomAndTopMenuContainer implements
 
     private MeetingTopTitleView meetingTopTitleView;
     private MeetingBottomMenuView meetingBottomMenuView;
-    private final Context context;
+    private final Activity context;
     private long bottomAndTopMenuLastOnClickTime;
     private boolean isVideoApplyingState;
     private boolean isSpeechApplyingState;
@@ -104,7 +106,7 @@ public class MeetingBottomAndTopMenuContainer implements
      *
      * @param context 上下文
      */
-    public MeetingBottomAndTopMenuContainer(Context context) {
+    public MeetingBottomAndTopMenuContainer(Activity context) {
         this.context = context;
         popupWindowBuilder = new PopupWindowBuilder(context);
         popupWindowBuilder.setPopupWindowStateListener(this);
@@ -609,7 +611,7 @@ public class MeetingBottomAndTopMenuContainer implements
      * @see MeetingBottomMenuView.MeetingBottomMenuListener
      */
     @Override
-    public void onClickCameraListener(View cameraMenuView){
+    public void onClickCameraListener(){
         bottomAndTopMenuTimerControl(true);
         List<String> permissionList = PermissionUtils.requestMeetingPermission();
         VideoManager videomanager = SdkUtil.getVideoManager();
@@ -915,7 +917,7 @@ public class MeetingBottomAndTopMenuContainer implements
 //                Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
 ////        context.startActivity(new Intent(context, UserPopActivity.class).putExtra(Constants.SharedPreKey.CHANNEL_CODE, channelCode));
 
-        UserPopWidget attendeeView = new UserPopWidget(context, channelCode);
+        UserPopWidget attendeeView = new UserPopWidget(context, channelCode );
         popupWindowBuilder.setContentView(attendeeView)
                 .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
     }

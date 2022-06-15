@@ -104,10 +104,10 @@ public class MeetQuitView extends BasePopupWindowContentView
         int id = itemView.getId();
         if (id == R.id.tv_quit_meeting) {
             dismissPopupWindow();
-            quitMeetingPopupWindListener.onClickQuitMeetingListener(itemView);
+            quitMeetingPopupWindListener.onClickQuitMeetingListener();
         } else if (id == R.id.tv_finish_meeting) {
             dismissPopupWindow();
-            quitMeetingPopupWindListener.onClickCloseMeetingListener(itemView);
+            quitMeetingPopupWindListener.onClickCloseMeetingListener();
         } else if (id == R.id.tv_quit_cancel
                 || id == R.id.bg_view) {
             dismissPopupWindow();
@@ -153,14 +153,14 @@ public class MeetQuitView extends BasePopupWindowContentView
          *
          * @param view 被点击的Item
          */
-        void onClickQuitMeetingListener(View view);
+        void onClickQuitMeetingListener();
 
         /**
          * 点击关闭会议室 事件监听
          *
          * @param view 被点击的item
          */
-        void onClickCloseMeetingListener(View view);
+        void onClickCloseMeetingListener();
     }
 
     /**

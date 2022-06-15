@@ -21,6 +21,7 @@ import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraEventOnWrap;
 import com.sdcz.endpass.util.PermissionUtils;
 //import com.sdcz.endpass.util.YUVUtil;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.widget.VideoScreenView;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.user.UserManager;
@@ -226,6 +227,11 @@ public class VideoController implements VideoModelListener {
 
     @Override
     public void onVideoAdded(List<VideoInfo> list, VideoInfo changeInfo) {
+
+//        ///判断是否是自己
+//        if (changeInfo.getVideoUser().getUserId() != SdkUtil.getUserManager().getLocalUser().getUserId()){
+//            return;
+//        }
 
         VideoManager videomanager = SdkUtil.getVideoManager();
         boolean use_local_camera = videomanager.get_use_local_camera();//SharedPreferencesUtils.getBoolean("use_local_camera",true);
