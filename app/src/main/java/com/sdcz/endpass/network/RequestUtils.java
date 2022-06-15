@@ -110,9 +110,9 @@ public class RequestUtils {
      *
      * @param
      */
-    public static void getAllUser(MyObserver<Object> observer) {
+    public static void getAllUser( int type,MyObserver<Object> observer) {
         RetrofitUtils.getApiUrl()
-                .getAllUser().compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .getAllUser(type).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
                 .subscribe(observer);
     }
 

@@ -15,6 +15,7 @@ import com.comix.meeting.entities.MeetingInfo;
 import com.comix.meeting.entities.VideoInfo;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.comix.meeting.listeners.VideoModelListener;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
@@ -31,6 +32,7 @@ import com.inpor.nativeapi.adaptor.RoomWndState;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -43,8 +45,9 @@ public class VideoController implements VideoModelListener {
 
     private static final String TAG = "VideoController";
     private static volatile VideoController instance;
-    public static final int MAX_VIDEO_NUMBER = 6;
+    public static final int MAX_VIDEO_NUMBER = 2;
     private Context ctx;
+    public String nikeName = "";
 
     private LinkedList<VideoScreenView> videoScreenViews;
     /**
@@ -61,6 +64,10 @@ public class VideoController implements VideoModelListener {
 
     public boolean isEnableCamera() {
         return enableCamera;
+    }
+
+    public void setSfkUserId(long sfkUserId) throws JSONException {
+        instance.nikeName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(sfkUserId)).getString("nickName");
     }
 
     private VideoManager videoModel;
@@ -228,10 +235,13 @@ public class VideoController implements VideoModelListener {
     @Override
     public void onVideoAdded(List<VideoInfo> list, VideoInfo changeInfo) {
 
-//        ///判断是否是自己
-//        if (changeInfo.getVideoUser().getUserId() != SdkUtil.getUserManager().getLocalUser().getUserId()){
-//            return;
-//        }
+        long localUserId = SdkUtil.getUserManager().getLocalUser().getUserId();
+        long changeInfoId = changeInfo.getVideoUser().getUserId();
+
+        ///判断是否是自己
+        if (changeInfoId != localUserId && !changeInfo.getVideoUser().getNickName().equals(nikeName)){
+            return;
+        }
 
         VideoManager videomanager = SdkUtil.getVideoManager();
         boolean use_local_camera = videomanager.get_use_local_camera();//SharedPreferencesUtils.getBoolean("use_local_camera",true);

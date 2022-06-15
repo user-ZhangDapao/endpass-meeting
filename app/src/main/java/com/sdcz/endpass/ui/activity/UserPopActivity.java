@@ -245,6 +245,11 @@ public class UserPopActivity extends BaseActivity<MobileMeetingPresenter> implem
 //        refashChannelUser();
     }
 
+    @Override
+    public void venueId(long id) {
+
+    }
+
 
     private void refashChannelUser() {
         if (null == userInfoList) return;

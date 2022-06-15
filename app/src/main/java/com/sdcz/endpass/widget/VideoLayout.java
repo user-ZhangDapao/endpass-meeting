@@ -12,6 +12,7 @@ import android.widget.Scroller;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.comix.meeting.entities.LayoutType;
 import com.comix.meeting.entities.MeetingInfo;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.model.UiEntrance;
 import com.sdcz.endpass.model.VideoController;
 import com.inpor.nativeapi.adaptor.RoomWndState;
@@ -34,6 +35,7 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
     private VideoScreenView fullView;
     private boolean hasWindowFullScreen;
     private List<VideoScreenView> views;
+    private long fpsUserId;
     /**
      * 视频数量，有窗口不代表有视频
      */
@@ -271,22 +273,23 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
             layoutOneScreenMode();
             return;
         }
-        if (layoutType == LayoutType.CULTIVATE_LAYOUT) {
-            layoutOneScreenMode();
-        } else if (layoutType == LayoutType.STANDARD_LAYOUT) {
-            layoutStandardMode();
-        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_1) {
-            layoutOneScreenMode();
-        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_2) {
-            layoutTwoScreenMode();
-        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_P_IN_P) {
-            layoutPicInPicMode();
-        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_4) {
-            layoutFourScreenMode();
-        } else {
-            // 其他布局全部作为6分屏
-            layoutSixScreenMode();
-        }
+//        if (layoutType == LayoutType.CULTIVATE_LAYOUT) {
+//            layoutOneScreenMode();
+//        } else if (layoutType == LayoutType.STANDARD_LAYOUT) {
+//            layoutStandardMode();
+//        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_1) {
+//            layoutOneScreenMode();
+//        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_2) {
+//            layoutTwoScreenMode();
+//        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_P_IN_P) {
+//            layoutPicInPicMode();
+//        } else if (splitStyle == RoomWndState.SplitStyle.SPLIT_STYLE_4) {
+//            layoutFourScreenMode();
+//        } else {
+//            // 其他布局全部作为6分屏
+//            layoutSixScreenMode();
+//        }
+        layoutPicInPicMode();
     }
 
     /**
@@ -364,6 +367,29 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
                         originalHeight - lp.height, originalWidth, originalHeight);
             }
             screen.setDisplayMode(VideoScreenView.DISPLAY_MODE_RATIO_CUT);
+        }
+    }
+
+
+    /**
+     * 布局画中画模式
+     * 固定两个单位
+     */
+    private void layoutPicInPicMode2() {
+        for (int i = 0; i < views.size(); i++) {
+            long id = views.get(i).getVideoInfo().getVideoUser().getUserId();
+            if (id == fpsUserId){
+                VideoScreenView screen = views.get(i);
+                LayoutParams lp = screen.getLayoutParams();
+                layoutChild(screen, 0, 0, lp.width, lp.height);
+                screen.setDisplayMode(VideoScreenView.DISPLAY_MODE_RATIO_CUT);
+            }else if (id == SdkUtil.getUserManager().getLocalUser().getUserId()){
+                VideoScreenView screen = views.get(i);
+                LayoutParams lp = screen.getLayoutParams();
+                layoutChild(screen, originalWidth - lp.width,
+                        originalHeight - lp.height, originalWidth, originalHeight);
+                screen.setDisplayMode(VideoScreenView.DISPLAY_MODE_RATIO_CUT);
+            }
         }
     }
 
@@ -802,5 +828,13 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
                 videoCount++;
             }
         }
+    }
+
+    public long getFpsUserId() {
+        return fpsUserId;
+    }
+
+    public void setFpsUserId(long fpsUserId) {
+        this.fpsUserId = fpsUserId;
     }
 }

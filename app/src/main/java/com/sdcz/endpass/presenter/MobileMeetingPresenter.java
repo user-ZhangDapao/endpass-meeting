@@ -7,11 +7,15 @@ import android.content.Context;
 import com.sdcz.endpass.DemoApp;
 import com.sdcz.endpass.base.BasePresenter;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.IMobileMeetingView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
     public MobileMeetingPresenter(IMobileMeetingView view) {
@@ -47,5 +51,25 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
         }else{
             checkChannelAdmin(DemoApp.getContext(),channelCode);
         }
+    }
+
+
+    /**
+     * 获取主会场id
+     * @param channelCode
+     * @return
+     */
+    public List<UserEntity> getChannelUser(String channelCode){
+        RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>() {
+            @Override
+            public void onSuccess(ChannelBean result) {
+                iView.venueId(result.getVenue());
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+        return new ArrayList<>();
     }
 }

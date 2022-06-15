@@ -225,7 +225,7 @@ public class UserPopWidget extends BasePopupWindowContentView implements ChatMan
             if (isIn == false) {
                 ChannerUser user = new ChannerUser();
                 try {
-                    user.setUserId(SharedPrefsUtil.getJSONValue().getJSONObject(userPass.getNickName()).getLong("userId"));
+                    user.setUserId(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(userPass.getNickName()).getLong("userId"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

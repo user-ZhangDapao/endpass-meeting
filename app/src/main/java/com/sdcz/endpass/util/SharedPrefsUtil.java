@@ -81,9 +81,9 @@ public class SharedPrefsUtil {
     }
 
 
-    public static JSONObject getJSONValue() {
+    public static JSONObject getJSONValue(String key) {
 
-        String allUserJSON = sharedPreferences.getString(Constants.SharedPreKey.AllUser, "");
+        String allUserJSON = sharedPreferences.getString(key, "");
 
         try {
             if (allUserJSON==""){

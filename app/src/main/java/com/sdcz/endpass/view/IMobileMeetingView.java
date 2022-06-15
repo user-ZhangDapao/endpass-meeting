@@ -5,4 +5,5 @@ import com.sdcz.endpass.bean.ChannelBean;
 
 public interface IMobileMeetingView extends IBaseView {
     void showData(Boolean o);
+    void venueId(long id);
 }

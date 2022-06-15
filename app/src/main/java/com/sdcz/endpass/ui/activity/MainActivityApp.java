@@ -130,7 +130,7 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
 
     @Override
     public void showData(Object o) {
-        SharedPrefsUtil.putString(Constants.SharedPreKey.AllUser,getJsonStringByEntity(o));
+        SharedPrefsUtil.putString(Constants.SharedPreKey.AllUserName,getJsonStringByEntity(o));
         Log.e("TAG", "showData: " + getJsonStringByEntity(o) );
     }
 

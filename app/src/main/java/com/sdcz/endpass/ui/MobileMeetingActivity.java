@@ -55,8 +55,10 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
+import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
+import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
 import com.sdcz.endpass.callback.MeetingMenuEventManagerListener;
 import com.sdcz.endpass.callback.MeetingRoomControl;
@@ -73,6 +75,9 @@ import com.sdcz.endpass.model.MeetingSettings;
 import com.sdcz.endpass.model.MeetingSettingsModel;
 import com.sdcz.endpass.model.NotificationUtil;
 import com.sdcz.endpass.model.UiEntrance;
+import com.sdcz.endpass.model.VideoController;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.presenter.MeetingBottomAndTopMenuContainer;
 import com.sdcz.endpass.presenter.MeetingQuitContainer;
 import com.sdcz.endpass.presenter.MobileMeetingPresenter;
@@ -103,8 +108,10 @@ import com.inpor.nativeapi.interfaces.RolePermissionEngine;
 import com.inpor.sdk.PlatformConfig;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -271,6 +278,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 variableLayout.isDataLayoutShowing());
         if (null != channelCode){
             mPresenter.checkAdmin(channelCode);
+            mPresenter.getChannelUser(channelCode);
         }
     }
 
@@ -920,6 +928,15 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         isAdmin = o;
     }
 
+    @Override
+    public void venueId(long id) {
+        try {
+            VideoController.getInstance().setSfkUserId(id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onChatMessage(ChatMsgInfo message) {
@@ -972,5 +989,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 break;
         }
     }
+
 
 }

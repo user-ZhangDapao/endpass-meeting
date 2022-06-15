@@ -51,13 +51,14 @@ public interface ApiUrl {
     @GET("api/getChannelList")
     Observable<BaseResponse<List<ChannelBean>>> getChannelList();
 
+    /// type 0 name为key , type 1 name为key
     @GET("api/getAllUser")
-    Observable<BaseResponse<Object>> getAllUser();
+    Observable<BaseResponse<Object>> getAllUser(@Query("type") int type);
 
     @GET("api/getChannelByCode")
     Observable<BaseResponse<ChannelBean>> getChannelByCode(@Query("channelCode") String channelCode);
 
-    @GET("api/getChannelByCode")
+    @GET("api/checkChannelAdmin")
     Observable<BaseResponse<Boolean>> checkChannelAdmin(@Query("channelCode") String channelCode);
 //
     @GET("api/dismissChannel")

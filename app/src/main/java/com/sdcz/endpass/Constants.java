@@ -47,7 +47,8 @@ public class Constants {
 
         public static final String Token = "token";
         public static final String UserInfo = "UserInfo";
-        public static final String AllUser = "AllUser";
+        public static final String AllUserName = "AllUserName";
+        public static final String AllUserId = "AllUserId";
         public static final String isAdmin = "isAdmin";
 
         public static final String SELECT_DEPT_NAME = "selectDeptName";
