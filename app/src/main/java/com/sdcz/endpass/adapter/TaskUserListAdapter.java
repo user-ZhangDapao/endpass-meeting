@@ -163,7 +163,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         }
 
 
-        viewHolder.tvUserName.setText(user.getNickName());
+        viewHolder.tvUserName.setMarqueeText(user.getNickName());
 
 
         /**

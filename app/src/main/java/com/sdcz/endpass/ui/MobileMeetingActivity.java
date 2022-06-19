@@ -56,6 +56,7 @@ import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.LayoutItem;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.bean.UserEntity;
@@ -930,11 +931,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void venueId(long id) {
-        try {
-            VideoController.getInstance().setSfkUserId(id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        VideoController.getInstance().setSfkUserId(id);
     }
 
 
@@ -962,6 +959,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 }
                 break;
             case "MAIN_VENUE":
+                VideoController.getInstance().setSfkUserId(Long.parseLong(strarray[1]));
                 break;
             case "ON_LISTEN":
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){

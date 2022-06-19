@@ -18,6 +18,7 @@ import com.comix.meeting.entities.FullType;
 import com.comix.meeting.entities.LayoutType;
 import com.comix.meeting.entities.MeetingInfo;
 import com.comix.meeting.listeners.LayoutModelListener;
+import com.inpor.nativeapi.adaptor.RoomWndState;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.google.gson.Gson;
@@ -77,6 +78,7 @@ public class VariableLayout extends ViewGroup implements LayoutModelListener {
         videoLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         videoLayout.setBackgroundResource(R.color.color_292C33);
         addView(videoLayout);
+
     }
 
     public int getCurrentStyle() {

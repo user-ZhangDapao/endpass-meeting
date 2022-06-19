@@ -66,8 +66,14 @@ public class VideoController implements VideoModelListener {
         return enableCamera;
     }
 
-    public void setSfkUserId(long sfkUserId) throws JSONException {
-        instance.nikeName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(sfkUserId)).getString("nickName");
+    public void setSfkUserId(long sfkUserId){
+        closeVunueVideo(sfkUserId);
+        try {
+            instance.nikeName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(sfkUserId)).getString("nickName");
+            openVunueVideo();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private VideoManager videoModel;
@@ -508,6 +514,64 @@ public class VideoController implements VideoModelListener {
                     continue;
                 }
                 screenView.detachVideoInfo();
+            }
+        }
+    }
+
+    /**
+     * ┎┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┒
+     * ┊ 功  能：关闭主会场，关闭某个用户视频           ┊
+     * ┊                                                                      ┊
+     * ┊ 参  数：无                                                           ┊
+     * ┊ 返回值：无                                                           ┊
+     * ┖┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┚
+     */
+    private void closeVunueVideo(long userId) {
+        String nickName = "";
+        if (userId == 0){
+            nickName = this.nikeName;
+        } else {
+            try {
+                nickName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(userId)).getString("nickName");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+        if (nickName.isEmpty()) return;
+        if (videoScreenViews != null) {
+            for (VideoScreenView screenView : videoScreenViews) {
+                if (null == screenView.getVideoInfo()) continue;
+                if (screenView.getVideoInfo().getVideoUser().getNickName().equals(nickName)){
+                    if (screenView.getVideoInfo() != null) {
+                        screenView.pauseOrResumeVideo(false);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * ┎┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┒
+     * ┊ 功  能：开启主会场，接收某个用户视频           ┊
+     * ┊                                                                      ┊
+     * ┊ 参  数：无                                                           ┊
+     * ┊ 返回值：无                                                           ┊
+     * ┖┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┚
+     */
+    private void openVunueVideo() {
+        if (nikeName.isEmpty()) return;;
+        if (videoScreenViews != null) {
+            for (VideoScreenView screenView : videoScreenViews) {
+                if (null == screenView.getVideoInfo()) continue;
+                if (screenView.getVideoInfo().getVideoUser().getNickName().equals(nikeName)){
+                    if (screenView.getVideoInfo() != null) {
+                        screenView.pauseOrResumeVideo(true);
+                        break;
+                    }
+                }
             }
         }
     }

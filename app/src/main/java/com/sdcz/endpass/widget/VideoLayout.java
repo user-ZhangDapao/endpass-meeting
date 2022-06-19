@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class VideoLayout extends ViewGroup implements VideoController.VideoControllerListener {
 
+    private boolean isfirst = true;
     private static final String TAG = "VideoLayout";
     public static final float DEFAULT_VIEW_SCALE = 16 / 9f;
     public static final float DEFAULT_VIEW_SCALE_1 = 4 / 3f;
@@ -35,7 +36,6 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
     private VideoScreenView fullView;
     private boolean hasWindowFullScreen;
     private List<VideoScreenView> views;
-    private long fpsUserId;
     /**
      * 视频数量，有窗口不代表有视频
      */
@@ -273,6 +273,7 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
             layoutOneScreenMode();
             return;
         }
+
 //        if (layoutType == LayoutType.CULTIVATE_LAYOUT) {
 //            layoutOneScreenMode();
 //        } else if (layoutType == LayoutType.STANDARD_LAYOUT) {
@@ -290,6 +291,14 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
 //            layoutSixScreenMode();
 //        }
         layoutPicInPicMode();
+
+        if(isfirst){
+            SdkUtil.getMeetingManager().setMeetingLayoutType(LayoutType.VIDEO_LAYOUT,
+                    RoomWndState.SplitStyle.SPLIT_STYLE_P_IN_P);
+            isfirst = false;
+            requestLayout();
+        }
+
     }
 
     /**
@@ -370,28 +379,6 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
         }
     }
 
-
-    /**
-     * 布局画中画模式
-     * 固定两个单位
-     */
-    private void layoutPicInPicMode2() {
-        for (int i = 0; i < views.size(); i++) {
-            long id = views.get(i).getVideoInfo().getVideoUser().getUserId();
-            if (id == fpsUserId){
-                VideoScreenView screen = views.get(i);
-                LayoutParams lp = screen.getLayoutParams();
-                layoutChild(screen, 0, 0, lp.width, lp.height);
-                screen.setDisplayMode(VideoScreenView.DISPLAY_MODE_RATIO_CUT);
-            }else if (id == SdkUtil.getUserManager().getLocalUser().getUserId()){
-                VideoScreenView screen = views.get(i);
-                LayoutParams lp = screen.getLayoutParams();
-                layoutChild(screen, originalWidth - lp.width,
-                        originalHeight - lp.height, originalWidth, originalHeight);
-                screen.setDisplayMode(VideoScreenView.DISPLAY_MODE_RATIO_CUT);
-            }
-        }
-    }
 
     /**
      * 布局四分屏模式
@@ -830,11 +817,4 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
         }
     }
 
-    public long getFpsUserId() {
-        return fpsUserId;
-    }
-
-    public void setFpsUserId(long fpsUserId) {
-        this.fpsUserId = fpsUserId;
-    }
 }
