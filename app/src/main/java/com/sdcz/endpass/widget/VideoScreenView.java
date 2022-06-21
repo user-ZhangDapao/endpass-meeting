@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -60,8 +61,8 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
     private static final String TAG = "VideoScreenView";
     private static final String MIPMAP = "mipmap";
     private static final String MIPMAP_NAME = "meeting_video_mic_b_open";
-    private final MeetingModule proxy;
-    private final VideoManager videoModel;
+    private MeetingModule proxy;
+    private VideoManager videoModel;
 
     @Override
     public void onAudioEnergyChanged(List<BaseUser> sources) {
@@ -95,7 +96,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
      * 绑定的VideoScreenView的ID
      */
     private long renderId;
-    private final RenderNotify renderNotify;
+    private RenderNotify renderNotify;
     /**
      * 视频播放窗体
      */
@@ -154,12 +155,32 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
     };
 
     /**
+     * 构造函数
+     *
+     * @param context 上下文
+     */
+    public VideoScreenView(Context context) {
+        super(context);
+        init(context);
+
+    }
+
+    public VideoScreenView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public VideoScreenView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    /**
      * 构造
      *
      * @param context 上下文
      */
-    public VideoScreenView(@NonNull Context context) {
-        super(context);
+    public void init( Context context) {
         // 视频布局
         createUserInfoTextView();
         createProgressBar();
@@ -176,6 +197,8 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
             EventBus.getDefault().register(this);
         }
     }
+
+
 
     @Override
     protected void onDetachedFromWindow() {
@@ -841,7 +864,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
     }
 
     private void updateUI(boolean receiveVideo) {
-        int visible = receiveVideo ? View.VISIBLE : View.INVISIBLE;
+        int visible = receiveVideo ? View.VISIBLE : View.GONE;
         surfaceView.setVisibility(visible);
         userInfoTv.setVisibility(visible);
         videoInfoTextView.setVisibility(visible);

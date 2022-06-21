@@ -35,7 +35,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-public class UserPopWidget extends BasePopupWindowContentView implements ChatManager.ChatMessageListener {
+public class UserPopWidget extends BasePopupWindowContentView {
 
     private Activity context;
     private String channelCode;
@@ -46,7 +46,6 @@ public class UserPopWidget extends BasePopupWindowContentView implements ChatMan
 
     private MeetingManager meetingModel;
     private UserManager userModel;
-    private ChatManager chatManager;
     private RecyclerView rvRoot;
     private ImageView ivClose;
 
@@ -149,8 +148,6 @@ public class UserPopWidget extends BasePopupWindowContentView implements ChatMan
 
         meetingModel = SdkUtil.getMeetingManager();
         meetingModel.addEventListener(meetingModelListener);
-        chatManager = ChatManager.getInstance();
-        chatManager.setChatMessageListener(this);
         userModel = SdkUtil.getUserManager();
         userModel.addEventListener(userModelListener);
         taskUserAdapter = new TaskUserListAdapter(context);
@@ -300,17 +297,6 @@ public class UserPopWidget extends BasePopupWindowContentView implements ChatMan
             public void onFailure(Throwable e, String errorMsg) {
             }
         });
-    }
-
-
-    @Override
-    public void onChatMessage(ChatMsgInfo message) {
-        String res = new String(message.msg);
-        Log.d("====Msg====",res);
-        String[] strarray = res.split("\\*");
-        switch (strarray[0]){
-
-        }
     }
 
 

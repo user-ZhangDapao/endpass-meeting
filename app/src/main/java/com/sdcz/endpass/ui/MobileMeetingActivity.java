@@ -1,5 +1,6 @@
 package com.sdcz.endpass.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
@@ -20,14 +21,17 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
@@ -41,12 +45,15 @@ import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.entities.LayoutType;
 import com.comix.meeting.entities.MeetingInfo;
 import com.comix.meeting.entities.ScreenShareOptions;
+import com.comix.meeting.entities.VideoInfo;
 import com.comix.meeting.entities.WhiteBoard;
 import com.comix.meeting.listeners.AudioModelListener;
 import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.ScreenSharingCreateListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
+import com.comix.meeting.listeners.VideoModelListener;
 import com.comix.meeting.listeners.WbCreateListener;
+import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LiveDataBus;
@@ -86,6 +93,7 @@ import com.sdcz.endpass.util.BrandUtil;
 import com.sdcz.endpass.util.HeadsetMonitorUtil;
 import com.sdcz.endpass.util.MediaUtils;
 import com.sdcz.endpass.util.MeetingTempDataUtils;
+import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.UiHelper;
 import com.sdcz.endpass.view.IMobileMeetingView;
@@ -108,6 +116,7 @@ import com.inpor.nativeapi.adaptor.RoomInfo;
 import com.inpor.nativeapi.adaptor.RoomWndState;
 import com.inpor.nativeapi.interfaces.RolePermissionEngine;
 import com.inpor.sdk.PlatformConfig;
+import com.sdcz.endpass.widget.VideoScreenView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -119,13 +128,13 @@ import java.util.List;
 import java.util.Map;
 
 public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener, ChatManager.ChatMessageListener,
-        MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener {
+        MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener, VideoModelListener, View.OnClickListener {
 
     private static final String TAG = "MobileMeetingActivity";
     public static final String EXTRA_ANONYMOUS_LOGIN = "EXTRA_ANONYMOUS_LOGIN";
     public static final String EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID = "EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID";
     private RelativeLayout rootView;
-    private VariableLayout variableLayout;
+//    private VariableLayout variableLayout;
     private MeetingTopTitleView meetingTopTitleView;
     private MeetingBottomMenuView meetingBottomMenuView;
     private PopupWindowBuilder popupWindowBuilder;
@@ -139,6 +148,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private UserManager userModel;
     private AudioManager audioModel;
     private ChatManager chatManager;
+    private VideoManager videoManager;
     private ScreenShareManager shareModel;
     private int objId = -1;
     private boolean isAnonymousLogin;
@@ -146,6 +156,36 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     private String channelCode = "";
     public static boolean isAdmin = false;
+
+    private VideoScreenView vsVeuneUser;
+    private VideoScreenView vsLocalUser;
+    private List<VideoInfo> videoInfoList = new ArrayList<>();
+    private String nikeName = "";
+
+    private final UserModelListenerImpl userModelListener2 =
+            new UserModelListenerImpl(UserModelListenerImpl.USER_INFO
+                    | UserModelListenerImpl.AUDIO_STATE, UserModelListenerImpl.ThreadMode.MAIN) {
+                @Override
+                public void onUserChanged(int type, BaseUser user) {
+                    if (null != vsLocalUser.getVideoInfo()){
+                        if (user.equals(vsLocalUser.getVideoInfo().getVideoUser())){
+                            if (type == UserModelListenerImpl.USER_INFO) {
+                                vsLocalUser.refreshUserInfo(user);
+                            } else if (type == UserModelListenerImpl.AUDIO_STATE) {
+                                vsLocalUser.refreshUserAudioState(user);
+                            }
+                        }
+                    } else if (null != vsVeuneUser.getVideoInfo()){
+                        if (nikeName.equals(vsVeuneUser.getVideoInfo().getVideoUser().getNickName())){
+                            if (type == UserModelListenerImpl.USER_INFO) {
+                                vsVeuneUser.refreshUserInfo(user);
+                            } else if (type == UserModelListenerImpl.AUDIO_STATE) {
+                                vsVeuneUser.refreshUserAudioState(user);
+                            }
+                        }
+                    }
+                }
+            };
 
     @Override
     protected void requestWindowSet(Bundle savedInstanceState) {
@@ -185,13 +225,18 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         audioModel = SdkUtil.getAudioManager();
         chatManager = ChatManager.getInstance();
         chatManager.setChatMessageListener(this);
+        videoManager = SdkUtil.getVideoManager();
+        //监听VideoModel
+        videoManager.addEventListener(this);
         proxy = meetingManager.getMeetingModule();
         audioModel.setAudioParam(AudioParam.getDefault(Platform.ANDROID));
-        MeetingInfo meetingInfo = proxy.getMeetingInfo();
+//        MeetingInfo meetingInfo = proxy.getMeetingInfo();
         rootView = findViewById(R.id.activity_root_view);
-        variableLayout = findViewById(R.id.variableLayout);
-        variableLayout.subscribe();
-        variableLayout.onLayoutChanged(meetingInfo);
+        vsVeuneUser = findViewById(R.id.vsVeuneUser);
+        vsLocalUser = findViewById(R.id.vsLocalUser);
+//        variableLayout = findViewById(R.id.variableLayout);
+//        variableLayout.subscribe();
+//        variableLayout.onLayoutChanged(meetingInfo);
         initBottomAndTopMenu();
         MeetingSettingsModel.getInstance().addListener(this);
         proxy.setup();
@@ -214,7 +259,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     protected int provideContentViewId() {
-        return R.layout.activity_mobile_meeting;
+        return R.layout.activity_metting_main;
     }
 
     private boolean validateMicAvailability(){
@@ -264,6 +309,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         //会议室事件监听
         meetingManager.addEventListener(this);
         userModel.addEventListener(userModelListener);
+        userModel.addEventListener(userModelListener2);
         audioModel.addEventListener(this);
         UiEntrance.getInstance().setMenuHelper(() ->
                 meetingBottomAndTopMenuContainer.bottomAndTopMenuShowControl());
@@ -277,7 +323,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         meetingBottomAndTopMenuContainer.addMeetingMenuEventManagerListener(this);
         meetingBottomAndTopMenuContainer.correlationMeetingTopMenu(meetingTopTitleView);
         meetingBottomAndTopMenuContainer.correlationMeetingBottomMenu(meetingBottomMenuView,
-                variableLayout.isDataLayoutShowing());
+                true);
         if (null != channelCode){
             mPresenter.checkAdmin(channelCode);
             mPresenter.getChannelUser(channelCode);
@@ -892,7 +938,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         MeetingSettingsModel.getInstance().removeListener(this);
         UiEntrance.getInstance().setMenuHelper(null);
         meetingBottomAndTopMenuContainer.recycle();
-        variableLayout.unSubscribe();
+//        variableLayout.unSubscribe();
         meetingManager.updateAudioEnergyState(false);
         currentAudioDataFile = null;
         MeetingTempDataUtils.cleanTempData();
@@ -1022,4 +1068,75 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     }
 
 
+    @Override
+    public void onVideoAdded(List<VideoInfo> list, VideoInfo changeInfo) {
+        boolean use_local_camera = videoManager.get_use_local_camera();//SharedPreferencesUtils.getBoolean("use_local_camera",true);
+
+        if( changeInfo.isLocalUser() )
+        {
+            List<String> permissionList = PermissionUtils.requestMeetingPermission();
+            if ( use_local_camera == true && permissionList != null && (permissionList.contains(Manifest.permission.CAMERA))) {
+                //没有权限还能创建视频流，纠正底层bug吧
+                if( EventBus.getDefault().isRegistered(this) == false ) {
+                    EventBus.getDefault().register(this);
+                }
+                String[] toBeStored = permissionList.toArray(new String[permissionList.size()]);
+                int requestCode = 61;//只申请视频
+                if( toBeStored.length == 2 )//音视频一起申请
+                {
+                    requestCode = 65;
+                }
+                ActivityCompat.requestPermissions(ActivityUtils.getTopActivity(),
+                        toBeStored, requestCode);
+                videoManager.broadcastVideo(changeInfo.getVideoUser());
+                return;
+            }
+        }
+        addVideoInfos(list);
+
+        if (changeInfo.isLocalUser()){
+            vsLocalUser.attachVideoInfo(changeInfo);
+        }else {
+            if (vsVeuneUser.getVideoInfo() != null) vsVeuneUser.detachVideoInfo();
+            vsVeuneUser.attachVideoInfo(changeInfo);
+        }
+    }
+
+    @Override
+    public void onVideoRemoved(List<VideoInfo> list, VideoInfo changeInfo) {
+        addVideoInfos(list);
+        if (changeInfo.isLocalUser()){
+            vsLocalUser.detachVideoInfo();
+        }else {
+            vsVeuneUser.detachVideoInfo();
+        }
+    }
+
+    @Override
+    public void onVideoPositionChanged(List<VideoInfo> list) {
+        addVideoInfos(list);
+
+    }
+
+    @Override
+    public void onVideoFullStateChanged(VideoInfo changeInfo) {
+
+    }
+
+    private void addVideoInfos(List<VideoInfo> list){
+        videoInfoList.clear();
+        videoInfoList.addAll(list);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.llRoot:
+            case R.id.vsLocalUser:
+            case R.id.vsVeuneUser:
+                UiEntrance.getInstance().setMenuHelper(() ->
+                        meetingBottomAndTopMenuContainer.bottomAndTopMenuShowControl());
+                break;
+        }
+    }
 }

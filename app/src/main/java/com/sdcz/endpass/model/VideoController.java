@@ -70,6 +70,7 @@ public class VideoController implements VideoModelListener {
         for (VideoInfo info : videoInfoLists){
             if (info.getVideoUser().getNickName().equals(nikeName)){
                 videoRemove(info);
+                copyVideoInfoList2(info);
                 nikeName = "";
                 break;
             }
@@ -192,6 +193,7 @@ public class VideoController implements VideoModelListener {
         if (videoScreenViews == null || videoScreenViews.isEmpty()) {
             return;
         }
+        Log.d("检查当前布局视频Z序","-videoScreenViews 数量"+ videoScreenViews.size());
         if (meetingInfo.layoutType == LayoutType.CULTIVATE_LAYOUT) {
             videoScreenViews.get(0).setZOrderMediaOverlay(true);
         } else if (meetingInfo.layoutType == LayoutType.VIDEO_LAYOUT
@@ -296,12 +298,17 @@ public class VideoController implements VideoModelListener {
             }
         }
 
-        VideoScreenView screenView;
+        VideoScreenView screenView = null;
         if (videoScreenViews.size() >= videoInfos.size()) {
             Log.d("添加动作-视图数量", videoScreenViews.size() + "");
             Log.d("添加动作-用户数量", videoInfos.size() + "");
             // 广播的视频小于窗口数时，将视频放置在靠前的空窗口
-            screenView = videoScreenViews.get(changeInfo.getPosition());
+//            screenView = videoScreenViews.get(changeInfo.getPosition());
+            for (VideoScreenView view : videoScreenViews){
+                if (view.getVideoInfo().equals(changeInfo.getVideoUser())){
+                    screenView = view;
+                }
+            }
             if (screenView != null && screenView.getVideoInfo() != null) {
                 //如果顺序变化  当前Position下 videoInfo 不为空 则找到空位置添加
                 for (int i = 0; i < videoScreenViews.size(); i++) {
@@ -366,6 +373,9 @@ public class VideoController implements VideoModelListener {
 
         }
 
+        //检查z序
+        MeetingInfo meetingInfo = proxy.getMeetingInfo();
+        checkZOrder(meetingInfo);
     }
 
     @Override
@@ -375,6 +385,7 @@ public class VideoController implements VideoModelListener {
     }
 
     public void videoRemove(VideoInfo changeInfo){
+
         if (changeInfo.isLocalUser()) {
             localVideoInfo = null;
 
@@ -413,16 +424,16 @@ public class VideoController implements VideoModelListener {
                 break;
             }
         }
-//        //当移除视频后，视频View不足最大布局个数时增加一个空VideoScreenView
-//        if (videoScreenViews.size() < MAX_VIDEO_NUMBER) {
-//            if (removeView == null) {
-//                removeView = new VideoScreenView(ctx);
-//            }
-//            videoScreenViews.add(removeView);
-//            if (controllerListener != null) {
-//                controllerListener.onVideoScreenAdd(videoScreenViews, removeView);
-//            }
-//        }
+        //当移除视频后，视频View不足最大布局个数时增加一个空VideoScreenView
+        if (videoScreenViews.size() < MAX_VIDEO_NUMBER) {
+            if (removeView == null) {
+                removeView = new VideoScreenView(ctx);
+            }
+            videoScreenViews.add(removeView);
+            if (controllerListener != null) {
+                controllerListener.onVideoScreenAdd(videoScreenViews, removeView);
+            }
+        }
         // 因为需要补位，所以这里要检查z序
         MeetingInfo meetingInfo = proxy.getMeetingInfo();
         checkZOrder(meetingInfo);
@@ -453,15 +464,15 @@ public class VideoController implements VideoModelListener {
                 }
             }
         }
+        // 交换位置
+        MeetingInfo meetingInfo = proxy.getMeetingInfo();
+        checkZOrder(meetingInfo);
         if (!isNeed) {
             return;
         }
         if (controllerListener != null) {
             controllerListener.onVideoPositionChange(videoScreenViews);
         }
-        // 交换位置
-        MeetingInfo meetingInfo = proxy.getMeetingInfo();
-        checkZOrder(meetingInfo);
     }
 
     @Override
@@ -584,6 +595,39 @@ public class VideoController implements VideoModelListener {
         Log.d("用户列表", "**" + videoInfos.size());
         return changingVideoInfo;
     }
+
+    private VideoInfo copyVideoInfoList2(VideoInfo changingVideoInfo) {
+        List<VideoInfo> list = new ArrayList<>();
+        for (VideoInfo info : videoInfoLists){
+            if (info.isLocalUser()){
+                list.add(info);
+            }else if (info.getVideoUser().getNickName().equals(nikeName)){
+                list.add(info);
+            }
+        }
+        tempList.clear();
+        for (VideoInfo videoInfo1 : list) {
+            boolean found = false;
+            for (VideoInfo videoInfo2 : videoInfos) {
+                if (videoInfo2.equals(changingVideoInfo)) {
+                    changingVideoInfo = changingVideoInfo.copyTo(videoInfo2);
+                }
+                if (videoInfo1.equals(videoInfo2)) {
+                    tempList.add(videoInfo1.copyTo(videoInfo2));
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                tempList.add(videoInfo1);
+            }
+        }
+        videoInfos.clear();
+        videoInfos.addAll(tempList);
+        Log.d("用户列表", "**" + videoInfos.size());
+        return changingVideoInfo;
+    }
+
 
     public interface VideoControllerListener {
 

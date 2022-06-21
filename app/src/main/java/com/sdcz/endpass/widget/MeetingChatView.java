@@ -54,7 +54,7 @@ import java.util.List;
 public class MeetingChatView extends BasePopupWindowContentView
         implements SoftKeyboardHelper.SoftKeyboardListener,
         View.OnClickListener, MeetingChatEmotionAdapter.EmotionOnClickListener,
-        ChatManager.ChatMessageListener,
+//        ChatManager.ChatMessageListener,
         ChatRecyclerView.OnClickChatRecyclerListener {
     public static final String TAG = "MeetingChatWindowView";
     private final Context context;
@@ -158,8 +158,8 @@ public class MeetingChatView extends BasePopupWindowContentView
 
 
     private void initData() {
-        chatManager = ChatManager.getInstance();
-        chatManager.setChatMessageListener(this);
+//        chatManager = ChatManager.getInstance();
+//        chatManager.setChatMessageListener(this);
         //初始化横竖屏状态
         initScreenOrientationState();
         meetingChatAdapter = new MeetingChatAdapter(this.context);
@@ -453,21 +453,21 @@ public class MeetingChatView extends BasePopupWindowContentView
      * @param message 聊天信息参数对象
      * @see ChatManager.ChatMessageListener
      */
-    @Override
-    public void onChatMessage(ChatMsgInfo message) {
-        this.post(() -> {
-            LinearLayoutManager layoutManager = (LinearLayoutManager) chatContentView.getLayoutManager();
-            if (layoutManager != null) {
-                int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
-                int totalItemCount = layoutManager.getItemCount();
-                meetingChatAdapter.appendChatMsgInfo(message);
-                Log.i(TAG, "lastVisibleItem:" + lastVisibleItem + "totalItemCount:" + totalItemCount);
-                if (lastVisibleItem == totalItemCount - 1) {
-                    layoutManager.scrollToPosition(meetingChatAdapter.getChatMessageArray().size() - 1);
-                }
-            }
-        });
-    }
+//    @Override
+//    public void onChatMessage(ChatMsgInfo message) {
+//        this.post(() -> {
+//            LinearLayoutManager layoutManager = (LinearLayoutManager) chatContentView.getLayoutManager();
+//            if (layoutManager != null) {
+//                int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
+//                int totalItemCount = layoutManager.getItemCount();
+//                meetingChatAdapter.appendChatMsgInfo(message);
+//                Log.i(TAG, "lastVisibleItem:" + lastVisibleItem + "totalItemCount:" + totalItemCount);
+//                if (lastVisibleItem == totalItemCount - 1) {
+//                    layoutManager.scrollToPosition(meetingChatAdapter.getChatMessageArray().size() - 1);
+//                }
+//            }
+//        });
+//    }
 
 
     /**
