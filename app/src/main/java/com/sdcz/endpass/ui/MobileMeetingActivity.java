@@ -93,6 +93,7 @@ import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
 
+import com.sdcz.endpass.widget.UserPopWidget;
 import com.sdcz.endpass.widget.VariableLayout;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.audio.RawCapDataSinkCallback;
@@ -931,7 +932,12 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void venueId(long id) {
-        VideoController.getInstance().setSfkUserId(id);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                VideoController.getInstance().setUserId(id);
+            }
+        });
     }
 
 
@@ -959,16 +965,43 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 }
                 break;
             case "MAIN_VENUE":
-                VideoController.getInstance().setSfkUserId(Long.parseLong(strarray[1]));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        VideoController.getInstance().setUserId(Long.parseLong(strarray[1]));
+                    }
+                });
                 break;
             case "ON_LISTEN":
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
                     meetingBottomAndTopMenuContainer.onClickOpenAudioListener();
+                }else {
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (strarray[1].equals("ALL")){
+                                UserPopWidget.taskUserAdapter.removeAllMuteUserIds();
+                            }else {
+                                UserPopWidget.taskUserAdapter.removeMuteUserIds(Long.valueOf(strarray[1]));
+                            }
+                        }
+                    });
                 }
                 break;
             case "OFF_LISTEN":
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
                     meetingBottomAndTopMenuContainer.onClickCloseAudioListener();
+                }else {
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (strarray[1].equals("ALL")){
+                                UserPopWidget.taskUserAdapter.addAllMuteUserIds();
+                            }else {
+                                UserPopWidget.taskUserAdapter.addMuteUserIds(Long.valueOf(strarray[1]));
+                            }
+                        }
+                    });
                 }
                 break;
             case "PLEASE_LEAVE":

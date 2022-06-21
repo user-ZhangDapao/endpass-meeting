@@ -17,6 +17,7 @@ import com.sdcz.endpass.model.UiEntrance;
 import com.sdcz.endpass.model.VideoController;
 import com.inpor.nativeapi.adaptor.RoomWndState;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ import java.util.List;
  * @description
  */
 public class VideoLayout extends ViewGroup implements VideoController.VideoControllerListener {
+
 
     private boolean isfirst = true;
     private static final String TAG = "VideoLayout";
@@ -273,6 +275,7 @@ public class VideoLayout extends ViewGroup implements VideoController.VideoContr
             layoutOneScreenMode();
             return;
         }
+        Log.e("TAG*TAG*TAG*TAG", views.size() + "");
 
 //        if (layoutType == LayoutType.CULTIVATE_LAYOUT) {
 //            layoutOneScreenMode();

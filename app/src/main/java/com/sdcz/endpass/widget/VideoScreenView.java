@@ -62,7 +62,6 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
     private static final String MIPMAP_NAME = "meeting_video_mic_b_open";
     private final MeetingModule proxy;
     private final VideoManager videoModel;
-    public long fpsUserId;
 
     @Override
     public void onAudioEnergyChanged(List<BaseUser> sources) {
@@ -75,18 +74,6 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         }
     }
 
-    public long getFpsUserId() {
-        return fpsUserId;
-    }
-
-    public void setFpsUserId(long fpsUserId) {
-        this.fpsUserId = fpsUserId;
-        if (videoInfo.getVideoUser().getUserId() == fpsUserId || videoInfo.getVideoUser().getUserId() == SdkUtil.getUserManager().getLocalUser().getUserId()){
-
-        }else {
-
-        }
-    }
 
     public enum VideoState {
         /**
@@ -118,7 +105,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
     //private SurfaceView custom_surfaceview;
     /*
 
-    */
+     */
 
     private boolean isSurfaceCreated;
     /**

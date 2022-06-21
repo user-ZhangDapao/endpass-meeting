@@ -21,18 +21,16 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraEventOnWrap;
 import com.sdcz.endpass.util.PermissionUtils;
-//import com.sdcz.endpass.util.YUVUtil;
-import com.sdcz.endpass.util.SharedPrefsUtil;
-import com.sdcz.endpass.widget.VideoScreenView;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.user.UserManager;
 import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.RoomWndState;
+import com.sdcz.endpass.util.SharedPrefsUtil;
+import com.sdcz.endpass.widget.VideoScreenView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,7 +45,7 @@ public class VideoController implements VideoModelListener {
     private static volatile VideoController instance;
     public static final int MAX_VIDEO_NUMBER = 2;
     private Context ctx;
-    public String nikeName = "";
+    private String nikeName = "";
 
     private LinkedList<VideoScreenView> videoScreenViews;
     /**
@@ -55,6 +53,7 @@ public class VideoController implements VideoModelListener {
      */
     private final List<VideoInfo> videoInfos = new ArrayList<>(MAX_VIDEO_NUMBER);
     private final List<VideoInfo> tempList = new ArrayList<>();
+    private List<VideoInfo> videoInfoLists = new ArrayList<>();
     private VideoInfo localVideoInfo;
     /**
      * 本地Camera状态：true 不禁用；false 禁用
@@ -65,16 +64,38 @@ public class VideoController implements VideoModelListener {
     public boolean isEnableCamera() {
         return enableCamera;
     }
+    public void setUserId(long userId){
 
-    public void setSfkUserId(long sfkUserId){
-        closeVunueVideo(sfkUserId);
+        Log.d("====设置主会场id====",userId + "");
+        for (VideoInfo info : videoInfoLists){
+            if (info.getVideoUser().getNickName().equals(nikeName)){
+                videoRemove(info);
+                nikeName = "";
+                break;
+            }
+        }
+        if (userId == 0) return;
+
         try {
-            instance.nikeName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(sfkUserId)).getString("nickName");
-            openVunueVideo();
-        } catch (JSONException e) {
+            if (SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).has(String.valueOf(userId))){
+                instance.nikeName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(userId)).getString("nickName");
+                Log.d("---设置主会场---","主会场：" + nikeName);
+                Log.d("---视频列表长度---",videoInfoLists.size() + "");
+
+                for (VideoInfo info : videoInfoLists){
+                    Log.d("---视频列表---",info.getVideoUser().getNickName());
+                    if (info.getVideoUser().getNickName().equals(nikeName)){
+                        Log.d("---设置主会场---","找到相同的");
+                        videoAdd(info);
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private VideoManager videoModel;
     private UserManager userModel;
@@ -88,16 +109,16 @@ public class VideoController implements VideoModelListener {
                         if (videoInfo == null) {
                             break;
                         }
-                if (videoInfo.getUserId() == user.getUserId()) {
-                    if (type == UserModelListenerImpl.USER_INFO) {
-                        screenView.refreshUserInfo(user);
-                    } else if (type == UserModelListenerImpl.AUDIO_STATE) {
-                        screenView.refreshUserAudioState(user);
+                        if (videoInfo.getUserId() == user.getUserId()) {
+                            if (type == UserModelListenerImpl.USER_INFO) {
+                                screenView.refreshUserInfo(user);
+                            } else if (type == UserModelListenerImpl.AUDIO_STATE) {
+                                screenView.refreshUserAudioState(user);
+                            }
+                        }
                     }
                 }
-            }
-        }
-    };
+            };
 
     private VideoControllerListener controllerListener;
     private MeetingModule proxy;
@@ -240,19 +261,19 @@ public class VideoController implements VideoModelListener {
 
     @Override
     public void onVideoAdded(List<VideoInfo> list, VideoInfo changeInfo) {
-
-        long localUserId = SdkUtil.getUserManager().getLocalUser().getUserId();
-        long changeInfoId = changeInfo.getVideoUser().getUserId();
-
-        ///判断是否是自己
-        if (changeInfoId != localUserId && !changeInfo.getVideoUser().getNickName().equals(nikeName)){
-            return;
+        changeInfo = copyVideoInfoList(list, changeInfo);
+        if (changeInfo.isLocalUser() || changeInfo.getVideoUser().getNickName().equals(nikeName)){
+            videoAdd(changeInfo);
         }
 
+    }
+
+    public void videoAdd( VideoInfo changeInfo){
+        Log.d("---添加视频界面---",changeInfo.getVideoUser().getNickName());
         VideoManager videomanager = SdkUtil.getVideoManager();
         boolean use_local_camera = videomanager.get_use_local_camera();//SharedPreferencesUtils.getBoolean("use_local_camera",true);
         //判断视频权限
-        //only for test
+        //only for VideoController
         VideoManager videoModel = SdkUtil.getVideoManager();
         if( changeInfo.isLocalUser() )
         {
@@ -275,9 +296,10 @@ public class VideoController implements VideoModelListener {
             }
         }
 
-        changeInfo = copyVideoInfoList(list, changeInfo);
         VideoScreenView screenView;
         if (videoScreenViews.size() >= videoInfos.size()) {
+            Log.d("添加动作-视图数量", videoScreenViews.size() + "");
+            Log.d("添加动作-用户数量", videoInfos.size() + "");
             // 广播的视频小于窗口数时，将视频放置在靠前的空窗口
             screenView = videoScreenViews.get(changeInfo.getPosition());
             if (screenView != null && screenView.getVideoInfo() != null) {
@@ -349,6 +371,10 @@ public class VideoController implements VideoModelListener {
     @Override
     public void onVideoRemoved(List<VideoInfo> list, VideoInfo changeInfo) {
         changeInfo = copyVideoInfoList(list, changeInfo);
+        videoRemove(changeInfo);
+    }
+
+    public void videoRemove(VideoInfo changeInfo){
         if (changeInfo.isLocalUser()) {
             localVideoInfo = null;
 
@@ -387,16 +413,16 @@ public class VideoController implements VideoModelListener {
                 break;
             }
         }
-        //当移除视频后，视频View不足最大布局个数时增加一个空VideoScreenView
-        if (videoScreenViews.size() < MAX_VIDEO_NUMBER) {
-            if (removeView == null) {
-                removeView = new VideoScreenView(ctx);
-            }
-            videoScreenViews.add(removeView);
-            if (controllerListener != null) {
-                controllerListener.onVideoScreenAdd(videoScreenViews, removeView);
-            }
-        }
+//        //当移除视频后，视频View不足最大布局个数时增加一个空VideoScreenView
+//        if (videoScreenViews.size() < MAX_VIDEO_NUMBER) {
+//            if (removeView == null) {
+//                removeView = new VideoScreenView(ctx);
+//            }
+//            videoScreenViews.add(removeView);
+//            if (controllerListener != null) {
+//                controllerListener.onVideoScreenAdd(videoScreenViews, removeView);
+//            }
+//        }
         // 因为需要补位，所以这里要检查z序
         MeetingInfo meetingInfo = proxy.getMeetingInfo();
         checkZOrder(meetingInfo);
@@ -519,67 +545,23 @@ public class VideoController implements VideoModelListener {
     }
 
     /**
-     * ┎┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┒
-     * ┊ 功  能：关闭主会场，关闭某个用户视频           ┊
-     * ┊                                                                      ┊
-     * ┊ 参  数：无                                                           ┊
-     * ┊ 返回值：无                                                           ┊
-     * ┖┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┚
-     */
-    private void closeVunueVideo(long userId) {
-        String nickName = "";
-        if (userId == 0){
-            nickName = this.nikeName;
-        } else {
-            try {
-                nickName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(userId)).getString("nickName");
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return;
-            }
-        }
-        if (nickName.isEmpty()) return;
-        if (videoScreenViews != null) {
-            for (VideoScreenView screenView : videoScreenViews) {
-                if (null == screenView.getVideoInfo()) continue;
-                if (screenView.getVideoInfo().getVideoUser().getNickName().equals(nickName)){
-                    if (screenView.getVideoInfo() != null) {
-                        screenView.pauseOrResumeVideo(false);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-
-    /**
-     * ┎┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┒
-     * ┊ 功  能：开启主会场，接收某个用户视频           ┊
-     * ┊                                                                      ┊
-     * ┊ 参  数：无                                                           ┊
-     * ┊ 返回值：无                                                           ┊
-     * ┖┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┚
-     */
-    private void openVunueVideo() {
-        if (nikeName.isEmpty()) return;;
-        if (videoScreenViews != null) {
-            for (VideoScreenView screenView : videoScreenViews) {
-                if (null == screenView.getVideoInfo()) continue;
-                if (screenView.getVideoInfo().getVideoUser().getNickName().equals(nikeName)){
-                    if (screenView.getVideoInfo() != null) {
-                        screenView.pauseOrResumeVideo(true);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * videoInfos尽量重用对象，而不使用message中的list中新建的对象
      */
     private VideoInfo copyVideoInfoList(List<VideoInfo> videoInfoList, VideoInfo changingVideoInfo) {
+        videoInfoLists.clear();
+        videoInfoLists.addAll(videoInfoList);
+        Log.d("视频列表1", "**" + videoInfoLists.size());
+        Log.d("窗口列表1", "**" + videoScreenViews.size());
+        videoInfoList.clear();
+        Log.d("视频列表2", "**" + videoInfoLists.size());
+        Log.d("窗口列表2", "**" + videoScreenViews.size());
+        for (VideoInfo info : videoInfoLists){
+            if (info.isLocalUser()){
+                videoInfoList.add(info);
+            }else if (info.getVideoUser().getNickName().equals(nikeName)){
+                videoInfoList.add(info);
+            }
+        }
         tempList.clear();
         for (VideoInfo videoInfo1 : videoInfoList) {
             boolean found = false;
@@ -599,6 +581,7 @@ public class VideoController implements VideoModelListener {
         }
         videoInfos.clear();
         videoInfos.addAll(tempList);
+        Log.d("用户列表", "**" + videoInfos.size());
         return changingVideoInfo;
     }
 

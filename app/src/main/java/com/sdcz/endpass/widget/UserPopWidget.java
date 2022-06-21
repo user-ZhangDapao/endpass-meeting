@@ -28,6 +28,7 @@ import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
+import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import org.json.JSONException;
@@ -40,7 +41,7 @@ public class UserPopWidget extends BasePopupWindowContentView implements ChatMan
     private String channelCode;
 
     private List<ChannerUser> userInfoList;
-    static TaskUserListAdapter taskUserAdapter;
+    public static TaskUserListAdapter taskUserAdapter;
     private Handler m_handler = new Handler();
 
     private MeetingManager meetingModel;
@@ -308,34 +309,7 @@ public class UserPopWidget extends BasePopupWindowContentView implements ChatMan
         Log.d("====Msg====",res);
         String[] strarray = res.split("\\*");
         switch (strarray[0]){
-            case "ON_LISTEN":
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (strarray[1].equals("ALL")){
-                            taskUserAdapter.removeAllMuteUserIds();
-                        }else {
-                            taskUserAdapter.removeMuteUserIds(Long.valueOf(strarray[1]));
-                        }
-                    }
-                });
-                break;
-            case "OFF_LISTEN":
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (strarray[1].equals("ALL")){
-                            taskUserAdapter.addAllMuteUserIds();
-                        }else {
-                            taskUserAdapter.addMuteUserIds(Long.valueOf(strarray[1]));
-                        }
-                    }
-                });
 
-                break;
-            case "ADD_CHANNEL_USER":
-
-                break;
         }
     }
 
