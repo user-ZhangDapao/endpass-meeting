@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,15 +22,22 @@ import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.gms.common.util.Base64Utils;
+import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.callback.SetServerCallback;
+import com.inpor.sdk.kit.workflow.Procedure;
 import com.sdcz.endpass.Constants;
+import com.sdcz.endpass.LoginActivity;
 import com.sdcz.endpass.LoginSettingActivity;
 import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.dialog.LoadingDialog;
 import com.sdcz.endpass.login.JoinMeetingManager;
+import com.sdcz.endpass.login.LoginErrorUtil;
+import com.sdcz.endpass.login.LoginMeetingCallBack;
+import com.sdcz.endpass.login.LoginStateUtil;
 import com.sdcz.endpass.presenter.LoginPresenter;
+import com.sdcz.endpass.ui.RoomListActivity;
 import com.sdcz.endpass.util.PackageUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ILoginView;
@@ -56,6 +64,8 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
     private CheckBox checkbox;
     private ImageView ivClose;
     private TextView tvVersion;
+    LoadingDialog loadingDialog;
+
 
     @Override
     protected int provideContentViewId() {
@@ -84,6 +94,7 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
     @Override
     public void initData() {
         super.initData();
+        loadingDialog = new LoadingDialog(this, R.string.CONNECTING_SERVER);
         tvVersion.setText("V" + PackageUtils.getVersionName(getApplicationContext()));
     }
 
@@ -195,12 +206,10 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
         SharedPrefsUtil.putString(Constants.SP_KEY_CLIENT_SECRET, clientSecret);
         //更新clientId和clientSecret
         JoinMeetingManager.getInstance().setClientIdInfo(clientId, clientSecret);
-        LoadingDialog loadingDialog = new LoadingDialog(this, R.string.CONNECTING_SERVER);
         loadingDialog.show();
         JoinMeetingManager.getInstance().setServer(ip, Integer.parseInt(port), new SetServerCallback() {
             @Override
             public void onSuccess() {
-                loadingDialog.dismiss();
                 ToastUtils.showShort(R.string.configure_server_success);
                 String serverAddress = SharedPrefsUtil.getString(com.sdcz.endpass.Constants.SP_KEY_SERVER_ADDRESS);
                 String serverPort = SharedPrefsUtil.getString(com.sdcz.endpass.Constants.SP_KEY_SERVER_PORT);
@@ -211,10 +220,13 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
                     ToastUtils.showShort(R.string.check_service_config_info);
                     return;
                 }
+
                 //更新clientId和clientSecret
                 JoinMeetingManager.getInstance().setClientIdInfo(clientId, clientSecret);
-                startActivity(new Intent(LoginActivityApp.this, MainActivityApp.class));
-                finish();
+
+
+                toRoomList(etLoginName.getText().toString().trim(), etPassWord.getText().toString().trim());
+
             }
 
             @Override
@@ -224,4 +236,46 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
             }
         });
     }
+
+    private void toRoomList(String userName, String userPwd) {
+        loadingDialog.show();
+        JoinMeetingManager.getInstance().loginAccount("", "mdt"+userName, "mdt0"+userName, new LoginMeetingCallBack() {
+
+            @Override
+            public void onConflict(boolean isMeeting) {
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onStart(Procedure procedure) {
+                loadingDialog.show();
+            }
+
+            @Override
+            public void onState(int state) {
+                Log.i(TAG, "onState: state is " + state);
+                loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
+            }
+
+            @Override
+            public void onBlockFailed(ProcessStep step, int code, String msg) {
+                Log.i(TAG, "onBlockFailed: code is " + code);
+                ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailed() {
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public boolean onLoginSuccess() {
+                startActivity(new Intent(LoginActivityApp.this, MainActivityApp.class));
+                finish();
+                return true;
+            }
+        });
+    }
+
 }

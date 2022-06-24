@@ -64,7 +64,25 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 
     public void setMuteUserIds(List<Long> ids) {
         this.ids.addAll(ids);
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
+    }
+
+    public void setVenueId(long id) {
+        if (mData != null) {
+            if (id == 0) {
+                for (int i = 0; i < mData.size(); i++) {
+                    mData.get(i).setVenue(false);
+                }
+            } else {
+                for (int i = 0; i < mData.size(); i++) {
+                    mData.get(i).setVenue(false);
+                    if (id == mData.get(i).getUserId()) {
+                        mData.get(i).setVenue(true);
+                    }
+                }
+            }
+            notifyDataSetChanged();
+        }
     }
 
     public void addMuteUserIds(Long id) {
@@ -75,7 +93,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
             return;
         }
         ids.add(id);
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     public void addAllMuteUserIds() {
@@ -89,7 +107,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 //        if (ids.contains(id)){
 //            ids.remove(id);
 //        }
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     public void removeMuteUserIds(Long id) {
@@ -101,7 +119,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         }else {
             return;
         }
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     public void removeAllMuteUserIds() {
@@ -111,7 +129,13 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 //        }else {
             ids.clear();
 //        }
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
+    }
+
+    public void notifyItemChanged2() {
+        for (int i = 0; i < getItemCount(); i++) {
+            notifyItemChanged(i, R.id.group_user_item_iv_audio);
+        }
     }
 
     public void setClickListener(ItemClickEvent mClick) {
@@ -170,12 +194,8 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
          * 主会场
          */
 
-//        if (mData.get(position).getIsVenue()) {
-//            viewHolder.ivVenue.setImageResource(style ? R.drawable.icon_venue_blue : R.drawable.icon_venue_green2);
-//        } else {
-//            viewHolder.ivVenue.setImageResource(style ? R.drawable.icon_venue_gray : R.drawable.icon_venue_gray2);
-//        }
-//
+        viewHolder.ivVenue.setImageResource(mData.get(position).isVenue() ? R.drawable.icon_venue_green2 : R.drawable.icon_venue_blue);
+
 //        /**
 //         * 名字 和 头像
 //         */
@@ -336,7 +356,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             if (ButtonDelayUtil.isFastClick()) {
                                 if (mData.size() > getAdapterPosition()) {
-//                                    mClick.clickVonue(mData.get(getAdapterPosition()).getUserId(), mData.get(getAdapterPosition()).getIsVenue());
+                                    mClick.clickVonue(mData.get(getAdapterPosition()).getUserId(), mData.get(getAdapterPosition()).isVenue());
                                 }
                             }
                         }
@@ -375,7 +395,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 
         void clickCallKickOut(String userId);
 
-        void clickVonue(String userId, boolean isVonue);
+        void clickVonue(long userId, boolean isVonue);
 
         void clickListen(long userId, boolean isListen);
     }

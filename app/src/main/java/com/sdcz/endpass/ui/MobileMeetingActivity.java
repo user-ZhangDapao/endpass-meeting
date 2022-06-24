@@ -159,8 +159,9 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     private VideoScreenView vsVeuneUser;
     private VideoScreenView vsLocalUser;
+    private LinearLayout llRoot;
     private List<VideoInfo> videoInfoList = new ArrayList<>();
-    private String nikeName = "";
+    private long idid = 0;
 
     private final UserModelListenerImpl userModelListener2 =
             new UserModelListenerImpl(UserModelListenerImpl.USER_INFO
@@ -176,7 +177,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                             }
                         }
                     } else if (null != vsVeuneUser.getVideoInfo()){
-                        if (nikeName.equals(vsVeuneUser.getVideoInfo().getVideoUser().getNickName())){
+                        if (idid == vsVeuneUser.getVideoInfo().getVideoUser().getUserId()){
                             if (type == UserModelListenerImpl.USER_INFO) {
                                 vsVeuneUser.refreshUserInfo(user);
                             } else if (type == UserModelListenerImpl.AUDIO_STATE) {
@@ -234,6 +235,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         rootView = findViewById(R.id.activity_root_view);
         vsVeuneUser = findViewById(R.id.vsVeuneUser);
         vsLocalUser = findViewById(R.id.vsLocalUser);
+        llRoot = findViewById(R.id.llRoot);
 //        variableLayout = findViewById(R.id.variableLayout);
 //        variableLayout.subscribe();
 //        variableLayout.onLayoutChanged(meetingInfo);
@@ -260,6 +262,14 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     protected int provideContentViewId() {
         return R.layout.activity_metting_main;
+    }
+
+    @Override
+    public void initListener() {
+        super.initListener();
+        vsVeuneUser.setOnClickListener(this);
+        vsLocalUser.setOnClickListener(this);
+        llRoot.setOnClickListener(this);
     }
 
     private boolean validateMicAvailability(){
@@ -978,19 +988,14 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void venueId(long id) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                VideoController.getInstance().setUserId(id);
-            }
-        });
+       setUserId(id);
     }
 
 
     @Override
     public void onChatMessage(ChatMsgInfo message) {
         String res = new String(message.msg);
-        Log.d("====Msg====",res);
+            Log.d("====Msg====",res);
         String[] strarray = res.split("\\*");
         switch (strarray[0]){
             case "OPEN_AUDIO":
@@ -1011,10 +1016,10 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 }
                 break;
             case "MAIN_VENUE":
-                runOnUiThread(new Runnable() {
+                this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        VideoController.getInstance().setUserId(Long.parseLong(strarray[1]));
+                        setUserId(Long.valueOf(strarray[1]));
                     }
                 });
                 break;
@@ -1098,7 +1103,9 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             vsLocalUser.attachVideoInfo(changeInfo);
         }else {
             if (vsVeuneUser.getVideoInfo() != null) vsVeuneUser.detachVideoInfo();
-            vsVeuneUser.attachVideoInfo(changeInfo);
+            if (changeInfo.getVideoUser().getUserId() == idid){
+                vsVeuneUser.attachVideoInfo(changeInfo);
+            }
         }
     }
 
@@ -1134,9 +1141,26 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             case R.id.llRoot:
             case R.id.vsLocalUser:
             case R.id.vsVeuneUser:
-                UiEntrance.getInstance().setMenuHelper(() ->
-                        meetingBottomAndTopMenuContainer.bottomAndTopMenuShowControl());
+                meetingBottomAndTopMenuContainer.bottomAndTopMenuShowControl();
                 break;
         }
     }
+
+    public void setUserId(long userId){
+        try {
+            idid = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(userId)).getLong("mdtUserId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        vsVeuneUser.detachVideoInfo();
+        if (userId == SharedPrefsUtil.getUserId() || userId == 0) return;
+        for (VideoInfo info : videoInfoList){
+            if (info.getVideoUser().getUserId() == idid ){
+                vsVeuneUser.attachVideoInfo(info);
+                break;
+            }
+        }
+    }
+
+
 }

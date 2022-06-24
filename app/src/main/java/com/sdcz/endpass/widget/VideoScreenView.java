@@ -27,6 +27,7 @@ import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.entities.LayoutType;
 import com.comix.meeting.entities.MeetingInfo;
 import com.comix.meeting.entities.VideoInfo;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.CustomImageEvent;
@@ -37,10 +38,12 @@ import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.RoomWndState;
 import com.inpor.nativeapi.interfaces.ConfigChannel;
 import com.inpor.nativeapi.interfaces.VideoRenderNotify;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -50,8 +53,7 @@ import java.util.List;
  * @date create at 2020/11/30
  * @description
  */
-public class VideoScreenView extends FrameLayout implements View.OnClickListener,
-        View.OnTouchListener, MicEnergyMonitor.AudioEnergyListener {
+public class VideoScreenView extends FrameLayout implements MicEnergyMonitor.AudioEnergyListener {
 
 
     public static final int DISPLAY_MODE_TILE = 1;
@@ -64,6 +66,8 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
     private MeetingModule proxy;
     private VideoManager videoModel;
 
+
+    ///麦克风开启的时候 应调麦克风监听方法
     @Override
     public void onAudioEnergyChanged(List<BaseUser> sources) {
         for (BaseUser user : sources) {
@@ -188,7 +192,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         createDisableImageView();
         //
         renderNotify = new RenderNotify();
-        setOnTouchListener(this);
+//        setOnTouchListener(this);
         VideoManager videoManager = SdkUtil.getVideoManager();
         proxy = videoManager.getMeetingModule();
         videoModel = SdkUtil.getVideoManager();
@@ -221,52 +225,52 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == surfaceView && videoInfo != null) {
-            tapCount++;
-            if (tapCount <= 1) {
-                postDelayed(singleTapRunnable, 300);
-            } else {
-                removeCallbacks(singleTapRunnable);
-                tapCount = 0;
-                videoModel.changeVideoToFirst(videoInfo);
-                videoModel.setVideoFullScreen(videoInfo, !videoInfo.isFullScreen());
-            }
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        if (view == surfaceView && videoInfo != null) {
+//            tapCount++;
+//            if (tapCount <= 1) {
+//                postDelayed(singleTapRunnable, 300);
+//            } else {
+//                removeCallbacks(singleTapRunnable);
+//                tapCount = 0;
+//                videoModel.changeVideoToFirst(videoInfo);
+//                videoModel.setVideoFullScreen(videoInfo, !videoInfo.isFullScreen());
+//            }
+//        }
+//    }
 
-
-    @Override
-    public boolean onTouch(View view, MotionEvent ev) {
-
-        if (ev.getAction() == MotionEvent.ACTION_UP) {
-            if (videoInfo != null) {
-                tapCount++;
-                if (tapCount <= 1) {
-                    lastClickTime = System.currentTimeMillis();
-                    postDelayed(singleTapRunnable, 300);
-                } else {
-                    removeCallbacks(singleTapRunnable);
-                    tapCount = 0;
-                    if (System.currentTimeMillis() - lastClickTime <= 300) {
-                        BaseUser localUser = SdkUtil.getUserManager().getLocalUser();
-                        boolean isBroadcaster = localUser.isBroadcaster();
-                        boolean notFullScreen = !videoInfo.isFullScreen();
-                        localUser.setBroadcaster(
-                                localUser.isMainSpeakerDone()
-                                        && (!videoInfo.getVideoUser().isLocalUser()
-                                        || !SdkUtil.getVideoManager().isDisplayingLocalVideo()));
-                        videoModel.setVideoFullScreen(videoInfo, notFullScreen);
-                        localUser.setBroadcaster(isBroadcaster);
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        return true;
-    }
+//
+//    @Override
+//    public boolean onTouch(View view, MotionEvent ev) {
+//
+//        if (ev.getAction() == MotionEvent.ACTION_UP) {
+//            if (videoInfo != null) {
+//                tapCount++;
+//                if (tapCount <= 1) {
+//                    lastClickTime = System.currentTimeMillis();
+//                    postDelayed(singleTapRunnable, 300);
+//                } else {
+//                    removeCallbacks(singleTapRunnable);
+//                    tapCount = 0;
+//                    if (System.currentTimeMillis() - lastClickTime <= 300) {
+//                        BaseUser localUser = SdkUtil.getUserManager().getLocalUser();
+//                        boolean isBroadcaster = localUser.isBroadcaster();
+//                        boolean notFullScreen = !videoInfo.isFullScreen();
+//                        localUser.setBroadcaster(
+//                                localUser.isMainSpeakerDone()
+//                                        && (!videoInfo.getVideoUser().isLocalUser()
+//                                        || !SdkUtil.getVideoManager().isDisplayingLocalVideo()));
+//                        videoModel.setVideoFullScreen(videoInfo, notFullScreen);
+//                        localUser.setBroadcaster(isBroadcaster);
+//                        return true;
+//                    }
+//                }
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
 
     public VideoInfo getVideoInfo() {
         return videoInfo;
@@ -287,6 +291,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         }
         videoInfo.setVideoUser(baseUser);
         updateUserInfoTvName(baseUser);
+
     }
 
     /**
@@ -359,6 +364,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         addView(userInfoTv);
         addView(videoInfoTextView);
         updateUI(videoInfo.isReceiveVideo());
+        setVisibility(VISIBLE);
     }
 
     /**
@@ -401,6 +407,7 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         isSurfaceCreated = false;
         videoState = VideoState.STATE_NONE;
         MicEnergyMonitor.getInstance().removeAudioEnergyListener(this, micType);
+        setVisibility(GONE);
     }
 
 
@@ -508,9 +515,9 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         userInfoTv = new TextView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.TOP | Gravity.START;
+        params.gravity = Gravity.BOTTOM | Gravity.START;
         params.leftMargin = 20;
-        params.topMargin = 20;
+        params.bottomMargin = 20;
         userInfoTv.setLayoutParams(params);
         userInfoTv.setBackgroundResource(R.drawable.username_bg_2);
         userInfoTv.setTextColor(Color.WHITE);
@@ -676,7 +683,12 @@ public class VideoScreenView extends FrameLayout implements View.OnClickListener
         } else {
             nameAndMediaId = user.getNickName();
         }
-        userInfoTv.setText(nameAndMediaId);
+        try {
+            String name = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(String.valueOf(user.getUserId())).getString("nickName");
+            userInfoTv.setText(name);
+        } catch (JSONException e) {
+            userInfoTv.setText(nameAndMediaId);
+        }
     }
 
 

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/video_default_bg"
         >
 
         <com.sdcz.endpass.widget.VideoScreenView
@@ -16,14 +17,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/color_6A7EFD"
+            android:background="@color/color_2B2F3D"
+            android:visibility="gone"
             />
         <com.sdcz.endpass.widget.VideoScreenView
             android:id="@+id/vsLocalUser"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/color_06C261"
+            android:background="@color/color_2B2F3D"
+            android:visibility="gone"
             />
 
     </LinearLayout>

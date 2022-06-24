@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTabHost;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
+import com.inpor.sdk.annotation.ProcessStep;
+import com.inpor.sdk.kit.workflow.Procedure;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseActivity;
@@ -25,6 +28,10 @@ import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.fragment.DispatchFragment;
 import com.sdcz.endpass.fragment.MailListFragment;
 import com.sdcz.endpass.fragment.MineFragment;
+import com.sdcz.endpass.login.JoinMeetingManager;
+import com.sdcz.endpass.login.LoginErrorUtil;
+import com.sdcz.endpass.login.LoginMeetingCallBack;
+import com.sdcz.endpass.login.LoginStateUtil;
 import com.sdcz.endpass.presenter.MainPresenter;
 import com.sdcz.endpass.recevier.NetWorkStateReceiver;
 import com.sdcz.endpass.util.SharedPrefsUtil;
@@ -72,9 +79,46 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     @Override
     public void initData() {
         super.initData();
+
 //        PlayerManager.getManager().init(getContext());
 //        PlayerManager.getManager().changeToSpeakerMode();
         mPresenter.getAllUser(this);
+        checkLogin();
+    }
+
+    private void checkLogin() {
+        String userName = SharedPrefsUtil.getUserInfo().getUserName();
+        JoinMeetingManager.getInstance().loginAccount("", "mdt" + userName, "mdt0"+userName, new LoginMeetingCallBack() {
+
+            @Override
+            public void onConflict(boolean isMeeting) {
+            }
+
+            @Override
+            public void onStart(Procedure procedure) {
+            }
+
+            @Override
+            public void onState(int state) {
+            }
+
+            @Override
+            public void onBlockFailed(ProcessStep step, int code, String msg) {
+                SharedPrefsUtil.clean(MainActivityApp.this);
+                startActivity(new Intent(MainActivityApp.this, LoginActivityApp.class));
+            }
+
+            @Override
+            public void onFailed() {
+                SharedPrefsUtil.clean(MainActivityApp.this);
+                startActivity(new Intent(MainActivityApp.this, LoginActivityApp.class));
+            }
+
+            @Override
+            public boolean onLoginSuccess() {
+                return true;
+            }
+        });
 
     }
 

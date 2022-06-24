@@ -316,19 +316,22 @@ public class RequestUtils {
 //                .updateRecordLeaveTime(code).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
 //                .subscribe(observer);
 //    }
-//
-//    /**
-//     * Post
-//     * 22.离开临时会话记录
-//     *
-//     * @param observer
-//     */
-//    public static void setVenue(String channelCode, String userId, MyObserver<Object> observer) {
-//        RetrofitUtils.getApiUrl()
-//                .setVenue(channelCode, userId).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
-//                .subscribe(observer);
-//    }
-//
+
+    /**
+     * Post
+     * 22.设置主会场
+     *
+     * @param observer
+     */
+    public static void setVenue(long id, long venue, MyObserver<Object> observer) {
+        JSONObject postInfo = new JSONObject();
+        postInfo.put("id",id);
+        postInfo.put("venue",venue);
+        RetrofitUtils.getApiUrl()
+                .setVenue(postInfo).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
     /**
      * Post
      * 23.设置静音

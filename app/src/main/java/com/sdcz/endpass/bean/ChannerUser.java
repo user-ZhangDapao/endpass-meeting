@@ -20,6 +20,16 @@ public class ChannerUser {
     private String phonenumber;
     private String deptName;
     private BaseUser baseUser;
+    private boolean isVenue;
+
+
+    public boolean isVenue() {
+        return isVenue;
+    }
+
+    public void setVenue(boolean venue) {
+        isVenue = venue;
+    }
 
     public Object getSearchValue() {
         return searchValue;
