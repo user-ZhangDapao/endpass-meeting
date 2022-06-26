@@ -29,6 +29,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
     private ConstraintLayout contentView;
     private ImageView volumeSwitch;
     private ImageView changeCamera;
+    private ImageView imSetting;
     private TextView titleTextView;
     private TextView outTextView;//退出
     private ImageView ivInfo;
@@ -97,6 +98,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
         titleTextView = findViewById(R.id.tv_title_content);
         chronometer = findViewById(R.id.meeting_time);
         outTextView = findViewById(R.id.tv_out);
+        imSetting = findViewById(R.id.im_setting);
         ivInfo = findViewById(R.id.im_tip);
         return rootView;
     }
@@ -119,6 +121,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
         volumeSwitch.setOnClickListener(this);
         changeCamera.setOnClickListener(this);
         outTextView.setOnClickListener(this);
+        imSetting.setOnClickListener(this);
         ivInfo.setOnClickListener(this);
     }
 
@@ -203,19 +206,20 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
             if (id == R.id.im_camera) {
                 meetingTopTitleListener.onClickChangeCameraItemListener(view);
             } else if (id == R.id.im_audio) {
-//                if (mutesWitch) {
-//                    volumeSwitch.setActivated(false);
-//                    meetingTopTitleListener.onClickOpenAudioListener();
-//                } else {
-//                    volumeSwitch.setActivated(true);
-//                    meetingTopTitleListener.onClickCloseAudioListener();
-//                }
-//                mutesWitch = !mutesWitch;
-                meetingTopTitleListener.onClickLeftOtherListener(channelCode);
+                if (mutesWitch) {
+                    volumeSwitch.setActivated(false);
+                    meetingTopTitleListener.onClickOpenAudioListener();
+                } else {
+                    volumeSwitch.setActivated(true);
+                    meetingTopTitleListener.onClickCloseAudioListener();
+                }
+                mutesWitch = !mutesWitch;
             } else if (id == R.id.tv_out) {
                 meetingTopTitleListener.onClickQuitListener(view);
             } else if (id == R.id.im_tip) {
                 meetingTopTitleListener.onClickMeetingInfoListener();
+            } else if (id == R.id.im_setting) {
+                meetingTopTitleListener.onClickLeftOtherListener(channelCode);
             }
         }
     }

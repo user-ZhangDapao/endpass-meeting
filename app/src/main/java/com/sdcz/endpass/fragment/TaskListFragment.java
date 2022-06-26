@@ -50,6 +50,7 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
     private TaskListAdapter adapter;
     private RelativeLayout rlError;
     private SmartRefreshLayout refreshLayout;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected TaskListPresenter createPresenter() {
@@ -113,29 +114,26 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
 
                             @Override
                             public void onStart(Procedure procedure) {
-//                                if (loadingDialog == null) {
-//                                    loadingDialog = new LoadingDialog(requireContext(), R.string.logging);
-//                                }
-//                                loadingDialog.show();
-//                                showLoading();
+                                if (loadingDialog == null) {
+                                    loadingDialog = new LoadingDialog(requireContext(), R.string.logging);
+                                }
+                                loadingDialog.show();
                             }
 
                             @Override
                             public void onState(int state, String msg) {
-//                                loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
+                                loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
                             }
 
                             @Override
                             public void onBlockFailed(ProcessStep step, int code, String msg) {
                                 ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
-//                                loadingDialog.dismiss();
-//                                hideLoading();
+                                loadingDialog.dismiss();
                             }
 
                             @Override
                             public void onFailed() {
-//                                loadingDialog.dismiss();
-//                                hideLoading();
+                                loadingDialog.dismiss();
                             }
 
                             @Override
@@ -145,8 +143,7 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
 
                             @Override
                             public void onSuccess() {
-//                                loadingDialog.dismiss();
-//                                hideLoading();
+                                loadingDialog.dismiss();
                                 if (Code.isEmpty()) return;
                                 Intent intent = new Intent(requireActivity(), MobileMeetingActivity.class);
                                 intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);

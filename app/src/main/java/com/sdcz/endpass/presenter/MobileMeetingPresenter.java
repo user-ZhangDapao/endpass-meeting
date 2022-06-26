@@ -4,6 +4,7 @@ package com.sdcz.endpass.presenter;
 import android.app.Activity;
 import android.content.Context;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.sdcz.endpass.DemoApp;
 import com.sdcz.endpass.base.BasePresenter;
 import com.sdcz.endpass.bean.ChannelBean;
@@ -71,5 +72,19 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
             }
         });
         return new ArrayList<>();
+    }
+
+    public void addChannelUser(Activity activity, String groupId, String[] userIds){
+        RequestUtils.addChannelUser(groupId, userIds, new MyObserver<Object>(activity) {
+            @Override
+            public void onSuccess(Object result) {
+                ToastUtils.showLong("添加成功");
+            }
+
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+                iView.showOnFailure("", errorMsg);
+            }
+        });
     }
 }

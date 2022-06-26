@@ -835,52 +835,39 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            if (requestCode == Constant.SCREEN_SHARE_REQUEST_CODE) {
-                String msg = getString(R.string.meetingui_has_no_share_permission,
-                        AppUtils.getAppName());
-                //部分手机出现Toast异常显示，加上主线程抛出就好了
-                ThreadUtils.getMainHandler().post(() -> ToastUtils.showShort(msg));
+        if (requestCode == Constants.SharedPreKey.REQUEST_CODE_2){
+            if (resultCode == Constants.HttpKey.RESPONSE_200){
+                if (SharedPrefsUtil.getListUserInfo().size() > 0){
+
+                    List<String> selectUsers = new ArrayList<>();
+
+                    if(SharedPrefsUtil.getRoleId().equals("1")){
+                        ToastUtils.showLong("超级管理员~");
+                        for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
+                            if (info.getChannelName() != null){
+//                                mPresenter.deleteChannelUser(this,info.getChannel().getChannelCode(),info.getUserId());
+                            }
+                            selectUsers.add(info.getUserId() + "");
+                        }
+                    }else {
+                        ToastUtils.showLong("普通管理员~");
+                        for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
+                            if (info.getChannelName() == null){
+                                selectUsers.add(info.getUserId() + "");
+                            }
+                        }
+                    }
+
+                    String[] usersId = selectUsers.toArray(new String[selectUsers.size()]);
+                    if (usersId.length > 0){
+                        mPresenter.addChannelUser(this, channelCode, usersId);
+                    }
+
+                }
+            }else if (resultCode == Constants.SharedPreKey.REQUEST_CODE_201){
+//                tvDept.setText(data.getStringExtra(KeyStore.DEPTNAME));
+//                deptId = data.getStringExtra(KeyStore.DEPTID);
             }
-            return;
-        }
-
-        switch (requestCode) {
-            case Constant.SELECT_PIC_BY_PICK_PHOTO:
-                if (data != null) {
-                    // 不再判断主讲权限
-                    String path = MediaUtils.getImagePath(this, data.getData());
-                    openWbFromLocalFile(path);
-                }
-                break;
-            case Constant.SELECT_PIC_BY_TACK_PHOTO:
-                String takePhotoUri = MediaUtils.getTakePhotoUri().getPath();
-                openWbFromLocalFile(takePhotoUri);
-                break;
-            case Constant.SCREEN_SHARE_REQUEST_CODE:
-                PermissionManager manager = SdkUtil.getPermissionManager();
-                long localUserId = userModel.getLocalUser().getUserId();
-                boolean hasPermission = manager.checkUserPermission(localUserId, true,
-                        RolePermission.CREATE_APPSHARE);
-                if (!hasPermission) {
-                    ToastUtils.showShort(R.string.meetingui_permission_not_permitted_admin);
-                    return;
-                }
-                ScreenShareOptions screenShareOptions = new ScreenShareOptions();
-                screenShareOptions.title = getString(R.string.meetingui_screen_shared);
-                screenShareOptions.sharpness = VideoQuality.HD;
-                shareModel.setScreenShareQualityBias(screenShareOptions);
-                String appName = AppUtils.getAppName();
-                Notification notification = NotificationUtil.buildNotify(this,
-                        R.mipmap.tb_share_open, R.mipmap.tb_share_open,
-                        getString(R.string.meetingui_share_screen_notification, appName),
-                        getString(R.string.meetingui_sharing_screen_if_stop, appName));
-                shareModel.addEventListener(sharingCreateListener);
-                shareModel.startScreenSharing(resultCode, data, notification);
-                break;
-
-            default:
-                break;
         }
     }
 
@@ -945,6 +932,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         if (objId != -1) {
             audioModel.removeAudioCaptureCallback(objId);
         }
+        chatManager.recycle();
         MeetingSettingsModel.getInstance().removeListener(this);
         UiEntrance.getInstance().setMenuHelper(null);
         meetingBottomAndTopMenuContainer.recycle();
@@ -1064,6 +1052,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     reason_map.put("type",1);
                     _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
                     meetingManager.closeMeeting(0, "");
+                    finish();
                 }
                 break;
             case "ADD_CHANNEL_USER":

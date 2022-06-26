@@ -52,7 +52,7 @@ android:layout_height="match_parent">
     android:background="@drawable/shape_select_shared"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -99,25 +99,26 @@ android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRoot"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:minHeight="@dimen/height_220"
-
+            android:layout_height="match_parent"
             android:layout_below="@id/rlTitle"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_above="@id/tvAddUser"
             />
 
         <TextView
             android:id="@+id/tvAddUser"
             android:layout_width="@dimen/width_40"
             android:layout_height="@dimen/height_40"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/icon_pop_add"
-            android:layout_margin="@dimen/margin_20"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            />
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_20"
+            android:background="@drawable/icon_pop_add" />
+    </RelativeLayout>
 </FrameLayout>
 
 

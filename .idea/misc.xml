@@ -94,9 +94,11 @@
         <entry key="..\:/byzlcats/EndPass-byz-20220522-02z/EndPass/app/src/main/res/layout/titlebar_view.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/activity_metting_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_mobile_meeting.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_user_pop.xml" value="0.1770516717325228" />
         <entry key="app/src/main/res/layout/meeting_bottom_menu_bar.xml" value="0.1" />
         <entry key="app/src/main/res/layout/meeting_chat_msg_left_item.xml" value="0.12447916666666667" />
-        <entry key="app/src/main/res/layout/meeting_top_title_bar.xml" value="0.17470855712890626" />
+        <entry key="app/src/main/res/layout/meeting_more_menu_layout.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/meeting_top_title_bar.xml" value="0.25" />
         <entry key="app/src/main/res/layout/recycler_item_layout.xml" value="0.21822916666666667" />
       </map>
     </option>

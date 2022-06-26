@@ -187,7 +187,11 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         }
 
 
-        viewHolder.tvUserName.setMarqueeText(user.getNickName());
+        try {
+            viewHolder.tvUserName.setMarqueeText(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(user.getUserId())).getString("nickName"));
+        } catch (JSONException e) {
+            viewHolder.tvUserName.setMarqueeText(user.getNickName());
+        }
 
 
         /**

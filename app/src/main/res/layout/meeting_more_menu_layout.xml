@@ -88,7 +88,9 @@
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tv_gps"
-            app:layout_constraintTop_toBottomOf="@+id/rl_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/rl_layout"
+            android:visibility="gone"
+            />
 
 
         <TextView
@@ -103,7 +105,9 @@
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintLeft_toLeftOf="@id/chat"
             app:layout_constraintRight_toRightOf="@id/tv_gps"
-            app:layout_constraintTop_toBottomOf="@+id/rl_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/rl_layout"
+            android:visibility="gone"
+            />
 
 
         <TextView
@@ -119,6 +123,7 @@
             app:layout_constraintLeft_toLeftOf="@id/tv_cancelgps"
             app:layout_constraintRight_toRightOf="@id/tv_change_layout"
             app:layout_constraintTop_toBottomOf="@+id/rl_layout"
+            android:visibility="gone"
             />
 
 
@@ -134,7 +139,9 @@
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintLeft_toRightOf="@id/tv_gps"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rl_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/rl_layout"
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/tv_chat_mark"
@@ -358,110 +365,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp48">
-
-                    <TextView
-                        android:id="@+id/tv_on_all_listen"
-                        style="@style/meeting_vertical_more_text2"
-                        android:drawableLeft="@mipmap/more_icon_admin"
-                        android:paddingStart="@dimen/margin_20dp"
-                        android:text="全体开音" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="@dimen/dp20"
-                        android:src="@mipmap/more_arrow" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.75dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/color_0EFFFFFF" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp48">
-
-                    <TextView
-                        android:id="@+id/tv_off_all_listen"
-                        style="@style/meeting_vertical_more_text2"
-                        android:drawableLeft="@mipmap/more_icon_admin"
-                        android:paddingStart="@dimen/margin_20dp"
-                        android:text="全体闭音（不让听）" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="@dimen/dp20"
-                        android:src="@mipmap/more_arrow" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.75dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/color_0EFFFFFF" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp48">
-
-                    <TextView
-                        android:id="@+id/tv_on_all_audio"
-                        style="@style/meeting_vertical_more_text2"
-                        android:drawableLeft="@mipmap/more_icon_admin"
-                        android:paddingStart="@dimen/margin_20dp"
-                        android:text="全体开麦" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="@dimen/dp20"
-                        android:src="@mipmap/more_arrow" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.75dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/color_0EFFFFFF" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp48">
-
-                    <TextView
-                        android:id="@+id/tv_off_all_audio"
-                        style="@style/meeting_vertical_more_text2"
-                        android:drawableLeft="@mipmap/more_icon_admin"
-                        android:paddingStart="@dimen/margin_20dp"
-                        android:text="全体静音（不让说）" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="@dimen/dp20"
-                        android:src="@mipmap/more_arrow" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.75dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/color_0EFFFFFF" />
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/rl_exit_meeting"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp48">
@@ -484,6 +387,7 @@
                         android:layout_alignParentBottom="true"
                         android:background="@color/color_0EFFFFFF" />
                 </RelativeLayout>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

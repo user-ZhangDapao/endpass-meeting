@@ -1,12 +1,14 @@
 package com.sdcz.endpass.widget;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +32,8 @@ import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
+import com.sdcz.endpass.ui.activity.SelectUserActivity;
+import com.sdcz.endpass.ui.activity.TaskUserActivity;
 import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 
@@ -50,7 +54,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
     private MeetingManager meetingModel;
     private UserManager userModel;
     private RecyclerView rvRoot;
-    private ImageView ivClose;
+    private TextView tvAddUser;
 
     private final MeetingModelListener meetingModelListener = new MeetingModelListener() {
 
@@ -149,7 +153,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.activity_user_pop, this);
         rvRoot = findViewById(R.id.rvRoot);
-        ivClose = findViewById(R.id.ivClose);
+        tvAddUser = findViewById(R.id.tvAddUser);
 
         meetingModel = SdkUtil.getMeetingManager();
         meetingModel.addEventListener(meetingModelListener);
@@ -169,6 +173,12 @@ public class UserPopWidget extends BasePopupWindowContentView {
     }
 
     private void initListener() {
+        tvAddUser.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivityForResult(new Intent(context, SelectUserActivity.class).putExtra(Constants.SharedPreKey.DEPTID,"").putExtra(Constants.SharedPreKey.GROUPNAME,""),Constants.SharedPreKey.REQUEST_CODE_2);
+            }
+        });
         taskUserAdapter.setClickListener(new TaskUserListAdapter.ItemClickEvent() {
             @Override
             public void clickCall(String mobile) {

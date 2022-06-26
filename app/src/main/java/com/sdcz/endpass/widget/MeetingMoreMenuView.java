@@ -61,10 +61,6 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
     private IMeetingMoreMenuListener meetingMoreContainerListener;
     private TextView chatMark;
     private TextView tvSetting;
-    private TextView tvOnAllListen;
-    private TextView tvOnOffListen;
-    private TextView tvOnAllAudio;
-    private TextView tvOffAllAudio;
     private TextView applyManagerView;
     private RelativeLayout exitMeetingLayout;
     private ConstraintLayout parentContentLayout;
@@ -102,6 +98,7 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
         LayoutInflater.from(context)
                 .inflate(R.layout.meeting_more_menu_layout, this, true);
         parentContentLayout = findViewById(R.id.cl_more_root_layout);
+        exitMeetingLayout = findViewById(R.id.rl_exit_meeting);
         initView();
         boolean portrait = ScreenUtils.isPortrait();
         //横竖屏加载不同的布局
@@ -159,19 +156,10 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
         chatMark = findViewById(R.id.tv_chat_mark);
         tvSetting = findViewById(R.id.tv_setting);
         tvSetting.setOnClickListener(this);
-        tvOnAllListen = findViewById(R.id.tv_on_all_listen);
-        tvOnAllListen.setOnClickListener(this);
-        tvOnOffListen = findViewById(R.id.tv_off_all_listen);
-        tvOnOffListen.setOnClickListener(this);
-        tvOnAllAudio = findViewById(R.id.tv_on_all_audio);
-        tvOnAllAudio.setOnClickListener(this);
-        tvOffAllAudio = findViewById(R.id.tv_off_all_audio);
-        tvOffAllAudio.setOnClickListener(this);
+
         applyManagerView = findViewById(R.id.tv_apply_manager);
         applyManagerView.setOnClickListener(this);
-        TextView exitMeetingView = findViewById(R.id.tv_exit_meeting);
-        exitMeetingView.setOnClickListener(this);
-        exitMeetingLayout = findViewById(R.id.rl_exit_meeting);
+
 
         //监听未读信息变化
         ChatManager.getInstance().setUnReadMsgUpdateListener(this);
@@ -238,21 +226,6 @@ public class MeetingMoreMenuView extends BasePopupWindowContentView
             dismissPopupWindow();
         } else if (id == R.id.tv_apply_manager) {
             meetingMoreContainerListener.onClickApplyManagerListener();
-        } else if (id == R.id.tv_exit_meeting) {
-            dismissPopupWindow();
-            meetingMoreContainerListener.onClickFinishMeetingListener();
-        } else if (id == R.id.tv_on_all_listen) {
-            dismissPopupWindow();
-            meetingMoreContainerListener.onClickListenListener(true);
-        } else if (id == R.id.tv_off_all_listen) {
-            dismissPopupWindow();
-            meetingMoreContainerListener.onClickListenListener(false);
-        } else if (id == R.id.tv_on_all_audio) {
-            dismissPopupWindow();
-            meetingMoreContainerListener.onClickAudioListener(true);
-        } else if (id == R.id.tv_off_all_audio) {
-            dismissPopupWindow();
-            meetingMoreContainerListener.onClickAudioListener(true);
         }
     }
 

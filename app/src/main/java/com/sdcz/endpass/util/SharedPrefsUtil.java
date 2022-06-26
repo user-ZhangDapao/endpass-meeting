@@ -221,8 +221,8 @@ public class SharedPrefsUtil {
             return new ArrayList<>();
         }
         String peopleListJson = sharedPreferences.getString(Constants.SharedPreKey.SELECT_USER_LIST, "");
-        if (peopleListJson != "") {
-            return new Gson().fromJson(peopleListJson, new TypeToken<List<UserInfo>>() {
+        if (peopleListJson != "" && peopleListJson != null) {
+            return new Gson().fromJson(peopleListJson, new TypeToken<List<UserEntity>>() {
             }.getType()); //将json字符串转换成List集合
         }
         return new ArrayList<>();
@@ -231,6 +231,10 @@ public class SharedPrefsUtil {
 
     public static void putListUserInfo(List<UserEntity> value) {
         if (sharedPreferences == null) {
+            return;
+        }
+        if (null == value){
+            sharedPreferences.edit().putString(Constants.SharedPreKey.SELECT_USER_LIST, "").apply();
             return;
         }
         sharedPreferences.edit().putString(Constants.SharedPreKey.SELECT_USER_LIST, new Gson().toJson(value)).apply();
