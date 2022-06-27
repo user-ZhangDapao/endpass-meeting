@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,12 +17,17 @@ import android.widget.TextView;
 import androidx.multidex.BuildConfig;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.nativeapi.adaptor.OnlineUserInfo;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.StatusBarUtils;
 import com.sdcz.endpass.widget.stateview.StateView;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+
 import io.reactivex.annotations.Nullable;
 
 public abstract class BaseActivity <T extends BasePresenter> extends RxActivity implements IBaseView {

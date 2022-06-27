@@ -31,5 +31,15 @@
       <option name="name" value="maven3" />
       <option name="url" value="https://maven.aliyun.com/repository/jcenter" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="http://192.168.7.69:8081/repository/3rd_party/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven5" />
+      <option name="name" value="maven5" />
+      <option name="url" value="http://192.168.7.69:8081/nexus/content/repositories/jcenter/" />
+    </remote-repository>
   </component>
 </project>

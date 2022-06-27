@@ -6,6 +6,7 @@ import com.inpor.base.sdk.chat.ChatManager;
 import com.inpor.base.sdk.login.LoginManager;
 import com.inpor.base.sdk.meeting.MeetingManager;
 import com.inpor.base.sdk.permission.PermissionManager;
+import com.inpor.base.sdk.roomlist.ContactManager;
 import com.inpor.base.sdk.roomlist.RoomListManager;
 import com.inpor.base.sdk.share.ScreenShareManager;
 import com.inpor.base.sdk.user.UserManager;
@@ -57,5 +58,9 @@ public class SdkUtil {
 
     public static RoomListManager getRoomListManager(){
         return getSdkManager().queryManager(ManagerFlag.SDK_FRONT_MEETING);
+    }
+
+    public static ContactManager getContactManager() {
+        return getSdkManager().queryManager(ManagerFlag.SDK_ENTERPRISE_CONTACT);
     }
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,12 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.nativeapi.adaptor.OnlineUserInfo;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.MailListAdapter;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseFragment;
@@ -38,6 +41,7 @@ import com.sdcz.endpass.widget.PopupWindowToUserData;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
@@ -102,6 +106,15 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         super.initData();
         ivHead.setImageResource(R.drawable.icon_head);
         mPresenter.getUserInfo(getActivity());
+        HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
+        if (null != map){
+            for (Long key : map.keySet()){
+                Log.d("",key + "");
+            }
+        }else {
+            Log.d("","空空空空空空空空空");
+        }
+
     }
 
     @Override
