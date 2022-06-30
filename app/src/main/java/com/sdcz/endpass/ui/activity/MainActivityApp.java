@@ -19,10 +19,14 @@ import androidx.fragment.app.FragmentTabHost;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
+import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
+import com.inpor.nativeapi.adaptor.OnlineUserInfo;
 import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.PaasOnlineManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.fragment.DispatchFragment;
@@ -36,6 +40,8 @@ import com.sdcz.endpass.presenter.MainPresenter;
 import com.sdcz.endpass.recevier.NetWorkStateReceiver;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.IMainView;
+
+import java.util.HashMap;
 
 public class MainActivityApp extends BaseActivity<MainPresenter> implements IMainView {
 
@@ -83,44 +89,8 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
 //        PlayerManager.getManager().init(getContext());
 //        PlayerManager.getManager().changeToSpeakerMode();
         mPresenter.getAllUser(this);
-        checkLogin();
     }
 
-    private void checkLogin() {
-        String userName = SharedPrefsUtil.getUserInfo().getUserName();
-        JoinMeetingManager.getInstance().loginAccount("", "mdt" + userName, "mdt0"+userName, new LoginMeetingCallBack() {
-
-            @Override
-            public void onConflict(boolean isMeeting) {
-            }
-
-            @Override
-            public void onStart(Procedure procedure) {
-            }
-
-            @Override
-            public void onState(int state) {
-            }
-
-            @Override
-            public void onBlockFailed(ProcessStep step, int code, String msg) {
-                SharedPrefsUtil.clean(MainActivityApp.this);
-                startActivity(new Intent(MainActivityApp.this, LoginActivityApp.class));
-            }
-
-            @Override
-            public void onFailed() {
-                SharedPrefsUtil.clean(MainActivityApp.this);
-                startActivity(new Intent(MainActivityApp.this, LoginActivityApp.class));
-            }
-
-            @Override
-            public boolean onLoginSuccess() {
-                return true;
-            }
-        });
-
-    }
 
     @Override
     public void initListener() {

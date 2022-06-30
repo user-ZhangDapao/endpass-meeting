@@ -14,7 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
 import com.inpor.nativeapi.adaptor.OnlineUserInfo;
+import com.inpor.sdk.annotation.ProcessStep;
+import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.InstantMeetingOperation;
+import com.inpor.sdk.online.PaasOnlineManager;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -27,8 +32,11 @@ import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseFragment;
 import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.bean.UserEntity;
+import com.sdcz.endpass.login.JoinMeetingManager;
+import com.sdcz.endpass.login.LoginMeetingCallBack;
 import com.sdcz.endpass.presenter.MailListPresenter;
 import com.sdcz.endpass.ui.activity.LikeActivity;
+import com.sdcz.endpass.ui.activity.LoginActivityApp;
 import com.sdcz.endpass.ui.activity.MailListActivity;
 import com.sdcz.endpass.ui.activity.MainActivityApp;
 import com.sdcz.endpass.ui.activity.SearchActivity;
@@ -101,20 +109,52 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
 
     }
 
+    private void checkLogin() {
+        String userName = SharedPrefsUtil.getUserInfo().getUserName();
+        PaasOnlineManager.getInstance().setBusy(true);
+        JoinMeetingManager.getInstance().loginAccount(null, "mdt" + userName, "mdt0"+userName, new LoginMeetingCallBack() {
+
+            @Override
+            public void onConflict(boolean isMeeting) {
+            }
+
+            @Override
+            public void onStart(Procedure procedure) {
+            }
+
+            @Override
+            public void onState(int state) {
+            }
+
+            @Override
+            public void onBlockFailed(ProcessStep step, int code, String msg) {
+                SharedPrefsUtil.clean(getActivity());
+                startActivity(new Intent(getActivity(), LoginActivityApp.class));
+            }
+
+            @Override
+            public void onFailed() {
+                SharedPrefsUtil.clean(getActivity());
+                startActivity(new Intent(getActivity(), LoginActivityApp.class));
+            }
+
+            @Override
+            public boolean onLoginSuccess() {
+                mPresenter.getUserInfo(getActivity());
+                return true;
+            }
+        });
+
+    }
+
+
+
     @Override
     public void initData() {
         super.initData();
         ivHead.setImageResource(R.drawable.icon_head);
-        mPresenter.getUserInfo(getActivity());
-        HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
-        if (null != map){
-            for (Long key : map.keySet()){
-                Log.d("",key + "");
-            }
-        }else {
-            Log.d("","空空空空空空空空空");
-        }
-
+        showLoading();
+        checkLogin();
     }
 
     @Override
@@ -157,10 +197,19 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
 
     @Override
     public void showData(MailListBean data) {
+
+        HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
         hideLoading();
         refreshLayout.finishRefresh();
         if (data != null){
             userInfoList = data.getUserList();
+            for (UserEntity entity : userInfoList){
+                if (map.containsKey(entity.getMdtUserId())){
+                    entity.setIsOnline(1);
+                }else {
+                    entity.setIsOnline(0);
+                }
+            }
             recyclerUser.setLayoutManager(initLayoutManager(getActivity()));
             recyclerList.setLayoutManager(initLayoutManager(getActivity()));
             userAdapter = new MailUserAdapter(R.layout.item_maillist_user, data.getUserList(), new MailUserAdapter.onItemClick() {

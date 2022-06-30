@@ -49,6 +49,15 @@ public class UserEntity {
     private String channelName;
     private Object location;
     private boolean admin;
+    private long mdtUserId;
+
+    public long getMdtUserId() {
+        return mdtUserId;
+    }
+
+    public void setMdtUserId(long mdtUserId) {
+        this.mdtUserId = mdtUserId;
+    }
 
     public Object getSearchValue() {
         return searchValue;

@@ -3,6 +3,7 @@ package com.sdcz.endpass.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.DashPathEffect;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.google.android.gms.common.util.Base64Utils;
 import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.callback.SetServerCallback;
 import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.PaasOnlineManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LoginActivity;
 import com.sdcz.endpass.LoginSettingActivity;
@@ -32,6 +34,7 @@ import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.dialog.LoadingDialog;
+import com.sdcz.endpass.login.DefaultJoinMeetingCallBack;
 import com.sdcz.endpass.login.JoinMeetingManager;
 import com.sdcz.endpass.login.LoginErrorUtil;
 import com.sdcz.endpass.login.LoginMeetingCallBack;
@@ -238,9 +241,9 @@ public class LoginActivityApp extends BaseActivity<LoginPresenter> implements IL
     }
 
     private void toRoomList(String userName, String userPwd) {
+        PaasOnlineManager.getInstance().setBusy(true);
         loadingDialog.show();
-        JoinMeetingManager.getInstance().loginAccount("", "mdt"+userName, "mdt0"+userName, new LoginMeetingCallBack() {
-
+        JoinMeetingManager.getInstance().loginAccount(null, "mdt"+userName, "mdt0"+userName, new LoginMeetingCallBack() {
             @Override
             public void onConflict(boolean isMeeting) {
                 loadingDialog.dismiss();

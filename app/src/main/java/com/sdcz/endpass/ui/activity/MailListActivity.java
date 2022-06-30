@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,8 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.firebase.auth.UserInfo;
+import com.inpor.manager.util.HandlerUtils;
+import com.inpor.nativeapi.adaptor.OnlineUserInfo;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.MailListAdapter;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseActivity;
@@ -28,11 +33,15 @@ import com.sdcz.endpass.view.IMailListView;
 import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.PopupWindowToUserData;
 import com.sdcz.endpass.widget.TitleBarView;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -50,6 +59,24 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     private MailUserAdapter userAdapter;
     private MailListAdapter taskAdapter;
     TitleBarView rlTitleBar;
+
+
+    ///todo:
+    private Observer userStateObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object arg) {
+            if (arg instanceof CompanyUserInfo) {
+                Log.e("userStateObserver", ((CompanyUserInfo) arg).getUserName());
+                HandlerUtils.postToMain(new Runnable() {
+                    @Override
+                    public void run() {
+//                        -> contactAdapter.updateItem((CompanyUserInfo) arg)
+
+                    }
+                });
+            }
+        }
+    };
 
     @Override
     protected MailListPresenter createPresenter() {
@@ -86,6 +113,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     @Override
     public void initListener() {
         super.initListener();
+        InstantMeetingOperation.getInstance().addObserver(userStateObserver);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +133,14 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
         if (data != null) {
             if (data.getDeptList().size() > 0 || data.getUserList().size() > 0){
                 MailListActivity.this.userInfoList = data.getUserList();
+                HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
+                for (UserEntity entity : userInfoList){
+                    if (map.containsKey(entity.getMdtUserId())){
+                        entity.setIsOnline(1);
+                    }else {
+                        entity.setIsOnline(0);
+                    }
+                }
                 recyclerUser.setLayoutManager(initLayoutManager(this));
                 recyclerList.setLayoutManager(initLayoutManager(this));
                 userAdapter = new MailUserAdapter(R.layout.item_maillist_user, data.getUserList(), new MailUserAdapter.onItemClick() {
