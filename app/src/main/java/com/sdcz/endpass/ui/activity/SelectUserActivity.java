@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.UserInfo;
+import com.inpor.manager.util.HandlerUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
@@ -25,6 +26,7 @@ import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.SelectUserPresenter;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ISelectUserView;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -108,6 +110,17 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onUserStateChange(CompanyUserInfo info) {
+        super.onUserStateChange(info);
+        for (UserEntity userEntity : userInfoList){
+            if (userEntity.getMdtUserId() == info.getUserId()){
+                userEntity.setIsOnline(info.isMeetingState());
+                HandlerUtils.postToMain(() -> adapter.notifyDataSetChanged());
+            }
         }
     }
 //

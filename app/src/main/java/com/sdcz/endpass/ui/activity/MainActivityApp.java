@@ -20,9 +20,15 @@ import androidx.fragment.app.FragmentTabHost;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
+import com.inpor.log.Logger;
+import com.inpor.manager.beans.CompanyUserDto;
+import com.inpor.manager.beans.DepartmentResultDto;
+import com.inpor.manager.util.HandlerUtils;
 import com.inpor.nativeapi.adaptor.OnlineUserInfo;
+import com.inpor.sdk.PlatformConfig;
 import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.inpor.sdk.online.PaasOnlineManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
@@ -40,8 +46,12 @@ import com.sdcz.endpass.presenter.MainPresenter;
 import com.sdcz.endpass.recevier.NetWorkStateReceiver;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.IMainView;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MainActivityApp extends BaseActivity<MainPresenter> implements IMainView {
 
@@ -54,6 +64,16 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     private RelativeLayout llMain;
     private SoundPool mSoundPool;
     private NetWorkStateReceiver netWorkStateReceiver;
+
+
+    private Observer userStateObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object arg) {
+            if (arg instanceof CompanyUserInfo) {
+                Log.e("navi", "userStateObserver");
+            }
+        }
+    };
 
 
     @Override
@@ -85,7 +105,7 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     @Override
     public void initData() {
         super.initData();
-
+        InstantMeetingOperation.getInstance().addObserver(userStateObserver);
 //        PlayerManager.getManager().init(getContext());
 //        PlayerManager.getManager().changeToSpeakerMode();
         mPresenter.getAllUser(this);
@@ -97,6 +117,58 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
         super.initListener();
 //        registerReceiver(headSetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
         starFrameworklistener();
+        SdkUtil.getContactManager().queryDeptInfo(1, 1000, new IRoomListResultInterface<Object>() {
+            @Override
+            public void failed(int code, String errorMsg) {
+                Log.e("navi","queryCompanyDepartmentThenCompanyUsers failed-------->"+code);
+            }
+
+            @Override
+            public void succeed(Object result) {
+                Log.e("navi","queryCompanyDepartmentThenCompanyUsers succeed");
+                if(result instanceof DepartmentResultDto){
+                    Log.e("navi","queryCompanyDepartmentThenCompanyUsers DepartmentResultDto");
+                    handleDepartmentLogic(((DepartmentResultDto)result));
+                }else {
+                    handleCompanyUserLogic(((CompanyUserDto)result));
+                }
+            }
+
+            private void handleDepartmentLogic(DepartmentResultDto departmentResultDto) {
+                if (departmentResultDto.getCode() == 20822) {
+                    Log.e("navi", "RESULT_CODE_ERROR_NO_PERMISSION");
+                } else {
+                    if (departmentResultDto.getResult() != null) {
+                        Log.e("navi", "succeed");
+                        InstantMeetingOperation.getInstance()
+                                .setDepartmentData(departmentResultDto.getResult());
+                    }
+                }
+            }
+
+            private void handleCompanyUserLogic(CompanyUserDto companyUserDto) {
+                for (CompanyUserInfo info : companyUserDto.getResult().getItems()){
+                    Log.d("handleCompanyUserLogic",info.getUserName() + "" +info.isMeetingState());
+                }
+                if (companyUserDto.getCode() == 20822) {
+                    HandlerUtils.postToMain(() -> {
+                    });
+                } else {
+                    if (companyUserDto.getResult() != null) {
+
+                        Log.e("navi", "queryCompanyUsers succeed");
+                        int currentPage = companyUserDto.getResult().getCurrentPage();
+                        Logger.info("TAG", "get queryUserCallback is success, page is :" + currentPage);
+                        Log.e("navi", "queryCompanyUsers succeed -------------22222");
+                        InstantMeetingOperation.getInstance().addCompanyUserData(companyUserDto.getResult().getItems(),
+                                    PlatformConfig.getInstance().getCurrentUserInfo().getUserId(), true);
+                    }
+                }
+            }
+
+
+
+        });
 
     }
 
@@ -129,6 +201,12 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
         super.onDestroy();
         unregisterReceiver(netWorkStateReceiver);
 //        unregisterReceiver(headSetReceiver);
+    }
+
+    @Override
+    protected void onQueryUsers(List<CompanyUserInfo> list) {
+        super.onQueryUsers(list);
+
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

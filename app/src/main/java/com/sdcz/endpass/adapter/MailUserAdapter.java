@@ -1,5 +1,8 @@
 package com.sdcz.endpass.adapter;
 
+import static com.inpor.nativeapi.adaptor.RoomUserInfo.USER_OFFLINE;
+import static com.inpor.nativeapi.adaptor.RoomUserInfo.USER_ONLINE;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,10 +48,18 @@ public class MailUserAdapter extends BaseQuickAdapter<UserEntity, BaseViewHolder
         ImageView ivHead = helper.getView(R.id.ivHead);
         GlideUtils.showCircleImage(ivHead.getContext(), ivHead, item.getAvatar(), R.drawable.icon_head);
 
-        if (item.getIsOnline() == 1){
-            ivOnline.setBackgroundResource(R.drawable.icon_online_green);
-        }else {
-            ivOnline.setBackgroundResource(R.drawable.icon_online);
+        switch (item.getIsOnline()) {
+            case 0:
+                ivOnline.setBackgroundResource(R.drawable.icon_online);
+                break;
+            case 1:
+                ivOnline.setBackgroundResource(R.drawable.icon_online_green);
+                break;
+            case 2:
+                ivOnline.setBackgroundResource(R.drawable.icon_online_orange);
+                break;
+            default:
+                break;
         }
 
         rlMaillistUser.setOnClickListener(new View.OnClickListener() {

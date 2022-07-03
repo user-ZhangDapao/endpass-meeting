@@ -17,20 +17,32 @@ import android.widget.TextView;
 import androidx.multidex.BuildConfig;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
+import com.inpor.log.Logger;
+import com.inpor.manager.beans.CompanyUserDto;
+import com.inpor.manager.beans.DepartmentResultDto;
+import com.inpor.manager.util.HandlerUtils;
 import com.inpor.nativeapi.adaptor.OnlineUserInfo;
+import com.inpor.sdk.PlatformConfig;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.network.QueryCompanyUsersHttp;
 import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.StatusBarUtils;
 import com.sdcz.endpass.widget.stateview.StateView;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import io.reactivex.annotations.Nullable;
 
-public abstract class BaseActivity <T extends BasePresenter> extends RxActivity implements IBaseView {
+public abstract class BaseActivity<T extends BasePresenter> extends RxActivity implements IBaseView {
 
     protected T mPresenter;
     protected StateView stateView;
@@ -38,6 +50,8 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
     private AlertDialog progressDialog;
     private TextView tvProgressMsg;
     private boolean m_isPause = false;
+
+
 
 
     @Override
@@ -49,11 +63,11 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
         super.onCreate(savedInstanceState);
         //设定为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        ActivityUtils.getInstance().addActivity(this.getClass().getSimpleName(),this);
+        ActivityUtils.getInstance().addActivity(this.getClass().getSimpleName(), this);
         mPresenter = createPresenter();
         //子类不再需要设置布局ID
         setContentView(provideContentViewId());
-        if (canEventBus()){
+        if (canEventBus()) {
 //            EventBus.getDefault().register(this);
         }
         //黄油刀
@@ -86,9 +100,9 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
         builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialogInterface, int keyCore, KeyEvent keyEvent) {
-                if(keyCore == KeyEvent.KEYCODE_SEARCH) {
+                if (keyCore == KeyEvent.KEYCODE_SEARCH) {
                     return true;
-                }else {
+                } else {
                     // TODO: true拦截 false不拦截
                     return true;
                 }
@@ -215,6 +229,39 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
 
     //------------
 
+//
+//    @Override
+//    public void onSuccess(CompanyUserDto companyUserDto) {
+//        if (isPause()) return;
+//        if (null != companyUserDto.getResult() && companyUserDto.getResult().getItems().size() > 0) {
+//            HandlerUtils.postToMain(() -> onQueryUsers(companyUserDto.getResult().getItems()));
+//        }
+//    }
+//
+//    @Override
+//    public void onFail() {
+//
+//    }
+//
+//    @Override
+//    public void onError() {
+//
+//    }
+//
+//    @Override
+//    public void onNoPermission() {
+//
+//    }
+
+    protected void onUserStateChange(CompanyUserInfo info) {
+
+    }
+
+    protected void onQueryUsers(List<CompanyUserInfo> list) {
+
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -256,6 +303,10 @@ public abstract class BaseActivity <T extends BasePresenter> extends RxActivity 
         //释放
         wl.release();
     }
+//
+//    public void getDeptUsers() {
+//        new QueryCompanyUsersHttp(0, 1000, this);
+//    }
 
 
 }

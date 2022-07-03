@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
+import com.inpor.manager.beans.CompanyUserDto;
 import com.inpor.nativeapi.adaptor.OnlineUserInfo;
 import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.kit.workflow.Procedure;
@@ -34,6 +35,7 @@ import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.login.JoinMeetingManager;
 import com.sdcz.endpass.login.LoginMeetingCallBack;
+import com.sdcz.endpass.network.QueryCompanyUsersHttp;
 import com.sdcz.endpass.presenter.MailListPresenter;
 import com.sdcz.endpass.ui.activity.LikeActivity;
 import com.sdcz.endpass.ui.activity.LoginActivityApp;
@@ -45,6 +47,7 @@ import com.sdcz.endpass.util.StatusBarUtils;
 import com.sdcz.endpass.view.IMailListView;
 import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.PopupWindowToUserData;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -61,7 +64,7 @@ import permissions.dispatcher.RuntimePermissions;
  * Description: @
  */
 @RuntimePermissions
-public class MailListFragment extends BaseFragment<MailListPresenter> implements IMailListView, View.OnClickListener, OnRefreshListener {
+public class MailListFragment extends BaseFragment<MailListPresenter> implements IMailListView, View.OnClickListener, OnRefreshListener, QueryCompanyUsersHttp.QueryCompanyUsersHttpCallck {
 
     private TextView tvTitle;
     private ImageView ivHead;
@@ -71,11 +74,11 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     private RelativeLayout rlUser;
     private RecyclerView recyclerUser;
     private RecyclerView recyclerList;
-    private List<UserEntity> userInfoList;
     private UserEntity info;
     private MailUserAdapter userAdapter;
     private MailListAdapter taskAdapter;
     private SmartRefreshLayout refreshLayout;
+    private MailListBean mData;
 
     @Override
     protected MailListPresenter createPresenter() {
@@ -109,44 +112,6 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
 
     }
 
-    private void checkLogin() {
-        String userName = SharedPrefsUtil.getUserInfo().getUserName();
-        PaasOnlineManager.getInstance().setBusy(true);
-        JoinMeetingManager.getInstance().loginAccount(null, "mdt" + userName, "mdt0"+userName, new LoginMeetingCallBack() {
-
-            @Override
-            public void onConflict(boolean isMeeting) {
-            }
-
-            @Override
-            public void onStart(Procedure procedure) {
-            }
-
-            @Override
-            public void onState(int state) {
-            }
-
-            @Override
-            public void onBlockFailed(ProcessStep step, int code, String msg) {
-                SharedPrefsUtil.clean(getActivity());
-                startActivity(new Intent(getActivity(), LoginActivityApp.class));
-            }
-
-            @Override
-            public void onFailed() {
-                SharedPrefsUtil.clean(getActivity());
-                startActivity(new Intent(getActivity(), LoginActivityApp.class));
-            }
-
-            @Override
-            public boolean onLoginSuccess() {
-                mPresenter.getUserInfo(getActivity());
-                return true;
-            }
-        });
-
-    }
-
 
 
     @Override
@@ -154,7 +119,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         super.initData();
         ivHead.setImageResource(R.drawable.icon_head);
         showLoading();
-        checkLogin();
+        mPresenter.getUserInfo(getActivity());
     }
 
     @Override
@@ -198,44 +163,25 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     @Override
     public void showData(MailListBean data) {
 
-        HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
-        hideLoading();
+
+//        HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
         refreshLayout.finishRefresh();
         if (data != null){
-            userInfoList = data.getUserList();
-            for (UserEntity entity : userInfoList){
-                if (map.containsKey(entity.getMdtUserId())){
-                    entity.setIsOnline(1);
-                }else {
-                    entity.setIsOnline(0);
-                }
+            mData = data;
+            new QueryCompanyUsersHttp(1, 1000, this);
+//            userInfoList = data.getUserList();
+//            for (UserEntity entity : userInfoList){
+//                if (map.containsKey(entity.getMdtUserId())){
+//                    entity.setIsOnline(map.get(Long.getLong(entity.getMdtUserId() + "")).getUserState());
+//                }else {
+//                    entity.setIsOnline(0);
+//                }
             }
-            recyclerUser.setLayoutManager(initLayoutManager(getActivity()));
-            recyclerList.setLayoutManager(initLayoutManager(getActivity()));
-            userAdapter = new MailUserAdapter(R.layout.item_maillist_user, data.getUserList(), new MailUserAdapter.onItemClick() {
-                @Override
-                public void onClick(UserEntity item) {
-                    info = item;
-                    mPresenter.postCollectStatus(getActivity(), item.getUserId()+"");
-                }
-            });
-            recyclerUser.setAdapter(userAdapter);
 
-            taskAdapter = new MailListAdapter(R.layout.item_my_group_list, data.getDeptList(), new MailListAdapter.onItemClick() {
-                @Override
-                public void onClick(String deptId, String groupName) {
-                    startActivity(new Intent(getActivity(), MailListActivity.class).putExtra(Constants.SharedPreKey.DEPTID,deptId).putExtra(Constants.SharedPreKey.DEPTNAME,groupName));
-                }
-            });
-            recyclerList.setAdapter(taskAdapter);
-
-            if (data.getUserList().size() == 0){
-                rlUser.setVisibility(View.GONE);
-            }
-            taskAdapter.notifyDataSetChanged();
 //            FspManager.getInstance().refreshAllUserStatus();
-        }
+//        }
     }
+
 
     @Override
     public void showStatus(Integer data) {
@@ -369,4 +315,60 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         return layoutManager;
     }
 
+    @Override
+    public void onFail() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onNoPermission() {
+
+    }
+
+    @Override
+    public void onSuccess(CompanyUserDto companyUserDto) {
+        for (UserEntity entity : mData.getUserList()){
+            long userId = entity.getMdtUserId();
+            for (CompanyUserInfo info : companyUserDto.getResult().getItems()){
+                if (userId == info.getUserId()){
+                    entity.setIsOnline(info.isMeetingState());
+                    break;
+                }
+            }
+        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hideLoading();
+                recyclerUser.setLayoutManager(initLayoutManager(getActivity()));
+                recyclerList.setLayoutManager(initLayoutManager(getActivity()));
+                userAdapter = new MailUserAdapter(R.layout.item_maillist_user, mData.getUserList(), new MailUserAdapter.onItemClick() {
+                    @Override
+                    public void onClick(UserEntity item) {
+                        info = item;
+                        mPresenter.postCollectStatus(getActivity(), item.getUserId()+"");
+                    }
+                });
+                recyclerUser.setAdapter(userAdapter);
+
+                taskAdapter = new MailListAdapter(R.layout.item_my_group_list, mData.getDeptList(), new MailListAdapter.onItemClick() {
+                    @Override
+                    public void onClick(String deptId, String groupName) {
+                        startActivity(new Intent(getActivity(), MailListActivity.class).putExtra(Constants.SharedPreKey.DEPTID,deptId).putExtra(Constants.SharedPreKey.DEPTNAME,groupName));
+                    }
+                });
+                recyclerList.setAdapter(taskAdapter);
+
+                if (mData.getUserList().size() == 0){
+                    rlUser.setVisibility(View.GONE);
+                }
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 }

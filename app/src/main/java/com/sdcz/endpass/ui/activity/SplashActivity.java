@@ -13,12 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.sdk.annotation.ProcessStep;
+import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.PaasOnlineManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LoginActivity;
 import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.base.BasePresenter;
+import com.sdcz.endpass.login.JoinMeetingManager;
+import com.sdcz.endpass.login.LoginMeetingCallBack;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.StatusBarUtils;
 
@@ -88,32 +93,49 @@ public class SplashActivity extends BaseActivity {
             finish();
             return;
         }
+        checkLogin();
 
-
-
-        /**
-         * 判断签名 是否正常
-         */
-        handler.sendEmptyMessageDelayed(0,1000);
-//
-//
-//        //用户id
-//        String userId = SharedPrefsUtil.getValue(this, KeyStore.USERID,null);
-//        //用户昵称
-//        String realName = SharedPrefsUtil.getValue(this, KeyStore.REALNAME,null);
-//        //IP
-//        String IP = SharedPrefsUtil.getValue(this, KeyStore.IP,null);
-//        //端口号
-//        String PORT = SharedPrefsUtil.getValue(this, KeyStore.PORT,null);
-//
-//        if ("".equals(userId) || userId == null || TextUtils.isEmpty(IP) || TextUtils.isEmpty(PORT) ){
-//            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-//            finish();
-//        }else {
-////            Constants.BaseUrl = "http://" + IP + ":" + PORT + "/" ;
-//            HSTlogin(userId,realName);
-//        }
     }
+    private void checkLogin() {
+        String userName = SharedPrefsUtil.getUserInfo().getUserName();
+        PaasOnlineManager.getInstance().setBusy(true);
+        JoinMeetingManager.getInstance().loginAccount(null, "mdt" + userName, "mdt0"+userName, new LoginMeetingCallBack() {
+
+            @Override
+            public void onConflict(boolean isMeeting) {
+            }
+
+            @Override
+            public void onStart(Procedure procedure) {
+            }
+
+            @Override
+            public void onState(int state) {
+            }
+
+            @Override
+            public void onBlockFailed(ProcessStep step, int code, String msg) {
+                SharedPrefsUtil.clean(getContext());
+                finish();
+                startActivity(new Intent(getContext(), LoginActivityApp.class));
+            }
+
+            @Override
+            public void onFailed() {
+                SharedPrefsUtil.clean(getContext());
+                finish();
+                startActivity(new Intent(getContext(), LoginActivityApp.class));
+            }
+
+            @Override
+            public boolean onLoginSuccess() {
+                handler.sendEmptyMessageDelayed(0,1000);
+                return true;
+            }
+        });
+
+    }
+
 //
 //    void HSTlogin(String userId, String realName) {
 //        if (userId.isEmpty()) {
