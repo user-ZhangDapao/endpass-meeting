@@ -54,7 +54,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     private RecyclerView recyclerUser;
     private RecyclerView recyclerList;
     private UserEntity info;
-    private MailListBean mData;
+    private List<UserEntity> userInfoList;
     private MailUserAdapter userAdapter;
     private MailListAdapter taskAdapter;
     TitleBarView rlTitleBar;
@@ -66,7 +66,6 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
             if (arg instanceof CompanyUserInfo) {
                 Log.e("navi", "userStateObserver");
                 onUserStateChange((CompanyUserInfo) arg);
-//                HandlerUtils.postToMain(() -> contactAdapter.updateItem((CompanyUserInfo) arg));
             }
         }
     };
@@ -105,11 +104,8 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
         mPresenter.getContactList(this, deptId);
     }
 
-    @Override
     protected void onUserStateChange(CompanyUserInfo info) {
-        super.onUserStateChange(info);
-
-        for (UserEntity userEntity : mData.getUserList()){
+        for (UserEntity userEntity : userInfoList){
             if (userEntity.getMdtUserId() == info.getUserId()){
                 userEntity.setIsOnline(info.isMeetingState());
                 HandlerUtils.postToMain(() -> userAdapter.notifyDataSetChanged());
@@ -136,13 +132,48 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     @Override
     public void showData(MailListBean data) {
         if (data != null) {
-            mData = data;
-//            getDeptUsers();
-            for (CompanyUserInfo info : InstantMeetingOperation.getInstance().getCompanyUserData()){
-                if (info.isMeetingState() != 0){
-                    Log.d("AAAAAAA" ,info.getUserName());
+            userInfoList = data.getUserList();
+            if (data.getDeptList().size() > 0 || data.getUserList().size() > 0){
+                List<CompanyUserInfo> list =  InstantMeetingOperation.getInstance().getCompanyUserData();
+                for (UserEntity entity : data.getUserList()){
+                    long userId = entity.getMdtUserId();
+                    for (CompanyUserInfo info : list){
+                        if (userId == info.getUserId()){
+                            entity.setIsOnline(info.isMeetingState());
+                            Log.d("****", info.getUserName() + ":" + info.isMeetingState());
+                            break;
+                        }
+                    }
                 }
+
+                recyclerUser.setLayoutManager(initLayoutManager(this));
+                recyclerList.setLayoutManager(initLayoutManager(this));
+                userAdapter = new MailUserAdapter(R.layout.item_maillist_user, data.getUserList(), new MailUserAdapter.onItemClick() {
+                    @Override
+                    public void onClick(UserEntity item) {
+                        MailListActivity.this.info = item;
+                        mPresenter.postCollectStatus(MailListActivity.this, item.getUserId() + "");
+                    }
+                });
+                recyclerUser.setAdapter(userAdapter);
+
+                taskAdapter = new MailListAdapter(R.layout.item_my_group_list, data.getDeptList(), new MailListAdapter.onItemClick() {
+                    @Override
+                    public void onClick(String deptId, String groupName) {
+                        startActivity(new Intent(MailListActivity.this, MailListActivity.class).putExtra(Constants.SharedPreKey.DEPTID, deptId).putExtra(Constants.SharedPreKey.DEPTNAME, groupName));
+                    }
+                });
+                recyclerList.setAdapter(taskAdapter);
+//                FspManager.getInstance().refreshAllUserStatus();
+
+            }else {
+                showEmpty();
             }
+
+            if(null == data.getUserList() || data.getUserList().size() == 0){
+                rlUser.setVisibility(View.GONE);
+            }
+            hideLoading();
         }
     }
 
@@ -173,7 +204,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                         new PopupWindowToCall(MailListActivity.this, new PopupWindowToCall.OnPopWindowClickListener() {
                             @Override
                             public void onPopWindowClickListener(View view) {
-//                                MailListActivityPermissionsDispatcher.CallWithPermissionCheck(MailListActivity.this, phoneNum);
+                                MailListActivityPermissionsDispatcher.CallWithPermissionCheck(MailListActivity.this, phoneNum);
                             }
                         }, info.getPhonenumber()).show();
                     }
@@ -253,58 +284,6 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
         return layoutManager;
     }
 
-    @Override
-    protected void onQueryUsers(List<CompanyUserInfo> list) {
-        for (CompanyUserInfo info : InstantMeetingOperation.getInstance().getCompanyUserData()){
-            if (info.isMeetingState() != 0){
-                Log.d("AAAAAAA" ,info.getUserName());
-            }
-        }
-
-        super.onQueryUsers(list);
-        if (mData.getDeptList().size() > 0 || mData.getUserList().size() > 0){
-
-            for (UserEntity entity : mData.getUserList()){
-                long userId = entity.getMdtUserId();
-                for (CompanyUserInfo info : list){
-                    if (userId == info.getUserId()){
-                        entity.setIsOnline(info.isMeetingState());
-                        Log.d("****", info.getUserName() + ":" + info.isMeetingState());
-                        break;
-                    }
-                }
-            }
-
-            recyclerUser.setLayoutManager(initLayoutManager(this));
-            recyclerList.setLayoutManager(initLayoutManager(this));
-            userAdapter = new MailUserAdapter(R.layout.item_maillist_user, mData.getUserList(), new MailUserAdapter.onItemClick() {
-                @Override
-                public void onClick(UserEntity item) {
-                    MailListActivity.this.info = item;
-                    mPresenter.postCollectStatus(MailListActivity.this, item.getUserId() + "");
-                }
-            });
-            recyclerUser.setAdapter(userAdapter);
-
-            taskAdapter = new MailListAdapter(R.layout.item_my_group_list, mData.getDeptList(), new MailListAdapter.onItemClick() {
-                @Override
-                public void onClick(String deptId, String groupName) {
-                    startActivity(new Intent(MailListActivity.this, MailListActivity.class).putExtra(Constants.SharedPreKey.DEPTID, deptId).putExtra(Constants.SharedPreKey.DEPTNAME, groupName));
-                }
-            });
-            recyclerList.setAdapter(taskAdapter);
-//                FspManager.getInstance().refreshAllUserStatus();
-
-        }else {
-            showEmpty();
-        }
-
-        if(null == mData.getUserList() || mData.getUserList().size() == 0){
-            rlUser.setVisibility(View.GONE);
-        }
-        hideLoading();
-
-    }
 
     @NeedsPermission({Manifest.permission.CALL_PHONE})
     public void Call(String phoneNum) {

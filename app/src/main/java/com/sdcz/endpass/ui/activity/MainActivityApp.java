@@ -66,16 +66,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     private NetWorkStateReceiver netWorkStateReceiver;
 
 
-    private Observer userStateObserver = new Observer() {
-        @Override
-        public void update(Observable observable, Object arg) {
-            if (arg instanceof CompanyUserInfo) {
-                Log.e("navi", "userStateObserver");
-            }
-        }
-    };
-
-
     @Override
     protected MainPresenter createPresenter() {
         return new MainPresenter(this);
@@ -105,7 +95,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     @Override
     public void initData() {
         super.initData();
-        InstantMeetingOperation.getInstance().addObserver(userStateObserver);
 //        PlayerManager.getManager().init(getContext());
 //        PlayerManager.getManager().changeToSpeakerMode();
         mPresenter.getAllUser(this);
@@ -147,9 +136,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
             }
 
             private void handleCompanyUserLogic(CompanyUserDto companyUserDto) {
-                for (CompanyUserInfo info : companyUserDto.getResult().getItems()){
-                    Log.d("handleCompanyUserLogic",info.getUserName() + "" +info.isMeetingState());
-                }
                 if (companyUserDto.getCode() == 20822) {
                     HandlerUtils.postToMain(() -> {
                     });
@@ -165,9 +151,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
                     }
                 }
             }
-
-
-
         });
 
     }
@@ -203,11 +186,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
 //        unregisterReceiver(headSetReceiver);
     }
 
-    @Override
-    protected void onQueryUsers(List<CompanyUserInfo> list) {
-        super.onQueryUsers(list);
-
-    }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

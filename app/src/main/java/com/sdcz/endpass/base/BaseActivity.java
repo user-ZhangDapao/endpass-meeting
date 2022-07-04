@@ -229,39 +229,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxActivity i
 
     //------------
 
-//
-//    @Override
-//    public void onSuccess(CompanyUserDto companyUserDto) {
-//        if (isPause()) return;
-//        if (null != companyUserDto.getResult() && companyUserDto.getResult().getItems().size() > 0) {
-//            HandlerUtils.postToMain(() -> onQueryUsers(companyUserDto.getResult().getItems()));
-//        }
-//    }
-//
-//    @Override
-//    public void onFail() {
-//
-//    }
-//
-//    @Override
-//    public void onError() {
-//
-//    }
-//
-//    @Override
-//    public void onNoPermission() {
-//
-//    }
-
-    protected void onUserStateChange(CompanyUserInfo info) {
-
-    }
-
-    protected void onQueryUsers(List<CompanyUserInfo> list) {
-
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();

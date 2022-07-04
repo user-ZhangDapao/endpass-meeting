@@ -3,6 +3,7 @@ package com.sdcz.endpass.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.UserInfo;
 import com.inpor.manager.util.HandlerUtils;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.jaeger.library.StatusBarUtil;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
@@ -32,6 +34,8 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implements ISelectUserView, View.OnClickListener {
 
@@ -44,6 +48,17 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
     private RecyclerView recyclerList;
     private List<UserEntity> userInfoList;
     private SelectUserAdapter adapter;
+
+    private Observer userStateObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object arg) {
+            if (arg instanceof CompanyUserInfo) {
+                Log.e("navi", "userStateObserver");
+                onUserStateChange((CompanyUserInfo) arg);
+            }
+        }
+    };
+
 
     @Override
     protected int provideContentViewId() {
@@ -73,6 +88,7 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
     @Override
     public void initData() {
         super.initData();
+        InstantMeetingOperation.getInstance().addObserver(userStateObserver);
         showLoading();
         String deptId = getIntent().getStringExtra(Constants.SharedPreKey.DEPTID);
         String grouName = getIntent().getStringExtra(Constants.SharedPreKey.GROUPNAME);
@@ -113,9 +129,8 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
         }
     }
 
-    @Override
+
     protected void onUserStateChange(CompanyUserInfo info) {
-        super.onUserStateChange(info);
         for (UserEntity userEntity : userInfoList){
             if (userEntity.getMdtUserId() == info.getUserId()){
                 userEntity.setIsOnline(info.isMeetingState());
@@ -123,6 +138,17 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
             }
         }
     }
+
+//    @Override
+//    protected void onUserStateChange(CompanyUserInfo info) {
+//        super.onUserStateChange(info);
+//        for (UserEntity userEntity : userInfoList){
+//            if (userEntity.getMdtUserId() == info.getUserId()){
+//                userEntity.setIsOnline(info.isMeetingState());
+//                HandlerUtils.postToMain(() -> adapter.notifyDataSetChanged());
+//            }
+//        }
+//    }
 //
 //    @Override
 //    protected void onUserStatusChangeResult(FspEvents.UserStatusChange userInfo) {
@@ -140,6 +166,19 @@ public class SelectUserActivity extends BaseActivity<SelectUserPresenter> implem
         hideLoading();
         if (data != null){
             userInfoList = data.getUserList();
+
+            List<CompanyUserInfo> list =  InstantMeetingOperation.getInstance().getCompanyUserData();
+            for (UserEntity entity : data.getUserList()){
+                long userId = entity.getMdtUserId();
+                for (CompanyUserInfo info : list){
+                    if (userId == info.getUserId()){
+                        entity.setIsOnline(info.isMeetingState());
+                        Log.d("****", info.getUserName() + ":" + info.isMeetingState());
+                        break;
+                    }
+                }
+            }
+
             recyclerList.setLayoutManager(initLayoutManager(this));
             recyclerUser.setLayoutManager(initLayoutManager(this));
 

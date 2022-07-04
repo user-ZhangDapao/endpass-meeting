@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.manager.util.HandlerUtils;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.jaeger.library.StatusBarUtil;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.adapter.MailUserAdapter;
@@ -23,8 +26,11 @@ import com.sdcz.endpass.view.ILikeView;
 import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.PopupWindowToUserData;
 import com.sdcz.endpass.widget.TitleBarView;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 收藏
@@ -41,6 +47,17 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
     private UserEntity info;
     private List<UserEntity> userInfoList;
     private MailUserAdapter adapter;
+
+
+    private Observer userStateObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object arg) {
+            if (arg instanceof CompanyUserInfo) {
+                Log.e("navi", "userStateObserver");
+                onUserStateChange((CompanyUserInfo) arg);
+            }
+        }
+    };
 
     @Override
     protected int provideContentViewId() {
@@ -79,6 +96,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
     @Override
     public void initData() {
         super.initData();
+        InstantMeetingOperation.getInstance().addObserver(userStateObserver);
         showLoading();
         mPresenter.getCollectList(this);
     }
@@ -88,6 +106,19 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
         hideLoading();
         if (data != null){
             this.userInfoList = data;
+
+            List<CompanyUserInfo> list =  InstantMeetingOperation.getInstance().getCompanyUserData();
+            for (UserEntity entity : data){
+                long userId = entity.getMdtUserId();
+                for (CompanyUserInfo info : list){
+                    if (userId == info.getUserId()){
+                        entity.setIsOnline(info.isMeetingState());
+                        Log.d("****", info.getUserName() + ":" + info.isMeetingState());
+                        break;
+                    }
+                }
+            }
+
 //            FspManager.getInstance().refreshAllUserStatus();
             if (data.size() > 0){
                 ivNoData.setVisibility(View.GONE);
@@ -107,6 +138,17 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
             }
         }
     }
+
+    protected void onUserStateChange(CompanyUserInfo info) {
+        for (UserEntity userEntity : userInfoList){
+            if (userEntity.getMdtUserId() == info.getUserId()){
+                userEntity.setIsOnline(info.isMeetingState());
+                HandlerUtils.postToMain(() -> adapter.notifyDataSetChanged());
+            }
+        }
+    }
+
+
 //
 //    @Override
 //    protected void onRefreshAllUserStatusFinished(FspUserInfo[] infos) {

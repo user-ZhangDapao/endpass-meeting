@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.util.GlideUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import java.util.List;
 
@@ -60,6 +61,10 @@ public class MailUserAdapter extends BaseQuickAdapter<UserEntity, BaseViewHolder
                 break;
             default:
                 break;
+        }
+
+        if (item.getUserId() == SharedPrefsUtil.getUserId()){
+            ivOnline.setBackgroundResource(R.drawable.icon_online_green);
         }
 
         rlMaillistUser.setOnClickListener(new View.OnClickListener() {

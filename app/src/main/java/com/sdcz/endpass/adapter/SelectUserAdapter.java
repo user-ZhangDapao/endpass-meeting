@@ -40,7 +40,24 @@ public class SelectUserAdapter extends BaseQuickAdapter<UserEntity, BaseViewHold
         ImageView ivOnline = helper.getView(R.id.ivIsOnline);
 
         GlideUtils.showCircleImage(mContext, ivHead, item.getAvatar(), R.drawable.icon_head);
-        ivOnline.setBackgroundResource(item.getIsOnline() == 1 ? R.drawable.icon_online_green : R.drawable.icon_online);
+
+        switch (item.getIsOnline()) {
+            case 0:
+                ivOnline.setBackgroundResource(R.drawable.icon_online);
+                break;
+            case 1:
+                ivOnline.setBackgroundResource(R.drawable.icon_online_green);
+                break;
+            case 2:
+                ivOnline.setBackgroundResource(R.drawable.icon_online_orange);
+                break;
+            default:
+                break;
+        }
+
+        if (item.getUserId() == SharedPrefsUtil.getUserId()){
+            ivOnline.setBackgroundResource(R.drawable.icon_online_green);
+        }
         tvTask.setText(null != item.getChannelName() ?"("+item.getChannelName() + "中)" : "(无任务)");
 
         for (UserEntity i: SharedPrefsUtil.getListUserInfo())

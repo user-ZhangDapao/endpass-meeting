@@ -123,7 +123,7 @@ public class PopupWindowToUserData extends PopupWindow{
         }
 
         //是否在线 1不在线
-        if (info.getIsOnline() != 1 || null != info.getPhonenumber()){// bu在线
+        if (info.getIsOnline() == 0){// bu在线
             layoutVideo.setVisibility(View.GONE);
             tvVoice.setText("拨打电话");
             imgVoice.setBackgroundResource(R.drawable.button_popu_phone);
