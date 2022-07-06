@@ -64,4 +64,25 @@ public class AppCache {
         this.micDisable = micDisable;
         SdkUtil.getAudioManager().setMicrophoneEnable(micDisable);
     }
+
+
+    private boolean isFromMeeting;
+
+    public boolean isFromMeeting() {
+        return isFromMeeting;
+    }
+
+    public void setFromMeeting(boolean fromMeeting) {
+        isFromMeeting = fromMeeting;
+    }
+
+    private boolean isAnonymousLogin;
+
+    public boolean isAnonymousLogin() {
+        return isAnonymousLogin;
+    }
+
+    public void setAnonymousLogin(boolean anonymousLogin) {
+        isAnonymousLogin = anonymousLogin;
+    }
 }

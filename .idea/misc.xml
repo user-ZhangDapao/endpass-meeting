@@ -5,6 +5,10 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.11879432624113476" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/audio_states_progress_bar.xml" value="0.269" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/btn_call_answer.xml" value="0.2165" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/btn_call_refuse.xml" value="0.2165" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/btn_top_video.xml" value="0.2165" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/btn_top_voice.xml" value="0.2165" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/selector_attendee_all.xml" value="0.2385" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/selector_menu_attender_state.xml" value="0.269" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/drawable/shape_33dcdcdc_20.xml" value="0.2555" />
@@ -18,6 +22,7 @@
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_pos.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_splash.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/activity_user_pop.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/dialog_call_in.xml" value="0.209375" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/fragment_maillist.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/fragment_mine.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/insist/Desktop/endpass-meeting/app/src/main/res/layout/item_group_user.xml" value="0.67" />

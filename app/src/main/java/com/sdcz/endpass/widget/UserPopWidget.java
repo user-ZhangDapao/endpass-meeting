@@ -27,6 +27,8 @@ import com.sdcz.endpass.adapter.TaskUserListAdapter;
 import com.sdcz.endpass.base.BasePopupWindowContentView;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
+import com.sdcz.endpass.bean.MassageEvent;
+import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.network.MyObserver;
@@ -37,9 +39,13 @@ import com.sdcz.endpass.ui.activity.TaskUserActivity;
 import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserPopWidget extends BasePopupWindowContentView {
 
@@ -74,16 +80,12 @@ public class UserPopWidget extends BasePopupWindowContentView {
             if (user == null) {
                 return;
             }
-            refashChannelUser();
+            taskUserAdapter.removeUser(user.getUserId());
 //            // 用户离开会议室重新计算各个类别的总数
 //            Log.i(TAG, "count user on user leave");
 //            presenter.countUser();
         }
 
-        public void onSetRoomMute(byte mute) {
-            refashChannelUser();
-//            setAllAudioOffState(mute);
-        }
 
         @Override
         public void onMainSpeakerChanged(BaseUser user) {
@@ -139,6 +141,53 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 e.printStackTrace();
             }
         }
+    };
+
+    @Subscribe
+    public void onEvent(MassageEvent event) {/* Do something */
+        String type = event.getType();
+        String id = event.getId();
+        switch (type){
+            case "MAIN_VENUE":
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        taskUserAdapter.setVenueId(id);
+                    }
+                });
+                break;
+            case "ON_LISTEN":
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (id.equals("ALL")){
+                            taskUserAdapter.removeAllMuteUserIds();
+                        }else {
+                            taskUserAdapter.removeMuteUserIds(Long.valueOf(id));
+                        }
+                    }
+                });
+                break;
+            case "OFF_LISTEN":
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (id.equals("ALL")){
+                            taskUserAdapter.addAllMuteUserIds();
+                        }else {
+                            taskUserAdapter.addMuteUserIds(Long.valueOf(id));
+                        }
+                    }
+                });
+                break;
+            case "PLEASE_LEAVE":
+                taskUserAdapter.removeUser(id);
+                break;
+            case "ADD_CHANNEL_USER":
+
+                break;
+        }
+
     };
 
     public UserPopWidget(@NonNull Activity context, String channelCode) {
@@ -230,6 +279,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
             for (ChannerUser user : userInfoList){
                 if (fspName.equals(user.getNickName())){
                     user.setBaseUser(userPass);
+                    user.setIsOnline(1);
                     isIn = true;
                     break;
                 }
@@ -244,6 +294,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 }
                 user.setNickName(userPass.getNickName());
                 user.setBaseUser(userPass);
+                user.setIsOnline(1);
                 userInfoList.add(user);
             }
 
@@ -263,7 +314,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 userInfoList = result.getChannelUserList();
                 refashChannelUser();
                 taskUserAdapter.setMuteUserIds(result.getMuteUserIds());
-                taskUserAdapter.setVenueId(result.getVenue());
+                taskUserAdapter.setVenueId(String.valueOf(result.getVenue()));
             }
             @Override
             public void onFailure(Throwable e, String errorMsg) {
@@ -293,7 +344,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
             @Override
             public void onSuccess(Object result) {
                 ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.MAIN_VENUE + userId);
-                taskUserAdapter.setVenueId(userId);
+                taskUserAdapter.setVenueId(String.valueOf(userId));
             }
 
             @Override

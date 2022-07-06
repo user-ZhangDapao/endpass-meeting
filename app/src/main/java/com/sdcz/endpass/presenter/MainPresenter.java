@@ -21,34 +21,4 @@ public class MainPresenter extends BasePresenter<IMainView> {
         super(view);
     }
 
-    public void getAllUser(Activity activity){
-        RequestUtils.getAllUser(0,new MyObserver<Object>(activity) {
-            @Override
-            public void onSuccess(Object result) {
-                SharedPrefsUtil.putString(Constants.SharedPreKey.AllUserName,getJsonStringByEntity(result));
-            }
-            @Override
-            public void onFailure(Throwable e, String errorMsg) {
-
-            }
-        });
-
-        RequestUtils.getAllUser(1,new MyObserver<Object>(activity) {
-            @Override
-            public void onSuccess(Object result) {
-                SharedPrefsUtil.putString(Constants.SharedPreKey.AllUserId,getJsonStringByEntity(result));
-            }
-            @Override
-            public void onFailure(Throwable e, String errorMsg) {
-
-            }
-        });
-    }
-
-    public static String getJsonStringByEntity(Object o) {
-        String strJson = "";
-        Gson gson = new Gson();
-        strJson = gson.toJson(o);
-        return strJson;
-    }
 }

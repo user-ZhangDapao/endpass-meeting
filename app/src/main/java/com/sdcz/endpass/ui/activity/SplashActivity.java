@@ -97,6 +97,10 @@ public class SplashActivity extends BaseActivity {
 
     }
     private void checkLogin() {
+        if (null == SharedPrefsUtil.getUserInfo()){
+            startActivity(new Intent(getContext(), LoginActivityApp.class));
+            return;
+        }
         String userName = SharedPrefsUtil.getUserInfo().getUserName();
         PaasOnlineManager.getInstance().setBusy(true);
         JoinMeetingManager.getInstance().loginAccount(null, "mdt" + userName, "mdt0"+userName, new LoginMeetingCallBack() {

@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import androidx.core.app.ActivityCompat;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.manager.application.ApplicationInstance;
 import com.inpor.sdk.callback.SetServerCallback;
 import com.sdcz.endpass.custommade.meetingover._interface._MeetingStateCallBack;
 import com.sdcz.endpass.dialog.LoadingDialog;
@@ -68,7 +69,7 @@ public class DemoApp extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-
+        ApplicationInstance.getInstance().setApplication(this);
         JoinMeetingManager.getInstance().initSdk(this, "7cce02b4-c715-47a9-91f4-8bc177525c1c", "8593ab94-be6a-429d-803d-1808ea7bd8b5");
         if (PermissionUtils.checkPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             JoinMeetingManager.getInstance().initLogger(this);

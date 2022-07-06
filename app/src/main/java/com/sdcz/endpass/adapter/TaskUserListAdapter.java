@@ -31,6 +31,8 @@ import com.sdcz.endpass.widget.MarqueeTextView;
 import org.json.JSONException;
 
 import java.security.KeyStore;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -58,8 +60,16 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
     }
 
     public void setData(List<ChannerUser> mData) {
+        Collections.sort(mData,new PersonComparator());
         this.mData = mData;
         notifyDataSetChanged();
+    }
+
+    class PersonComparator implements Comparator<ChannerUser> {
+        @Override
+        public int compare(ChannerUser p1, ChannerUser p2) {
+            return p2.getIsOnline() - p1.getIsOnline();
+        }
     }
 
     public void setMuteUserIds(List<Long> ids) {
@@ -67,16 +77,16 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         notifyDataSetChanged();
     }
 
-    public void setVenueId(long id) {
+    public void setVenueId(String id) {
         if (mData != null) {
-            if (id == 0) {
+            if (id.equals(0)) {
                 for (int i = 0; i < mData.size(); i++) {
                     mData.get(i).setVenue(false);
                 }
             } else {
                 for (int i = 0; i < mData.size(); i++) {
                     mData.get(i).setVenue(false);
-                    if (id == mData.get(i).getUserId()) {
+                    if (id.equals(mData.get(i).getUserId())) {
                         mData.get(i).setVenue(true);
                     }
                 }
@@ -121,6 +131,30 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         }
         notifyDataSetChanged();
     }
+
+    public void removeUser(String id) {
+        if (null == id) return;
+        for (ChannerUser user : mData){
+            if (id.equals(user.getUserId())){
+            }
+            break;
+        }
+        notifyDataSetChanged();
+    }
+
+
+    public void removeUser(long id) {
+        for (int i = 0; i<=mData.size() ;i++){
+            if (null == mData.get(i).getBaseUser()) continue;
+            if (id == mData.get(i).getBaseUser().getUserId()){
+                mData.remove(i);
+                break;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+
 
     public void removeAllMuteUserIds() {
 //        if (ids.contains(id)){
@@ -172,18 +206,18 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         /**
          * 在离线状态
          */
-        if (null == mData.get(position).getBaseUser()) {
-            viewHolder.ivIsOnline.setImageResource(R.drawable.icon_spot_gray);
-            viewHolder.ivVideo.setVisibility(View.INVISIBLE);
-            viewHolder.ivAudio.setVisibility(View.INVISIBLE);
-            viewHolder.ivCall.setVisibility(View.VISIBLE);
-            viewHolder.ivVenue.setVisibility(View.INVISIBLE);
-        } else {
+        if (1 == mData.get(position).getIsOnline()) {
             viewHolder.ivIsOnline.setImageResource(R.drawable.icon_spot_green);
             viewHolder.ivVideo.setVisibility(View.VISIBLE);
             viewHolder.ivAudio.setVisibility(View.VISIBLE);
             viewHolder.ivCall.setVisibility(View.INVISIBLE);
             viewHolder.ivVenue.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.ivIsOnline.setImageResource(R.drawable.icon_spot_gray);
+            viewHolder.ivVideo.setVisibility(View.INVISIBLE);
+            viewHolder.ivAudio.setVisibility(View.INVISIBLE);
+            viewHolder.ivCall.setVisibility(View.VISIBLE);
+            viewHolder.ivVenue.setVisibility(View.INVISIBLE);
         }
 
 
@@ -350,6 +384,8 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
                                 if (mData.size() > getAdapterPosition()) {
                                     tvUserName.setMarqeeTrue();
                                     mClick.clickCallKickOut(mData.get(getAdapterPosition()).getUserId() + "");
+                                    mData.remove(getAdapterPosition());
+                                    notifyDataSetChanged();
                                 }
                             }
                         }

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_video_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_video_in_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_call_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/paddingMid"
+            android:layout_marginTop="@dimen/paddingMid"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:maxWidth="216dp"
+            android:shadowColor="#56ffffff"
+            android:shadowRadius="6"
+            android:text="Evan"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_call_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_call_name"
+            android:layout_marginLeft="@dimen/paddingMid"
+            android:layout_marginTop="@dimen/paddingMin_8"
+            android:shadowColor="#56ffffff"
+            android:shadowRadius="6"
+            android:text="邀请您加入会议..."
+            android:textColor="@color/white"
+            android:textSize="@dimen/min_sp_14" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp40"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_call_audio_recv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/btn_top_voice"
+                android:drawablePadding="@dimen/dp12"
+                android:gravity="center"
+                android:text="语音接听"
+                android:textColor="@color/white"
+                android:textSize="@dimen/min_sp_14" />
+
+            <TextView
+                android:id="@+id/tv_call_in_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp40"
+                android:layout_marginRight="@dimen/dp40"
+                android:drawableTop="@drawable/btn_call_refuse"
+                android:drawablePadding="@dimen/dp12"
+                android:gravity="center"
+                android:text="拒绝"
+                android:textColor="@color/white"
+                android:textSize="@dimen/min_sp_14" />
+
+            <TextView
+                android:id="@+id/tv_call_video_recv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/btn_top_video"
+                android:drawablePadding="@dimen/dp12"
+                android:gravity="center"
+                android:text="视频接听"
+                android:textColor="@color/white"
+                android:textSize="@dimen/min_sp_14" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_audio_in_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="#44526B"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_audio_call_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="134dp"
+            android:drawableTop="@drawable/hst_call_user"
+            android:drawablePadding="28dp"
+            android:ellipsize="middle"
+            android:gravity="center"
+            android:maxWidth="232dp"
+            android:singleLine="true"
+            android:text="Evan"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_audio_call_name"
+            android:layout_marginTop="@dimen/marginMin_16"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="邀请您加入会议..."
+            android:textColor="@color/white"
+            android:textSize="@dimen/min_sp_14" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp40"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_call_audio_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/btn_call_refuse"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:paddingRight="40dp"
+                android:text="取消"
+                android:textColor="@color/textcolor_adb0b5"
+                android:textSize="@dimen/min_sp_14" />
+
+            <TextView
+                android:id="@+id/tv_call_audio_in_recv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/btn_call_answer"
+                android:drawablePadding="@dimen/dp12"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp40"
+                android:text="接听"
+                android:textColor="@color/textcolor_adb0b5"
+                android:textSize="@dimen/min_sp_14" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</merge>

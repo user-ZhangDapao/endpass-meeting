@@ -1,5 +1,6 @@
 package com.sdcz.endpass.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTabHost;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -34,6 +37,7 @@ import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
+import com.sdcz.endpass.base.SdkBaseActivity;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.fragment.DispatchFragment;
 import com.sdcz.endpass.fragment.MailListFragment;
@@ -42,6 +46,8 @@ import com.sdcz.endpass.login.JoinMeetingManager;
 import com.sdcz.endpass.login.LoginErrorUtil;
 import com.sdcz.endpass.login.LoginMeetingCallBack;
 import com.sdcz.endpass.login.LoginStateUtil;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.presenter.MainPresenter;
 import com.sdcz.endpass.recevier.NetWorkStateReceiver;
 import com.sdcz.endpass.util.SharedPrefsUtil;
@@ -53,7 +59,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MainActivityApp extends BaseActivity<MainPresenter> implements IMainView {
+public class MainActivityApp extends SdkBaseActivity {
 
     private FragmentTabHost fragmentTabHost;
     private int[] textsIDs = {R.string.tab_index, R.string.tab_dispath, R.string.tab_mine};
@@ -65,22 +71,22 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     private SoundPool mSoundPool;
     private NetWorkStateReceiver netWorkStateReceiver;
 
-
     @Override
-    protected MainPresenter createPresenter() {
-        return new MainPresenter(this);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_app);
+        PaasOnlineManager.getInstance().setBusy(false);
+        initView();
+        initData();
+        initListener();
     }
 
-    @Override
-    protected int provideContentViewId() {
-        return R.layout.activity_main_app;
-    }
-
-    @Override
-    public View initView(Bundle savedInstanceState) {
+    public void initView() {
         fragmentTabHost = findViewById(android.R.id.tabhost);
         llMain = findViewById(R.id.ll_main);
-        fragmentTabHost.setup(this, getSupportFragmentManager(), R.id.content);
+        fragmentTabHost.setup(this,
+                getSupportFragmentManager(),
+                R.id.content);
         for (int i = 0; i < textsIDs.length; i++) {
             TabHost.TabSpec spec = fragmentTabHost.newTabSpec(getString(textsIDs[i])).setIndicator(getView(i));
             fragmentTabHost.addTab(spec, fragmentArray[i], null);
@@ -89,21 +95,16 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
         fragmentTabHost.getTabWidget().setShowDividers(LinearLayout.SHOW_DIVIDER_NONE);
         mSoundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
         mSoundPool.load(this, R.raw.tips, 1);
-        return llMain;
     }
 
-    @Override
     public void initData() {
-        super.initData();
 //        PlayerManager.getManager().init(getContext());
 //        PlayerManager.getManager().changeToSpeakerMode();
-        mPresenter.getAllUser(this);
+        getAllUser(this);
     }
 
 
-    @Override
     public void initListener() {
-        super.initListener();
 //        registerReceiver(headSetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
         starFrameworklistener();
         SdkUtil.getContactManager().queryDeptInfo(1, 1000, new IRoomListResultInterface<Object>() {
@@ -175,11 +176,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
     }
 
     @Override
-    protected void setStatusBar() {
-
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(netWorkStateReceiver);
@@ -196,12 +192,6 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void showData(Object o) {
-        SharedPrefsUtil.putString(Constants.SharedPreKey.AllUserName,getJsonStringByEntity(o));
-        Log.e("TAG", "showData: " + getJsonStringByEntity(o) );
     }
 
     private void starFrameworklistener() {
@@ -235,11 +225,38 @@ public class MainActivityApp extends BaseActivity<MainPresenter> implements IMai
 //        }
 //    };
 
+
+
+    public void getAllUser(Activity activity){
+
+        RequestUtils.getAllUser(0,new MyObserver<Object>(activity) {
+            @Override
+            public void onSuccess(Object result) {
+                SharedPrefsUtil.putString(Constants.SharedPreKey.AllUserName,getJsonStringByEntity(result));
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+
+        RequestUtils.getAllUser(1,new MyObserver<Object>(activity) {
+            @Override
+            public void onSuccess(Object result) {
+                SharedPrefsUtil.putString(Constants.SharedPreKey.AllUserId,getJsonStringByEntity(result));
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+    }
+
     public static String getJsonStringByEntity(Object o) {
-    String strJson = "";
-    Gson gson = new Gson();
-    strJson = gson.toJson(o);
-    return strJson;
+        String strJson = "";
+        Gson gson = new Gson();
+        strJson = gson.toJson(o);
+        return strJson;
     }
 
 }

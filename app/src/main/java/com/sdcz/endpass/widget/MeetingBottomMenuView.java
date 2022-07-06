@@ -31,7 +31,6 @@ import com.sdcz.endpass.base.BaseMeetingMenuBar;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
 import com.inpor.base.sdk.user.UserManager;
 import com.inpor.nativeapi.adaptor.RolePermission;
-import com.sdcz.endpass.ui.activity.UserPopActivity;
 
 public class MeetingBottomMenuView extends BaseMeetingMenuBar {
     private static final String TAG = "MeetingBottomMenuView";

@@ -26,6 +26,39 @@
         <!-- 模糊 -->
     </style>
 
+    <!--全局布局样式-->
+    <style name="dialog_global_style" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@color/color_transparent</item>
+        <!--窗口背景透明-->
+        <item name="android:windowFrame">@null</item>
+        <!-- 无边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否悬浮在activity上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊 -->
+        <!--<item name="android:windowAnimationStyle">@style/dialog_right_enter_left_exit_animation</item>-->
+    </style>
+
+    <style name="dialog_call_style" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@drawable/hst_call_bg</item>
+        <!-- 无边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否悬浮在activity上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--模糊 -->
+        <item name="android:windowAnimationStyle">@style/dialog_right_enter_left_exit_animation
+        </item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <!--创建请求的对话框使用，目前用于显示loading样式-->
 
     <!--没有使用-->

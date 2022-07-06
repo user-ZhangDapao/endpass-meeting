@@ -21,7 +21,15 @@ public class ChannerUser {
     private String deptName;
     private BaseUser baseUser;
     private boolean isVenue;
+    private int isOnline;
 
+    public int getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(int isOnline) {
+        this.isOnline = isOnline;
+    }
 
     public boolean isVenue() {
         return isVenue;

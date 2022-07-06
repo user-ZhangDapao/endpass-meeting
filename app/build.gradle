@@ -104,6 +104,8 @@ dependencies {
     implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.9.2"
 
     annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.2"
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
 
     implementation files('..\\libs\\ftp4j-1.7.2.jar')

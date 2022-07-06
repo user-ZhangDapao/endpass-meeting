@@ -55,6 +55,7 @@ import com.comix.meeting.listeners.VideoModelListener;
 import com.comix.meeting.listeners.WbCreateListener;
 import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.ChatMsgInfo;
+import com.inpor.sdk.online.PaasOnlineManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LiveDataBus;
 import com.sdcz.endpass.R;
@@ -62,8 +63,10 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
+import com.sdcz.endpass.bean.CameraEventOnWrap;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.LayoutItem;
+import com.sdcz.endpass.bean.MassageEvent;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.bean.UserEntity;
@@ -101,8 +104,6 @@ import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
 
-import com.sdcz.endpass.widget.UserPopWidget;
-import com.sdcz.endpass.widget.VariableLayout;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.audio.RawCapDataSinkCallback;
 import com.inpor.base.sdk.meeting.MeetingManager;
@@ -116,6 +117,7 @@ import com.inpor.nativeapi.adaptor.RoomInfo;
 import com.inpor.nativeapi.adaptor.RoomWndState;
 import com.inpor.nativeapi.interfaces.RolePermissionEngine;
 import com.inpor.sdk.PlatformConfig;
+import com.sdcz.endpass.widget.UserPopWidget;
 import com.sdcz.endpass.widget.VideoScreenView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -272,30 +274,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         llRoot.setOnClickListener(this);
     }
 
-    private boolean validateMicAvailability(){
-        Boolean available = true;
-        @SuppressLint("MissingPermission")
-        AudioRecord recorder =
-                new AudioRecord(MediaRecorder.AudioSource.MIC, 44100,
-                        AudioFormat.CHANNEL_IN_MONO,
-                        AudioFormat.ENCODING_DEFAULT, 44100);
-        try{
-            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED ){
-                available = false;
-            }
-
-            recorder.startRecording();
-            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING){
-                recorder.stop();
-                available = false;
-            }
-            recorder.stop();
-        } finally{
-            recorder.release();
-            recorder = null;
-        }
-        return available;
-    }
 
     private void initBottomAndTopMenu() {
         RelativeLayout.LayoutParams topLayoutParams =
@@ -327,6 +305,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void initData() {
+        PaasOnlineManager.getInstance().setBusy(true);
         popupWindowBuilder = new PopupWindowBuilder(this);
         meetingBottomMenuView.setBottomMenuLocationUpdateListener(this);
         meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this);
@@ -667,6 +646,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        PaasOnlineManager.getInstance().setBusy(false);
         Intent intent = new Intent(this, PosService.class);
         stopService(intent);
         Log.i(TAG, "onDestroy()");
@@ -764,73 +744,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         }
     }
 
-    private void openWbFromLocalFile(String path) {
-        SdkUtil.getWbShareManager().openLocalWb(path, new WbCreateListener() {
-            @Override
-            public void onWbCreated(WhiteBoard whiteBoard) {
-                if (proxy.getMeetingInfo().layoutType == LayoutType.VIDEO_LAYOUT
-                        || SdkUtil.getVideoManager().hasFullScreenVideo()) {
-                    meetingManager.setMeetingLayoutType(LayoutType.STANDARD_LAYOUT,
-                            RoomWndState.SplitStyle.SPLIT_STYLE_4);
-                }
-            }
-
-            @Override
-            public void onWbCreateFailed(int code) {
-                if (code == WbCreateListener.PERMISSION_DENIED) {
-                    ToastUtils.showShort(
-                            R.string.meetingui_permission_not_permitted_admin);
-                } else if (code == WbCreateListener.PERMISSION_OCCUPIED) {
-                    ToastUtils.showShort( R.string.meetingui_wb_count_limit_tips);
-                } else if (code == WbCreateListener.SOMEONE_ALREADY_SHARING) {
-                    ToastUtils.showShort( R.string.meetingui_share_limit_tip);
-                } else {
-                    ToastUtils.showShort( R.string.meetingui_open_wb_failed);
-                }
-            }
-        });
-    }
-
-    private final ScreenSharingCreateListener sharingCreateListener = new ScreenSharingCreateListener() {
-        @Override
-        public void onShareScreenSuccessfully() {
-            ToastUtils.showShort(R.string.meetingui_screen_share_success);
-            meetingManager.setMeetingLayoutType(LayoutType.STANDARD_LAYOUT,
-                    RoomWndState.SplitStyle.SPLIT_STYLE_4);
-            // 跳转到桌面
-            try { //线上BUG-22157
-                Intent home = new Intent(Intent.ACTION_MAIN);
-                home.addCategory(Intent.CATEGORY_HOME);
-                startActivity(home);
-            } catch (ActivityNotFoundException exception) {
-                exception.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onShareScreenFailed(int code, Object... objects) {
-            if (code == ScreenShareResultCode.PERMISSION_DENIED) {
-                int result = (int) objects[0];
-                if (result == RolePermissionEngine.PERMISSION_OCCUPIED) {
-                    Long userId = (Long) objects[1];
-                    String nickName = "";
-                    if (userId != null) {
-                        BaseUser user = userModel.getUserInfo(userId);
-                        if (user != null) {
-                            nickName = user.getNickName();
-                        }
-                    }
-                    String tip = getString(R.string.meetingui_other_user_share_screen, nickName);
-                    ToastUtils.showShort(tip);
-                } else if (result == RolePermissionEngine.SHARE_LIMIT) {
-                    ToastUtils.showShort(R.string.meetingui_share_limit_tip);
-                } else {
-                    ToastUtils.showShort(
-                            R.string.meetingui_permission_not_permitted_admin);
-                }
-            }
-        }
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -1008,42 +921,24 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     @Override
                     public void run() {
                         setUserId(Long.valueOf(strarray[1]));
+                        EventBus.getDefault().post(new MassageEvent("MAIN_VENUE",strarray[1]));
                     }
                 });
                 break;
             case "ON_LISTEN":
+                EventBus.getDefault().post(new MassageEvent("ON_LISTEN",strarray[1]));
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
                     meetingBottomAndTopMenuContainer.onClickOpenAudioListener();
-                }else {
-                    this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (strarray[1].equals("ALL")){
-                                UserPopWidget.taskUserAdapter.removeAllMuteUserIds();
-                            }else {
-                                UserPopWidget.taskUserAdapter.removeMuteUserIds(Long.valueOf(strarray[1]));
-                            }
-                        }
-                    });
                 }
                 break;
             case "OFF_LISTEN":
+                EventBus.getDefault().post(new MassageEvent("OFF_LISTEN",strarray[1]));
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
                     meetingBottomAndTopMenuContainer.onClickCloseAudioListener();
-                }else {
-                    this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (strarray[1].equals("ALL")){
-                                UserPopWidget.taskUserAdapter.addAllMuteUserIds();
-                            }else {
-                                UserPopWidget.taskUserAdapter.addMuteUserIds(Long.valueOf(strarray[1]));
-                            }
-                        }
-                    });
                 }
                 break;
             case "PLEASE_LEAVE":
+                EventBus.getDefault().post(new MassageEvent("PLEASE_LEAVE",strarray[1]));
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
 //                    MeetingQuitContainer.onClickCloseMeetingListener();
                     //本地管理员结束会议
@@ -1091,8 +986,8 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         if (changeInfo.isLocalUser()){
             vsLocalUser.attachVideoInfo(changeInfo);
         }else {
-            if (vsVeuneUser.getVideoInfo() != null) vsVeuneUser.detachVideoInfo();
             if (changeInfo.getVideoUser().getUserId() == idid){
+                if (vsVeuneUser.getVideoInfo() != null) vsVeuneUser.detachVideoInfo();
                 vsVeuneUser.attachVideoInfo(changeInfo);
             }
         }
@@ -1104,7 +999,9 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         if (changeInfo.isLocalUser()){
             vsLocalUser.detachVideoInfo();
         }else {
-            vsVeuneUser.detachVideoInfo();
+            if (changeInfo.getVideoUser().getUserId() == idid){
+                vsVeuneUser.attachVideoInfo(changeInfo);
+            }
         }
     }
 
