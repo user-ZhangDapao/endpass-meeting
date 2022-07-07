@@ -45,6 +45,7 @@ import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.PermissionsPageUtils;
+import com.sdcz.endpass.view.IMassageEvent;
 import com.sdcz.endpass.widget.MeetLeftView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
@@ -91,6 +92,7 @@ public class MeetingBottomAndTopMenuContainer implements
     private final UserManager userModel;
     private final AudioManager audioManager;
     private final MeetingManager meetingModel;
+    private static UserPopWidget attendeeView2;
     //生命周期回调onPause 如果没有录音权限 则 下一次onResume 检查是否有此权限
     private boolean isBackgroupPermission = false;//true onPause之后没有权限
 
@@ -101,7 +103,7 @@ public class MeetingBottomAndTopMenuContainer implements
      *
      * @param context 上下文
      */
-    public MeetingBottomAndTopMenuContainer(Activity context) {
+    public MeetingBottomAndTopMenuContainer(Activity context, String channelCode) {
         this.context = context;
         popupWindowBuilder = new PopupWindowBuilder(context);
         popupWindowBuilder.setPopupWindowStateListener(this);
@@ -111,6 +113,13 @@ public class MeetingBottomAndTopMenuContainer implements
         BaseUser localUser = userModel.getLocalUser();
         MicEnergyMonitor.getInstance().addAudioEnergyListener(this, MicEnergyMonitor.MEETING_MENU_CONTAINER);
         MicEnergyMonitor.getInstance().addAudioSource(localUser, MicEnergyMonitor.MEETING_MENU_CONTAINER);
+        attendeeView2 = new UserPopWidget(context, channelCode);
+
+    }
+
+    public static UserPopWidget getUserPopWidget (){
+        if (null == attendeeView2) return null;
+        return attendeeView2;
     }
 
 
@@ -395,7 +404,6 @@ public class MeetingBottomAndTopMenuContainer implements
     /**
      * 点击麦克风按钮回调
      *
-     * @param micMenuView 当前被点击的View
      * @see MeetingBottomMenuView.MeetingBottomMenuListener
      */
     @Override
@@ -602,7 +610,6 @@ public class MeetingBottomAndTopMenuContainer implements
     /**
      * 点击相机按钮回调
      *
-     * @param cameraMenuView 当前被点击的view
      * @see MeetingBottomMenuView.MeetingBottomMenuListener
      */
     @Override
@@ -736,6 +743,12 @@ public class MeetingBottomAndTopMenuContainer implements
                 .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE)
                 .show();
         bottomAndTopMenuTimerControl(true);
+    }
+
+    @Override
+    public void onClickAttendeeListener() {
+        popupWindowBuilder.setContentView(attendeeView2)
+                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
     }
 
     @Override
@@ -897,25 +910,24 @@ public class MeetingBottomAndTopMenuContainer implements
      * @UpdateRemark: 更新说明
      * @Version: 1.0
      */
-    @Override
-    public void onClickAttendeeListener(String channelCode) {
-////        AttendeeView attendeeView = new AttendeeView(context);
-////        popupWindowBuilder.setContentView(attendeeView)
-////                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
-//        popWidget = new UserPopWidget(context, channelCode);
+//    @Override
+//    public void onClickAttendeeListener(String channelCode, IMassageEvent massageEvent) {
+//////        AttendeeView attendeeView = new AttendeeView(context);
+//////        popupWindowBuilder.setContentView(attendeeView)
+//////                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
+////        popWidget = new UserPopWidget(context, channelCode);
+////
+////        //点击要弹出popupwindow时父控件显示为灰色
+//////        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//////        lp.alpha = 0.3f;
+//////        context.getWindow().setAttributes(lp);
+////        popWidget.showAtLocation(context.getResources().,
+////                Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+//////        context.startActivity(new Intent(context, UserPopActivity.class).putExtra(Constants.SharedPreKey.CHANNEL_CODE, channelCode));
 //
-//        //点击要弹出popupwindow时父控件显示为灰色
-////        WindowManager.LayoutParams lp = getWindow().getAttributes();
-////        lp.alpha = 0.3f;
-////        context.getWindow().setAttributes(lp);
-//        popWidget.showAtLocation(context.getResources().,
-//                Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-////        context.startActivity(new Intent(context, UserPopActivity.class).putExtra(Constants.SharedPreKey.CHANNEL_CODE, channelCode));
-
-        UserPopWidget attendeeView = new UserPopWidget(context, channelCode );
-        popupWindowBuilder.setContentView(attendeeView)
-                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
-    }
+//        popupWindowBuilder.setContentView(attendeeView2)
+//                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
+//    }
 
     //----------------------底部菜单栏按钮点击事件回调 code end----------------------||
 

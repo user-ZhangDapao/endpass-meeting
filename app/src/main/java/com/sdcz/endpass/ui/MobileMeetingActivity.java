@@ -99,6 +99,7 @@ import com.sdcz.endpass.util.MeetingTempDataUtils;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.UiHelper;
+import com.sdcz.endpass.view.IMassageEvent;
 import com.sdcz.endpass.view.IMobileMeetingView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
@@ -155,7 +156,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private int objId = -1;
     private boolean isAnonymousLogin;
     private boolean isAnonymousLoginWithRoomId;
-
     private String channelCode = "";
     public static boolean isAdmin = false;
 
@@ -285,7 +285,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
         bottomLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        meetingBottomMenuView = new MeetingBottomMenuView(this, channelCode);
+        meetingBottomMenuView = new MeetingBottomMenuView(this);
         meetingBottomMenuView.setLayoutParams(bottomLayoutParams);
         RelativeLayout rootRelativeLayout = findViewById(R.id.activity_root_view);
         rootRelativeLayout.addView(meetingTopTitleView);
@@ -308,7 +308,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         PaasOnlineManager.getInstance().setBusy(true);
         popupWindowBuilder = new PopupWindowBuilder(this);
         meetingBottomMenuView.setBottomMenuLocationUpdateListener(this);
-        meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this);
+        meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this ,channelCode);
         meetingBottomAndTopMenuContainer.addMeetingMenuEventManagerListener(this);
         meetingBottomAndTopMenuContainer.correlationMeetingTopMenu(meetingTopTitleView);
         meetingBottomAndTopMenuContainer.correlationMeetingBottomMenu(meetingBottomMenuView,
@@ -921,24 +921,47 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     @Override
                     public void run() {
                         setUserId(Long.valueOf(strarray[1]));
-                        EventBus.getDefault().post(new MassageEvent("MAIN_VENUE",strarray[1]));
+                        if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()) {
+                            meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("MAIN_VENUE",strarray[1]);
+                        }
                     }
                 });
                 break;
             case "ON_LISTEN":
-                EventBus.getDefault().post(new MassageEvent("ON_LISTEN",strarray[1]));
+                if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()){
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("ON_LISTEN",strarray[1]);
+                        }
+                    });
+                }
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
                     meetingBottomAndTopMenuContainer.onClickOpenAudioListener();
                 }
                 break;
             case "OFF_LISTEN":
-                EventBus.getDefault().post(new MassageEvent("OFF_LISTEN",strarray[1]));
+                if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()){
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("OFF_LISTEN",strarray[1]);
+                        }
+                    });
+                }
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
                     meetingBottomAndTopMenuContainer.onClickCloseAudioListener();
                 }
                 break;
             case "PLEASE_LEAVE":
-                EventBus.getDefault().post(new MassageEvent("PLEASE_LEAVE",strarray[1]));
+                if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()){
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("PLEASE_LEAVE",strarray[1]);
+                        }
+                    });
+                }
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
 //                    MeetingQuitContainer.onClickCloseMeetingListener();
                     //本地管理员结束会议
@@ -1000,7 +1023,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             vsLocalUser.detachVideoInfo();
         }else {
             if (changeInfo.getVideoUser().getUserId() == idid){
-                vsVeuneUser.attachVideoInfo(changeInfo);
+                vsVeuneUser.detachVideoInfo();
             }
         }
     }

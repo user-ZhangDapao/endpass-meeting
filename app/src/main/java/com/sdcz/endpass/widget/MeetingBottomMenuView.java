@@ -31,6 +31,7 @@ import com.sdcz.endpass.base.BaseMeetingMenuBar;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
 import com.inpor.base.sdk.user.UserManager;
 import com.inpor.nativeapi.adaptor.RolePermission;
+import com.sdcz.endpass.view.IMassageEvent;
 
 public class MeetingBottomMenuView extends BaseMeetingMenuBar {
     private static final String TAG = "MeetingBottomMenuView";
@@ -66,16 +67,14 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
     private MicViewState currentMicIconState;
     private CameraViewState currentCameraViewState;
 
-    private String channelCode;
 
     /**
      * 构造函数
      *
      * @param context 上下文
      */
-    public MeetingBottomMenuView(@NonNull Context context, String channelCode) {
+    public MeetingBottomMenuView(@NonNull Context context) {
         super(context);
-        this.channelCode = channelCode;
     }
 
 
@@ -85,9 +84,8 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
      * @param context 上下文
      * @param attrs   属性
      */
-    public MeetingBottomMenuView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode) {
+    public MeetingBottomMenuView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.channelCode = channelCode;
     }
 
     /**
@@ -443,7 +441,7 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
             } else if (id == R.id.im_shared_lock) {
                 setShareLockState(!isAlwaysShowSharedBar);
             } else if (id == R.id.tv_menu_attender) {
-                meetingBottomMenuListener.onClickAttendeeListener(channelCode);
+                meetingBottomMenuListener.onClickAttendeeListener();
             }
         }
     }
@@ -575,14 +573,12 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
         /**
          * 点击麦克风按钮回调
          *
-         * @param micMenuView 当前被点击的View
          */
         void onClickMicListener();
 
         /**
          * 点击相机按钮回调
          *
-         * @param cameraMenuView 当前被点击的view
          */
         void onClickCameraListener();
 
@@ -610,7 +606,7 @@ public class MeetingBottomMenuView extends BaseMeetingMenuBar {
         /**
          * 点击“参会人”按钮回调
          */
-        void onClickAttendeeListener(String channelCode);
+        void onClickAttendeeListener();
 
         /**
          * 点击共享工具条锁定按钮

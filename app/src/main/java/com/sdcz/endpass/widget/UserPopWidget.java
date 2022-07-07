@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,6 @@ import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.inpor.base.sdk.meeting.MeetingManager;
 import com.inpor.base.sdk.user.UserManager;
-import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
@@ -28,24 +26,17 @@ import com.sdcz.endpass.base.BasePopupWindowContentView;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.bean.MassageEvent;
-import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.model.ChatManager;
-import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
-import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.ui.activity.SelectUserActivity;
-import com.sdcz.endpass.ui.activity.TaskUserActivity;
-import com.sdcz.endpass.util.ActivityUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
+import com.sdcz.endpass.view.IMassageEvent;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UserPopWidget extends BasePopupWindowContentView {
 
@@ -61,6 +52,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
     private UserManager userModel;
     private RecyclerView rvRoot;
     private TextView tvAddUser;
+
 
     private final MeetingModelListener meetingModelListener = new MeetingModelListener() {
 
@@ -143,42 +135,25 @@ public class UserPopWidget extends BasePopupWindowContentView {
         }
     };
 
-    @Subscribe
-    public void onEvent(MassageEvent event) {/* Do something */
-        String type = event.getType();
-        String id = event.getId();
+    public static void onMassageEvent(String type,String id) {/* Do something */
+        if(null == taskUserAdapter) return;
         switch (type){
             case "MAIN_VENUE":
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        taskUserAdapter.setVenueId(id);
-                    }
-                });
+                taskUserAdapter.setVenueId(id);
                 break;
             case "ON_LISTEN":
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (id.equals("ALL")){
-                            taskUserAdapter.removeAllMuteUserIds();
-                        }else {
-                            taskUserAdapter.removeMuteUserIds(Long.valueOf(id));
-                        }
-                    }
-                });
+                if (id.equals("ALL")){
+                    taskUserAdapter.removeAllMuteUserIds();
+                }else {
+                    taskUserAdapter.removeMuteUserIds(Long.valueOf(id));
+                }
                 break;
             case "OFF_LISTEN":
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (id.equals("ALL")){
-                            taskUserAdapter.addAllMuteUserIds();
-                        }else {
-                            taskUserAdapter.addMuteUserIds(Long.valueOf(id));
-                        }
-                    }
-                });
+                if (id.equals("ALL")){
+                    taskUserAdapter.addAllMuteUserIds();
+                }else {
+                    taskUserAdapter.addMuteUserIds(Long.valueOf(id));
+                }
                 break;
             case "PLEASE_LEAVE":
                 taskUserAdapter.removeUser(id);
@@ -381,6 +356,5 @@ public class UserPopWidget extends BasePopupWindowContentView {
             }
         });
     }
-
 
 }
