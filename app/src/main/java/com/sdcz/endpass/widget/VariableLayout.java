@@ -78,7 +78,6 @@ public class VariableLayout extends ViewGroup implements LayoutModelListener {
         videoLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         videoLayout.setBackgroundResource(R.color.color_292C33);
         addView(videoLayout);
-
     }
 
     public int getCurrentStyle() {

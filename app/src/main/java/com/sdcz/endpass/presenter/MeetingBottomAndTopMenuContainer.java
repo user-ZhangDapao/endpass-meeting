@@ -45,7 +45,6 @@ import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.PermissionsPageUtils;
-import com.sdcz.endpass.view.IMassageEvent;
 import com.sdcz.endpass.widget.MeetLeftView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
@@ -114,7 +113,6 @@ public class MeetingBottomAndTopMenuContainer implements
         MicEnergyMonitor.getInstance().addAudioEnergyListener(this, MicEnergyMonitor.MEETING_MENU_CONTAINER);
         MicEnergyMonitor.getInstance().addAudioSource(localUser, MicEnergyMonitor.MEETING_MENU_CONTAINER);
         attendeeView2 = new UserPopWidget(context, channelCode);
-
     }
 
     public static UserPopWidget getUserPopWidget (){

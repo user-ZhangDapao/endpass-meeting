@@ -86,7 +86,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
             } else {
                 for (int i = 0; i < mData.size(); i++) {
                     mData.get(i).setVenue(false);
-                    if (id.equals(mData.get(i).getUserId())) {
+                    if (id.equals(String.valueOf(mData.get(i).getUserId()))) {
                         mData.get(i).setVenue(true);
                     }
                 }

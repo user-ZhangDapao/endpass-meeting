@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.callback.JoinMeetingCallback;
 import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.PaasOnlineManager;
 import com.inpor.sdk.open.pojo.InputPassword;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -145,6 +146,7 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
                             public void onSuccess() {
                                 loadingDialog.dismiss();
                                 if (Code.isEmpty()) return;
+
                                 Intent intent = new Intent(requireActivity(), MobileMeetingActivity.class);
                                 intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);
                                 intent.putExtra(Constants.SharedPreKey.CHANNEL_CODE,Code);

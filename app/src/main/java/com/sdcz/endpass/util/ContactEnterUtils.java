@@ -198,10 +198,10 @@ public class ContactEnterUtils {
                         Intent intent = new Intent(activity, MobileMeetingActivity.class);
                         intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN, false);
                         activity.startActivity(intent);
-                        if(activity instanceof RoomListActivity){
-                        }else {
-                            activity.finish();
-                        }
+//                        if(activity instanceof RoomListActivity){
+//                        }else {
+//                            activity.finish();
+//                        }
                     }
                 });
 

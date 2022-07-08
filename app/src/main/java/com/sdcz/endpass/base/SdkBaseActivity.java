@@ -93,6 +93,10 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
 
     }
 
+
+
+
+
     private boolean isBusy() {
         return ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)
                 || PaasOnlineManager.getInstance().isBusy() ;

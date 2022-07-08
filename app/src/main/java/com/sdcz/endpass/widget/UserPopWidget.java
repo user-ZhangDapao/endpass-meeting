@@ -1,9 +1,12 @@
 package com.sdcz.endpass.widget;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
@@ -25,18 +29,17 @@ import com.sdcz.endpass.adapter.TaskUserListAdapter;
 import com.sdcz.endpass.base.BasePopupWindowContentView;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
-import com.sdcz.endpass.bean.MassageEvent;
+import com.sdcz.endpass.gps.EasyPermissions;
 import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.activity.SelectUserActivity;
 import com.sdcz.endpass.util.SharedPrefsUtil;
-import com.sdcz.endpass.view.IMassageEvent;
-
-import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
-
 import java.util.List;
+
+
+
 
 public class UserPopWidget extends BasePopupWindowContentView {
 
@@ -206,7 +209,19 @@ public class UserPopWidget extends BasePopupWindowContentView {
         taskUserAdapter.setClickListener(new TaskUserListAdapter.ItemClickEvent() {
             @Override
             public void clickCall(String mobile) {
-                Log.d("--mobile--",mobile);
+            if (TextUtils.isEmpty(mobile)){
+                ToastUtils.showLong("暂无联系方式！");
+                return;
+            }
+                new PopupWindowToCall(context, new PopupWindowToCall.OnPopWindowClickListener() {
+                    @Override
+                    public void onPopWindowClickListener(View view) {
+                        if (verifyPermissions()){
+                            Call(mobile);
+                        }
+                    }
+                },mobile).show();
+
             }
 
             @Override
@@ -356,5 +371,27 @@ public class UserPopWidget extends BasePopupWindowContentView {
             }
         });
     }
+
+    public boolean verifyPermissions() {
+        boolean hasPermission = true;
+        if (!EasyPermissions.hasPermissions(context,
+                Manifest.permission.CALL_PHONE)) {
+            EasyPermissions.requestPermissions(context,
+                    EasyPermissions.RC_CAMERA_PERM,
+                    Manifest.permission.CALL_PHONE);
+            hasPermission = false;
+        }
+        return hasPermission;
+    }
+
+    public void Call(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        context.startActivity(intent);
+    }
+
+
+
 
 }

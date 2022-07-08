@@ -1,18 +1,11 @@
 package com.sdcz.endpass.ui;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Notification;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,31 +21,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.comix.meeting.MeetingModule;
-import com.comix.meeting.annotation.ScreenShareResultCode;
-import com.comix.meeting.annotation.VideoQuality;
 import com.comix.meeting.entities.BaseUser;
-import com.comix.meeting.entities.LayoutType;
-import com.comix.meeting.entities.MeetingInfo;
-import com.comix.meeting.entities.ScreenShareOptions;
 import com.comix.meeting.entities.VideoInfo;
-import com.comix.meeting.entities.WhiteBoard;
 import com.comix.meeting.listeners.AudioModelListener;
 import com.comix.meeting.listeners.MeetingModelListener;
-import com.comix.meeting.listeners.ScreenSharingCreateListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.comix.meeting.listeners.VideoModelListener;
-import com.comix.meeting.listeners.WbCreateListener;
 import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.inpor.sdk.online.PaasOnlineManager;
@@ -63,10 +46,6 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
-import com.sdcz.endpass.bean.CameraEventOnWrap;
-import com.sdcz.endpass.bean.ChannelBean;
-import com.sdcz.endpass.bean.LayoutItem;
-import com.sdcz.endpass.bean.MassageEvent;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.bean.UserEntity;
@@ -74,7 +53,6 @@ import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
 import com.sdcz.endpass.callback.MeetingMenuEventManagerListener;
 import com.sdcz.endpass.callback.MeetingRoomControl;
 import com.sdcz.endpass.callback.OnSettingsChangedListener;
-import com.sdcz.endpass.constant.Constant;
 import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.dialog.GlobalPopupView;
 import com.sdcz.endpass.gps.PosService;
@@ -84,22 +62,17 @@ import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.model.MeetingLifecycleObserver;
 import com.sdcz.endpass.model.MeetingSettings;
 import com.sdcz.endpass.model.MeetingSettingsModel;
-import com.sdcz.endpass.model.NotificationUtil;
 import com.sdcz.endpass.model.UiEntrance;
-import com.sdcz.endpass.model.VideoController;
-import com.sdcz.endpass.network.MyObserver;
-import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.presenter.MeetingBottomAndTopMenuContainer;
 import com.sdcz.endpass.presenter.MeetingQuitContainer;
 import com.sdcz.endpass.presenter.MobileMeetingPresenter;
 import com.sdcz.endpass.util.BrandUtil;
 import com.sdcz.endpass.util.HeadsetMonitorUtil;
-import com.sdcz.endpass.util.MediaUtils;
 import com.sdcz.endpass.util.MeetingTempDataUtils;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.UiHelper;
-import com.sdcz.endpass.view.IMassageEvent;
+
 import com.sdcz.endpass.view.IMobileMeetingView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
@@ -108,17 +81,12 @@ import com.sdcz.endpass.widget.PopupWindowBuilder;
 import com.inpor.base.sdk.audio.AudioManager;
 import com.inpor.base.sdk.audio.RawCapDataSinkCallback;
 import com.inpor.base.sdk.meeting.MeetingManager;
-import com.inpor.base.sdk.permission.PermissionManager;
 import com.inpor.base.sdk.share.ScreenShareManager;
 import com.inpor.base.sdk.user.UserManager;
 import com.inpor.nativeapi.adaptor.AudioParam;
 import com.inpor.nativeapi.adaptor.Platform;
-import com.inpor.nativeapi.adaptor.RolePermission;
 import com.inpor.nativeapi.adaptor.RoomInfo;
-import com.inpor.nativeapi.adaptor.RoomWndState;
-import com.inpor.nativeapi.interfaces.RolePermissionEngine;
 import com.inpor.sdk.PlatformConfig;
-import com.sdcz.endpass.widget.UserPopWidget;
 import com.sdcz.endpass.widget.VideoScreenView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -129,6 +97,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
 public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener, ChatManager.ChatMessageListener,
         MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener, VideoModelListener, View.OnClickListener {
@@ -306,6 +277,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     public void initData() {
         PaasOnlineManager.getInstance().setBusy(true);
+        PaasOnlineManager.getInstance().reportMeetingState(true);
         popupWindowBuilder = new PopupWindowBuilder(this);
         meetingBottomMenuView.setBottomMenuLocationUpdateListener(this);
         meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this ,channelCode);
@@ -647,6 +619,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     protected void onDestroy() {
         super.onDestroy();
         PaasOnlineManager.getInstance().setBusy(false);
+        PaasOnlineManager.getInstance().reportMeetingState(false);
         Intent intent = new Intent(this, PosService.class);
         stopService(intent);
         Log.i(TAG, "onDestroy()");
@@ -1070,6 +1043,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             }
         }
     }
+
 
 
 }

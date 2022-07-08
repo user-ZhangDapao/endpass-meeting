@@ -45,6 +45,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".ui.TempMeetingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -126,7 +129,7 @@
         <activity
             android:name=".gps.GPSActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme"></activity>
+            android:theme="@style/TranslucentTheme" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

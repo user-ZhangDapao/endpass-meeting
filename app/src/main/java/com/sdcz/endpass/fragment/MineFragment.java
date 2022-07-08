@@ -9,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.inpor.base.sdk.login.LoginManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LoginActivity;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseFragment;
 import com.sdcz.endpass.base.BasePresenter;
 import com.sdcz.endpass.bean.UserEntity;
