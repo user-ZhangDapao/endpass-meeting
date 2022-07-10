@@ -77,6 +77,7 @@
     <string name="meetingui_chat" tools:ignore="ExtraTranslation">聊天</string>
     <string name="meetingui_more" tools:ignore="ExtraTranslation">更多</string>
     <string name="meetingui_quit_room" tools:ignore="ExtraTranslation">退出</string>
+    <string name="please_quit_room" tools:ignore="ExtraTranslation">申请退出</string>
     <string name="meetingui_shared_select" tools:ignore="ExtraTranslation">选择共享</string>
     <string name="meetingui_switch_select" tools:ignore="ExtraTranslation">切换共享</string>
     <string name="meetingui_screen_shared" tools:ignore="ExtraTranslation">屏幕共享</string>
@@ -111,6 +112,7 @@
     <string name="meetingui_cancel" tools:ignore="ExtraTranslation">取消</string>
     <string name="meetingui_quit_room_tips" tools:ignore="ExtraTranslation">你要退出会议还是结束会议?</string>
     <string name="meetingui_quit_room_restricted" tools:ignore="ExtraTranslation">退出会议后其他人继续会议,确定退出?</string>
+    <string name="please_quit_room_restricted" tools:ignore="ExtraTranslation">申请退出会议后管理员将收到退出申请,确定申请退出?</string>
     <string name="meetingui_finish_meeting" tools:ignore="ExtraTranslation">结束会议,所有人退出会议</string>
     <string name="meetingui_temporary_quit_meeting" tools:ignore="ExtraTranslation">退出会议,其他人继续会议</string>
     <string name="meetingui_select_apply_for" tools:ignore="ExtraTranslation">举手</string>

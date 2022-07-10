@@ -3,6 +3,7 @@ package com.sdcz.endpass.view;
 
 import com.sdcz.endpass.base.IBaseView;
 import com.sdcz.endpass.bean.MailListBean;
+import com.sdcz.endpass.bean.UserEntity;
 
 /**
  * Author: Administrator
@@ -11,7 +12,7 @@ import com.sdcz.endpass.bean.MailListBean;
  */
 public interface IMailListView extends IBaseView {
 
-    void showUserInfo();
+    void showUserInfo(UserEntity entity);
 
     void showData(MailListBean data);
 

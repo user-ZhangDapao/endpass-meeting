@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BasePopupWindowContentView;
+import com.sdcz.endpass.ui.MobileMeetingActivity;
 
 
 /**
@@ -85,8 +86,8 @@ public class MeetQuitView extends BasePopupWindowContentView
      * 权限受限的退出弹窗
      */
     public void showRestrictivePermissionLayout() {
-        titleTextView.setText(R.string.meetingui_quit_room_restricted);
-        quitMeetingView.setText(R.string.meetingui_quit_room);
+        titleTextView.setText(MobileMeetingActivity.isAdmin ? R.string.meetingui_quit_room_restricted : R.string.please_quit_room_restricted);
+        quitMeetingView.setText(MobileMeetingActivity.isAdmin ? R.string.meetingui_quit_room : R.string.please_quit_room);
         quitMeetingView.setTextColor(context.getResources().getColor(R.color.color_F37171));
         closeMeetingView.setVisibility(View.GONE);
         divisionLine2.setVisibility(View.GONE);
@@ -151,14 +152,11 @@ public class MeetQuitView extends BasePopupWindowContentView
         /**
          * 点击退出会议 按钮事件监听
          *
-         * @param view 被点击的Item
          */
         void onClickQuitMeetingListener();
 
         /**
          * 点击关闭会议室 事件监听
-         *
-         * @param view 被点击的item
          */
         void onClickCloseMeetingListener();
     }

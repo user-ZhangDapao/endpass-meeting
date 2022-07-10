@@ -1,6 +1,7 @@
 package com.sdcz.endpass.ui;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -36,6 +37,7 @@ import com.comix.meeting.listeners.AudioModelListener;
 import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.comix.meeting.listeners.VideoModelListener;
+import com.inpor.base.sdk.SdkManager;
 import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.ChatMsgInfo;
 import com.inpor.sdk.online.PaasOnlineManager;
@@ -46,6 +48,7 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
+import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.bean.UserEntity;
@@ -74,6 +77,7 @@ import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.UiHelper;
 
 import com.sdcz.endpass.view.IMobileMeetingView;
+import com.sdcz.endpass.widget.CustomDialog;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
 import com.sdcz.endpass.widget.PopupWindowBuilder;
@@ -93,6 +97,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.io.File;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,6 +112,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private static final String TAG = "MobileMeetingActivity";
     public static final String EXTRA_ANONYMOUS_LOGIN = "EXTRA_ANONYMOUS_LOGIN";
     public static final String EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID = "EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID";
+    public static final String MEETIING_TYPE = "MEETIING_TYPE";
     private RelativeLayout rootView;
 //    private VariableLayout variableLayout;
     private MeetingTopTitleView meetingTopTitleView;
@@ -127,6 +133,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private int objId = -1;
     private boolean isAnonymousLogin;
     private boolean isAnonymousLoginWithRoomId;
+    private String meetingType = "0";
     private String channelCode = "";
     public static boolean isAdmin = false;
 
@@ -185,6 +192,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         isAnonymousLogin = getIntent().getBooleanExtra(EXTRA_ANONYMOUS_LOGIN, false);
         channelCode = getIntent().getStringExtra(Constants.SharedPreKey.CHANNEL_CODE);
         isAnonymousLoginWithRoomId = getIntent().getBooleanExtra(EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID, false);
+        meetingType = getIntent().getStringExtra(MEETIING_TYPE) == null ? "0" : getIntent().getStringExtra(MEETIING_TYPE);
         //会议开始绑定会议退出状态监测管理类
         _MeetingStateManager.getInstance().bindActivity(this);
 
@@ -280,12 +288,12 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         PaasOnlineManager.getInstance().reportMeetingState(true);
         popupWindowBuilder = new PopupWindowBuilder(this);
         meetingBottomMenuView.setBottomMenuLocationUpdateListener(this);
-        meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this ,channelCode);
+        meetingBottomAndTopMenuContainer = new MeetingBottomAndTopMenuContainer(this ,channelCode, meetingType);
         meetingBottomAndTopMenuContainer.addMeetingMenuEventManagerListener(this);
         meetingBottomAndTopMenuContainer.correlationMeetingTopMenu(meetingTopTitleView);
         meetingBottomAndTopMenuContainer.correlationMeetingBottomMenu(meetingBottomMenuView,
                 true);
-        if (null != channelCode){
+        if (null != channelCode && meetingType.equals("0")){
             mPresenter.checkAdmin(channelCode);
             mPresenter.getChannelUser(channelCode);
         }
@@ -865,6 +873,10 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
        setUserId(id);
     }
 
+    @Override
+    public void showChannelInfo(ChannelBean channelBean) {
+    }
+
 
     @Override
     public void onChatMessage(ChatMsgInfo message) {
@@ -948,6 +960,15 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 break;
             case "ADD_CHANNEL_USER":
 
+                break;
+            case "APPLY_LEAVE":
+                if (strarray[1].equals(SharedPrefsUtil.getUserId())){
+                    try {
+                        showPleaceLeave(String.valueOf(message.srcUserId), strarray[2]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
         }
     }
@@ -1044,6 +1065,33 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         }
     }
 
-
+    public void showPleaceLeave(String leaveId, String txt) throws JSONException {
+        CustomDialog.Builder builder = new CustomDialog.Builder(this);
+        builder.setMessage(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(String.valueOf(leaveId)).getString("nickName") + "申请离开\\n原因:" + txt);
+        builder.setTitle("申请退出");
+        builder.setPositiveButton("同意", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                //设置你的操作事项
+                try {
+                    ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.YES_APPLY_LEAVE + SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(String.valueOf(leaveId)).getLong("userId"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("拒绝",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        try {
+                            ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.NO_APPLY_LEAVE + SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(String.valueOf(leaveId)).getLong("userId"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        builder.create().show();
+    }
 
 }

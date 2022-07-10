@@ -42,6 +42,7 @@ import com.sdcz.endpass.ui.activity.LoginActivityApp;
 import com.sdcz.endpass.ui.activity.MailListActivity;
 import com.sdcz.endpass.ui.activity.MainActivityApp;
 import com.sdcz.endpass.ui.activity.SearchActivity;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.util.StatusBarUtils;
 import com.sdcz.endpass.view.IMailListView;
@@ -155,9 +156,13 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     }
 
     @Override
-    public void showUserInfo() {
+    public void showUserInfo(UserEntity entity) {
         showLoading();
         mPresenter.getContactList(getActivity());
+        if (null != entity.getRoomId() && null != entity.getChannelCode()){
+            ContactEnterUtils.getInstance(getContext())
+                    .joinForCode(String.valueOf(entity.getRoomId()), getActivity(), entity.getChannelCode());
+        }
     }
 
     @Override

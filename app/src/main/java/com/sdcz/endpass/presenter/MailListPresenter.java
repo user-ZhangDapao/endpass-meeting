@@ -29,7 +29,7 @@ public class MailListPresenter extends BasePresenter<IMailListView> {
             public void onSuccess(UserEntity result) {
                 if (result != null){
                     SharedPrefsUtil.putUserInfo(result);
-                    iView.showUserInfo();
+                    iView.showUserInfo(result);
                 }
             }
 

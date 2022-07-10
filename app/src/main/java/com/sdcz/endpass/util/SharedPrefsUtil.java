@@ -246,6 +246,7 @@ public class SharedPrefsUtil {
     }
 
     public static int getUserId(){
+        if (null == SharedPrefsUtil.getUserInfo()) return 0;
        return SharedPrefsUtil.getUserInfo().getUserId();
     }
 

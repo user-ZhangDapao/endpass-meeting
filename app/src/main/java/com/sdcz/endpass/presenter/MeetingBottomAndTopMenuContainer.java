@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -35,16 +36,24 @@ import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraEventOnWrap;
+import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.callback.IMeetingMultimediaDisableListener;
 import com.sdcz.endpass.callback.MeetingMenuEventManagerListener;
 import com.sdcz.endpass.callback.PopupWindowStateListener;
+import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.dialog.GlobalPopupView;
 import com.sdcz.endpass.dialog.MarkWhiteBoardDialog;
 import com.sdcz.endpass.model.AppCache;
+import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.model.MicEnergyMonitor;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
+import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.PermissionsPageUtils;
+import com.sdcz.endpass.widget.AttendeeView;
+import com.sdcz.endpass.widget.CustomDialog;
 import com.sdcz.endpass.widget.MeetLeftView;
 import com.sdcz.endpass.widget.MeetingBottomMenuView;
 import com.sdcz.endpass.widget.MeetingTopTitleView;
@@ -67,7 +76,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -92,18 +103,20 @@ public class MeetingBottomAndTopMenuContainer implements
     private final AudioManager audioManager;
     private final MeetingManager meetingModel;
     private static UserPopWidget attendeeView2;
+    private String channelCode;
     //生命周期回调onPause 如果没有录音权限 则 下一次onResume 检查是否有此权限
     private boolean isBackgroupPermission = false;//true onPause之后没有权限
 
-    private boolean isAdmin = false;
+    private String meeting = "0";
 
     /**
      * 构造函数
      *
      * @param context 上下文
      */
-    public MeetingBottomAndTopMenuContainer(Activity context, String channelCode) {
+    public MeetingBottomAndTopMenuContainer(Activity context, String channelCode, String type) {
         this.context = context;
+        this.channelCode = channelCode;
         popupWindowBuilder = new PopupWindowBuilder(context);
         popupWindowBuilder.setPopupWindowStateListener(this);
         userModel = SdkUtil.getUserManager();
@@ -112,8 +125,13 @@ public class MeetingBottomAndTopMenuContainer implements
         BaseUser localUser = userModel.getLocalUser();
         MicEnergyMonitor.getInstance().addAudioEnergyListener(this, MicEnergyMonitor.MEETING_MENU_CONTAINER);
         MicEnergyMonitor.getInstance().addAudioSource(localUser, MicEnergyMonitor.MEETING_MENU_CONTAINER);
-        attendeeView2 = new UserPopWidget(context, channelCode);
+        meeting = type;
+        if (meeting.equals("0")){
+            attendeeView2 = new UserPopWidget(context, channelCode);
+        }
     }
+
+
 
     public static UserPopWidget getUserPopWidget (){
         if (null == attendeeView2) return null;
@@ -697,14 +715,15 @@ public class MeetingBottomAndTopMenuContainer implements
      */
     @Override
     public void onClickQuitListener(View quitMenuView) {
-        MeetingQuitContainer meetingQuitContainer = new MeetingQuitContainer(context);
-        meetingQuitContainer.onlyShowQuitMeetingView();
-        meetingQuitContainer.setMeetingQuitContainerListener(this);
-        popupWindowBuilder.setContentView(meetingQuitContainer.getView())
-                .setAnimationType(PopupWindowBuilder.AnimationType.FADE)
-                .setDuration(100)
-                .show();
-        bottomAndTopMenuTimerControl(true);
+        showOutLoding();
+//        MeetingQuitContainer meetingQuitContainer = new MeetingQuitContainer(context);
+//        meetingQuitContainer.onlyShowQuitMeetingView();
+//        meetingQuitContainer.setMeetingQuitContainerListener(this);
+//        popupWindowBuilder.setContentView(meetingQuitContainer.getView())
+//                .setAnimationType(PopupWindowBuilder.AnimationType.FADE)
+//                .setDuration(100)
+//                .show();
+//        bottomAndTopMenuTimerControl(true);
     }
 
     @Override
@@ -745,8 +764,15 @@ public class MeetingBottomAndTopMenuContainer implements
 
     @Override
     public void onClickAttendeeListener() {
-        popupWindowBuilder.setContentView(attendeeView2)
-                .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
+        if (meeting.equals("0")){
+            popupWindowBuilder.setContentView(attendeeView2)
+                    .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
+        }else {
+            AttendeeView attendeeView = new AttendeeView(context);
+            popupWindowBuilder.setContentView(attendeeView)
+                    .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
+        }
+
     }
 
     @Override
@@ -754,7 +780,6 @@ public class MeetingBottomAndTopMenuContainer implements
         if (!isLock) {
             bottomAndTopMenuTimerControl(true);
         }
-
     }
 
     /**
@@ -1248,6 +1273,76 @@ public class MeetingBottomAndTopMenuContainer implements
     public boolean checkoutMicPermission() {
         List<String> permissionList = PermissionUtils.requestMeetingPermission();
         return permissionList == null || (!permissionList.contains(Manifest.permission.RECORD_AUDIO));
+    }
+
+
+    /**
+     * 离开或者退出
+     */
+    private void showOutLoding() {
+        CustomDialog.Builder builder = new CustomDialog.Builder(context);
+
+        if (MobileMeetingActivity.isAdmin) {
+            builder.setMessage("您确认要退出当前任务吗？");
+            builder.setTitle("退出任务");
+            builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                }
+            });
+            builder.setNegativeButton("退出",
+                    new android.content.DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            leaveOp();
+                        }
+                    });
+        } else {
+            builder.setMessage("退出任务,将会向管理员发送申请");
+            builder.setTitle("申请退出");
+            builder.setEtMessage("请填写申请事由");
+            builder.setPositiveButton("申请", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    //设置你的操作事项
+                    getChannelByCode(context, channelCode, builder.getEtMessage());
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("取消",
+                    new android.content.DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
+
+        builder.create().show();
+    }
+
+    private void leaveOp(){
+        //本地管理员结束会议
+        Map<String,Object> reason_map = new HashMap();
+        reason_map.put("code",1);
+        reason_map.put("type",1);
+        _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+        SdkUtil.getMeetingManager().closeMeeting(0, "");
+        context.finish();
+    }
+
+    public void getChannelByCode(Activity activity,String channelCode, String txt){
+        RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>(activity) {
+            @Override
+            public void onSuccess(ChannelBean result) {
+                if (null != result){
+                    ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.APPLY_LEAVE + result.getCreateUser() + "*" + txt);
+                }
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
     }
 
 }

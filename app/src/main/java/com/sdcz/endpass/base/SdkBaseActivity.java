@@ -22,9 +22,11 @@ import com.inpor.nativeapi.adaptor.InviteData;
 import com.inpor.sdk.online.InviteStateListener;
 import com.inpor.sdk.online.PaasOnlineManager;
 import com.inpor.sdk.repository.bean.CompanyUserInfo;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.constant.Constant;
 import com.sdcz.endpass.dialog.CallInDialog;
 import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
@@ -70,8 +72,11 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
         if (ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)) {
             //当前已在该会议中
             MeetingInfo meetingInfo = MeetingModel.getInstance().getMeetingInfo();
+
+            String inviteCode = inviteData.getInviteCode() < 0 ? String.valueOf(inviteData.getInviteCode()).substring(2) : String.valueOf(inviteData.getInviteCode());
+
             if (meetingInfo.inviteCode != null
-                    && meetingInfo.inviteCode.equals(String.valueOf(inviteData.getInviteCode()))) {
+                    && meetingInfo.inviteCode.equals(inviteCode)) {
                 return;
             }
         }
@@ -132,8 +137,18 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
                 PaasOnlineManager.getInstance().setInviteId(inviteId);
                 SdkUtil.getContactManager().AcceptRejectInvite(userId, inviteId, true);
 //                PaasOnlineManager.getInstance().acceptInvite(userId, inviteId, true);
+
+                if (inviteData.getInviteCode() < 0){
+                    String inviteType = String.valueOf(inviteData.getInviteCode()).substring(0,2);
+                    String inviteCode = String.valueOf(inviteData.getInviteCode()).substring(2);
+                    ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
+                            .joinInstantMeetingRoom(inviteCode, ApplicationInstance.getInstance().getCurrentActivity(), inviteType);
+                    return;
+                }
                 ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
                         .joinInstantMeetingRoom(String.valueOf(inviteData.getInviteCode()), ApplicationInstance.getInstance().getCurrentActivity());
+
+
 
             }
         });

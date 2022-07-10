@@ -20,6 +20,7 @@ import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.util.GlideUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 
 
 public class PopupWindowToUserData extends PopupWindow{
@@ -107,7 +108,7 @@ public class PopupWindowToUserData extends PopupWindow{
         tvPhone.setText(info.getPhonenumber() == null ? "暂无联系电话" : info.getPhonenumber());
         GlideUtils.showCircleImage(context, ivheadImg,info.getAvatar(),R.drawable.icon_head);
 
-        if (userId.equals(info.getUserId())){
+        if (info.getUserId() == SharedPrefsUtil.getUserId()){
             llRoot.setVisibility(View.GONE);
         }else {
             llRoot.setVisibility(View.VISIBLE);

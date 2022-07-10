@@ -1,5 +1,7 @@
 package com.sdcz.endpass.util;
 
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +17,7 @@ import com.inpor.sdk.kit.workflow.Procedure;
 import com.inpor.sdk.open.pojo.InputPassword;
 import com.inpor.sdk.repository.BaseResponse;
 import com.inpor.sdk.repository.bean.InstantMeetingInfo;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.dialog.InputPasswordDialog;
@@ -157,7 +160,61 @@ public class ContactEnterUtils {
     }
 
     //被呼叫加入即时会议
-    public void joinInstantMeetingRoom(String inviteCode, Activity activity) {
+    public void joinInstantMeetingRoom(String inviteCode, Activity activity ,String type) {
+//        if(loadingDialog == null){
+        loadingDialog = new LoadingDialog(activity);
+//        }
+        loadingDialog.show();
+        String userName = PlatformConfig.getInstance().getUserName();
+        JoinMeetingManager.getInstance().loginRoomId(inviteCode, userName, "",
+                false, new JoinMeetingCallback() {
+
+                    @Override
+                    public void onStart(Procedure procedure) {
+                        loadingDialog.updateText(R.string.logging);
+                    }
+
+                    @Override
+                    public void onState(int state, String msg) {
+                        loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
+                    }
+
+                    @Override
+                    public void onBlockFailed(ProcessStep step, int code, String msg) {
+                        ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
+                        loadingDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        loadingDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onInputPassword(boolean isFrontVerify, InputPassword inputPassword) {
+                        showInputPasswordDialog(isFrontVerify, inputPassword);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        loadingDialog.dismiss();
+                        Intent intent = new Intent(activity, MobileMeetingActivity.class);
+                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN, false);
+                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,type);
+                        activity.startActivity(intent);
+//                        if(activity instanceof RoomListActivity){
+//                        }else {
+//                            activity.finish();
+//                        }
+                    }
+                });
+
+
+    }
+
+
+    //被呼叫加入即时会议
+    public void joinInstantMeetingRoom(String inviteCode, Activity activity ) {
 //        if(loadingDialog == null){
         loadingDialog = new LoadingDialog(activity);
 //        }
@@ -202,6 +259,65 @@ public class ContactEnterUtils {
 //                        }else {
 //                            activity.finish();
 //                        }
+                    }
+                });
+
+
+    }
+
+
+
+    //被呼叫加入即时会议
+    public void joinForCode(String inviteCode, Activity activity, String channelCode ) {
+//        if(loadingDialog == null){
+        loadingDialog = new LoadingDialog(activity);
+//        }
+        loadingDialog.show();
+        String userName = PlatformConfig.getInstance().getUserName();
+        JoinMeetingManager.getInstance().loginRoomId(inviteCode, userName, "",
+                false, new JoinMeetingCallback() {
+
+                    @Override
+                    public void onStart(Procedure procedure) {
+                        loadingDialog.updateText(R.string.logging);
+                    }
+
+                    @Override
+                    public void onState(int state, String msg) {
+                        loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
+                    }
+
+                    @Override
+                    public void onBlockFailed(ProcessStep step, int code, String msg) {
+                        ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
+                        loadingDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        loadingDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onInputPassword(boolean isFrontVerify, InputPassword inputPassword) {
+                        showInputPasswordDialog(isFrontVerify, inputPassword);
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        loadingDialog.dismiss();
+//                        Intent intent = new Intent(activity, MobileMeetingActivity.class);
+//                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN, false);
+//                        activity.startActivity(intent);
+////                        if(activity instanceof RoomListActivity){
+////                        }else {
+////                            activity.finish();
+////                        }
+
+                        Intent intent = new Intent(activity, MobileMeetingActivity.class);
+                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);
+                        intent.putExtra(Constants.SharedPreKey.CHANNEL_CODE,channelCode);
+                        startActivity(intent);
                     }
                 });
 

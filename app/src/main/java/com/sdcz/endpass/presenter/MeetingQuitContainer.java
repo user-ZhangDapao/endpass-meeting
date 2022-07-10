@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.View;
 
 import com.comix.meeting.entities.BaseUser;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BaseContainer;
 import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
+import com.sdcz.endpass.model.ChatManager;
+import com.sdcz.endpass.ui.MobileMeetingActivity;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.widget.MeetQuitView;
 import com.inpor.base.sdk.meeting.MeetingManager;
 import com.inpor.base.sdk.user.UserManager;
@@ -59,15 +63,21 @@ public class MeetingQuitContainer extends BaseContainer<MeetQuitView>
 
     @Override
     public void onClickQuitMeetingListener() {
-        //主动退出会议
-        Map<String,Object> reason_map = new HashMap();
-        ((HashMap)reason_map).put("code",2);
-        ((HashMap)reason_map).put("type",1);
-        _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
 
-        if (meetingQuitContainerListener != null) {
-            meetingQuitContainerListener.onQuitMeetingAndFinishActivityListener();
+        if (MobileMeetingActivity.isAdmin){
+            //主动退出会议
+            Map<String,Object> reason_map = new HashMap();
+            ((HashMap)reason_map).put("code",2);
+            ((HashMap)reason_map).put("type",1);
+            _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+
+            if (meetingQuitContainerListener != null) {
+                meetingQuitContainerListener.onQuitMeetingAndFinishActivityListener();
+            }
+        } else {
+            ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.APPLY_LEAVE + SharedPrefsUtil.getUserId());
         }
+
     }
 
     @Override

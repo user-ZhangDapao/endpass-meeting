@@ -176,6 +176,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 //        }else {
 //            LeaveGroupResultSuccess();
 //        }
+        SdkUtil.getSdkManager().releaseSdk();
         SharedPrefsUtil.clean(getActivity());
         Intent intent = new Intent(getActivity(), LoginActivityApp.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

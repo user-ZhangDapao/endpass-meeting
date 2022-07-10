@@ -138,7 +138,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     }
 
     @Override
-    public void showUserInfo() {
+    public void showUserInfo(UserEntity entity) {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -267,9 +267,9 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                                 return;
                             }
 
-                            String roomId =recordType + result.getResult().getRoomId();
+                            String inviteCode = recordType + result.getResult().getInviteCode();
 
-                            SdkUtil.getContactManager().inviteUsers(roomId, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+                            SdkUtil.getContactManager().inviteUsers(inviteCode, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
                                 @Override
                                 public void inviteResult(int i, String s) {
                                     if(i == 0){

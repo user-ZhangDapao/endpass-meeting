@@ -47,9 +47,28 @@ public class UserEntity {
     private Object roleId;
     private String roleName;
     private String channelName;
+    private String channelCode;
+    private long roomId;
     private Object location;
     private boolean admin;
-    private long mdtUserId;
+    private Long mdtUserId;
+
+
+    public String getChannelCode() {
+        return channelCode;
+    }
+
+    public void setChannelCode(String channelCode) {
+        this.channelCode = channelCode;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
 
     public long getMdtUserId() {
         return mdtUserId;

@@ -75,8 +75,11 @@ public class Constants {
         public static final String OFF_LISTEN = "OFF_LISTEN*";
         public static final String OFF_LISTEN_ALL = "OFF_LISTEN*ALL";
         public static final String PLEASE_LEAVE = "PLEASE_LEAVE*";
+        public static final String APPLY_LEAVE = "APPLY_LEAVE*";
         public static final String PLEASE_LEAVE_ALL = "PLEASE_LEAVE*ALL";
         public static final String ADD_CHANNEL_USER = "ADD_CHANNEL_USER";
+        public static final String YES_APPLY_LEAVE = "YES_APPLY_LEAVE*";
+        public static final String NO_APPLY_LEAVE = "NO_APPLY_LEAVE*";
 
     }
 

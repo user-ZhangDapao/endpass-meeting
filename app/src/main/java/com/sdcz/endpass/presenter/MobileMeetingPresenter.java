@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.DemoApp;
 import com.sdcz.endpass.base.BasePresenter;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.UserEntity;
+import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
@@ -87,4 +89,6 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
             }
         });
     }
+
+
 }

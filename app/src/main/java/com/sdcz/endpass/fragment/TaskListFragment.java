@@ -29,6 +29,7 @@ import com.sdcz.endpass.login.LoginErrorUtil;
 import com.sdcz.endpass.login.LoginStateUtil;
 import com.sdcz.endpass.presenter.TaskListPresenter;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ITaskListView;
 import com.sdcz.endpass.widget.CustomItemDialog;
@@ -108,65 +109,14 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
             }
 
             @Override
-            public void onJoinItem(String Code, long roomId) {
+            public void onJoinItem(String code, long roomId) {
 
-                JoinMeetingManager.getInstance().loginRoomId(Long.toString(roomId), SharedPrefsUtil.getUserInfo().getNickName(),
-                        "", false, new JoinMeetingCallback() {
-
-                            @Override
-                            public void onStart(Procedure procedure) {
-                                if (loadingDialog == null) {
-                                    loadingDialog = new LoadingDialog(requireContext(), R.string.logging);
-                                }
-                                loadingDialog.show();
-                            }
-
-                            @Override
-                            public void onState(int state, String msg) {
-                                loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
-                            }
-
-                            @Override
-                            public void onBlockFailed(ProcessStep step, int code, String msg) {
-                                ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
-                                loadingDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onFailed() {
-                                loadingDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onInputPassword(boolean isFrontVerify, InputPassword inputPassword) {
-//                                showInputPasswordDialog(isFrontVerify, inputPassword);
-                            }
-
-                            @Override
-                            public void onSuccess() {
-                                loadingDialog.dismiss();
-                                if (Code.isEmpty()) return;
-
-                                Intent intent = new Intent(requireActivity(), MobileMeetingActivity.class);
-                                intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);
-                                intent.putExtra(Constants.SharedPreKey.CHANNEL_CODE,Code);
-                                startActivity(intent);
-                            }
-                        });
-//                if (joinGroup(Code)){
-//                    SharedPrefsUtil.putValue(getActivity(),KeyStore.RECORDCODE,Code);
-//                    EventBus.getDefault().post(new EventManualJoin(true));
-//                    EventBus.getDefault().post(new EventChannelType(Constants.MEETING_TASK));
-//                }
+                ContactEnterUtils.getInstance(getContext())
+                        .joinForCode(String.valueOf(roomId), getActivity(), code);
             }
         });
     }
 
-//    @Override
-//    protected void sendRefrech() {
-//        super.sendRefrech();
-//        mPresenter.getChannelList(getActivity());
-//    }
 
     //显示弹窗（任务信息）
     private void showWinMassage(ChannelBean data)  {

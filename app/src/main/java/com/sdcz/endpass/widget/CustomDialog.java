@@ -217,8 +217,9 @@ public class CustomDialog extends Dialog {
             dialog.setContentView(layout);
             return dialog;
         }
-
     }
+
+
 
     @Override
     public void show() {
