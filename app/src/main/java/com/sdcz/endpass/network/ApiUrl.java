@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.firebase.auth.UserInfo;
 import com.sdcz.endpass.bean.BaseResponse;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.bean.PosBean;
@@ -98,7 +99,7 @@ public interface ApiUrl {
     Observable<BaseResponse<Object>> changePassWord(@Part("oldPassword") String newPassword, @Part("newPassword") String oldPassword);
 //
     @GET("api/creatRecord")
-    Observable<BaseResponse<String>> creatRecord(@Query("recordType") String recordType);
+    Observable<BaseResponse<String>> creatRecord(@Query("recordType") int recordType);
 //
     @GET("api/getUserByNameLike")
     Observable<BaseResponse<List<UserEntity>>> getUserByNameLike(@Query("name") String name);
@@ -140,5 +141,11 @@ public interface ApiUrl {
     @POST("api/uploadLocation")
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Observable<BaseResponse<Object>> uploadLocation(@Body JSONObject body);
+
+
+    @GET("api/checkRoomType")
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    Observable<BaseResponse<ChannelTypeBean>> getChannelTypeByCode(@Query("inviteCode") Long inviteCode);
+
 
 }

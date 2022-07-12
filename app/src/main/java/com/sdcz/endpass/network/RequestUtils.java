@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.firebase.auth.UserInfo;
 import com.sdcz.endpass.DemoApp;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.bean.PosBean;
@@ -275,7 +276,7 @@ public class RequestUtils {
      *
      * @param observer
      */
-    public static void creatRecord(String recordType, MyObserver<String> observer) {
+    public static void creatRecord(int recordType, MyObserver<String> observer) {
         RetrofitUtils.getApiUrl()
                 .creatRecord(recordType).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
                 .subscribe(observer);
@@ -451,6 +452,18 @@ public class RequestUtils {
     public static void checkChannelAdmin(String channelCode, MyObserver<Boolean> observer) {
         RetrofitUtils.getApiUrl()
                 .checkChannelAdmin(channelCode).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .subscribe(observer);
+    }
+
+    /**
+     *
+     * 29.跟据任务inviteCode 查询任务类型
+     *
+     * @param
+     */
+    public static void getChannelTypeByCode(Long inviteCode, MyObserver<ChannelTypeBean> observer) {
+        RetrofitUtils.getApiUrl()
+                .getChannelTypeByCode(inviteCode).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
                 .subscribe(observer);
     }
 }

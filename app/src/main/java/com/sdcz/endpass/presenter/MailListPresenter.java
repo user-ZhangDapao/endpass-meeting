@@ -91,7 +91,7 @@ public class MailListPresenter extends BasePresenter<IMailListView> {
         });
     }
 
-    public void creatRecord(Activity activity, String collectUserId, String recordType){
+    public void creatRecord(Activity activity, String collectUserId, int recordType){
         RequestUtils.creatRecord(recordType, new MyObserver<String>(activity) {
             @Override
             public void onSuccess(String result) {

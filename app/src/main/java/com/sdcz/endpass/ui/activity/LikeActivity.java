@@ -201,7 +201,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
             PopupWindowToUserData popuWin = new PopupWindowToUserData(this, data, info,"",
                     new PopupWindowToUserData.OnPopWindowClickListener() {
                         @Override
-                        public void onCreatRecord(String userId, String collectUserId, String recordType) {
+                        public void onCreatRecord(String userId, String collectUserId, int recordType) {
                             //创建临时会话
                             mPresenter.creatRecord(LikeActivity.this, collectUserId, recordType);
                         }
@@ -231,7 +231,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
      * @param data
      */
     @Override
-    public void creatRecordSuccess(String data, String collectUserId, String recordType) {
+    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
 //        SharedPrefsUtil.putValue(this, KeyStore.RECORDCODE,data);
 //        String[] array = {collectUserId};
 //        joinGroupVoiceUser(array,data,recordType);

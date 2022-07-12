@@ -107,14 +107,14 @@ public class MeetingBottomAndTopMenuContainer implements
     //生命周期回调onPause 如果没有录音权限 则 下一次onResume 检查是否有此权限
     private boolean isBackgroupPermission = false;//true onPause之后没有权限
 
-    private String meeting = "0";
+    private int meetingType = 3;
 
     /**
      * 构造函数
      *
      * @param context 上下文
      */
-    public MeetingBottomAndTopMenuContainer(Activity context, String channelCode, String type) {
+    public MeetingBottomAndTopMenuContainer(Activity context, String channelCode, int type) {
         this.context = context;
         this.channelCode = channelCode;
         popupWindowBuilder = new PopupWindowBuilder(context);
@@ -125,8 +125,8 @@ public class MeetingBottomAndTopMenuContainer implements
         BaseUser localUser = userModel.getLocalUser();
         MicEnergyMonitor.getInstance().addAudioEnergyListener(this, MicEnergyMonitor.MEETING_MENU_CONTAINER);
         MicEnergyMonitor.getInstance().addAudioSource(localUser, MicEnergyMonitor.MEETING_MENU_CONTAINER);
-        meeting = type;
-        if (meeting.equals("0")){
+        meetingType = type;
+        if (meetingType == 2 || meetingType == 3){
             attendeeView2 = new UserPopWidget(context, channelCode);
         }
     }
@@ -764,7 +764,7 @@ public class MeetingBottomAndTopMenuContainer implements
 
     @Override
     public void onClickAttendeeListener() {
-        if (meeting.equals("0")){
+        if (meetingType == 2 || meetingType == 3){
             popupWindowBuilder.setContentView(attendeeView2)
                     .setAnimationType(PopupWindowBuilder.AnimationType.SLIDE).show();
         }else {

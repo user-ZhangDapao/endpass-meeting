@@ -160,115 +160,8 @@ public class ContactEnterUtils {
     }
 
     //被呼叫加入即时会议
-    public void joinInstantMeetingRoom(String inviteCode, Activity activity ,String type) {
-//        if(loadingDialog == null){
-        loadingDialog = new LoadingDialog(activity);
-//        }
-        loadingDialog.show();
-        String userName = PlatformConfig.getInstance().getUserName();
-        JoinMeetingManager.getInstance().loginRoomId(inviteCode, userName, "",
-                false, new JoinMeetingCallback() {
-
-                    @Override
-                    public void onStart(Procedure procedure) {
-                        loadingDialog.updateText(R.string.logging);
-                    }
-
-                    @Override
-                    public void onState(int state, String msg) {
-                        loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
-                    }
-
-                    @Override
-                    public void onBlockFailed(ProcessStep step, int code, String msg) {
-                        ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
-                        loadingDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onFailed() {
-                        loadingDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onInputPassword(boolean isFrontVerify, InputPassword inputPassword) {
-                        showInputPasswordDialog(isFrontVerify, inputPassword);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        loadingDialog.dismiss();
-                        Intent intent = new Intent(activity, MobileMeetingActivity.class);
-                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN, false);
-                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,type);
-                        activity.startActivity(intent);
-//                        if(activity instanceof RoomListActivity){
-//                        }else {
-//                            activity.finish();
-//                        }
-                    }
-                });
-
-
-    }
-
-
-    //被呼叫加入即时会议
-    public void joinInstantMeetingRoom(String inviteCode, Activity activity ) {
-//        if(loadingDialog == null){
-        loadingDialog = new LoadingDialog(activity);
-//        }
-        loadingDialog.show();
-        String userName = PlatformConfig.getInstance().getUserName();
-        JoinMeetingManager.getInstance().loginRoomId(inviteCode, userName, "",
-                false, new JoinMeetingCallback() {
-
-                    @Override
-                    public void onStart(Procedure procedure) {
-                        loadingDialog.updateText(R.string.logging);
-                    }
-
-                    @Override
-                    public void onState(int state, String msg) {
-                        loadingDialog.updateText(LoginStateUtil.convertStateToString(state));
-                    }
-
-                    @Override
-                    public void onBlockFailed(ProcessStep step, int code, String msg) {
-                        ToastUtils.showShort(LoginErrorUtil.getErrorSting(code));
-                        loadingDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onFailed() {
-                        loadingDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onInputPassword(boolean isFrontVerify, InputPassword inputPassword) {
-                        showInputPasswordDialog(isFrontVerify, inputPassword);
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        loadingDialog.dismiss();
-                        Intent intent = new Intent(activity, MobileMeetingActivity.class);
-                        intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN, false);
-                        activity.startActivity(intent);
-//                        if(activity instanceof RoomListActivity){
-//                        }else {
-//                            activity.finish();
-//                        }
-                    }
-                });
-
-
-    }
-
-
-
-    //被呼叫加入即时会议
-    public void joinForCode(String inviteCode, Activity activity, String channelCode ) {
+    //roomType:0,    0语音通话  1视频通话 2地图查看 3固
+    public void joinForCode(String inviteCode, String channelCode, int roomType, Activity activity ) {
 //        if(loadingDialog == null){
         loadingDialog = new LoadingDialog(activity);
 //        }
@@ -317,6 +210,7 @@ public class ContactEnterUtils {
                         Intent intent = new Intent(activity, MobileMeetingActivity.class);
                         intent.putExtra(MobileMeetingActivity.EXTRA_ANONYMOUS_LOGIN,false);
                         intent.putExtra(Constants.SharedPreKey.CHANNEL_CODE,channelCode);
+                        intent.putExtra(MobileMeetingActivity.MEETIING_TYPE,roomType);
                         startActivity(intent);
                     }
                 });

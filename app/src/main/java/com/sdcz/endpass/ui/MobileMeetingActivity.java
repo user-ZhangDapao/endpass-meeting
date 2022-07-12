@@ -133,7 +133,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private int objId = -1;
     private boolean isAnonymousLogin;
     private boolean isAnonymousLoginWithRoomId;
-    private String meetingType = "0";
+    private int meetingType = 3;
     private String channelCode = "";
     public static boolean isAdmin = false;
 
@@ -192,7 +192,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         isAnonymousLogin = getIntent().getBooleanExtra(EXTRA_ANONYMOUS_LOGIN, false);
         channelCode = getIntent().getStringExtra(Constants.SharedPreKey.CHANNEL_CODE);
         isAnonymousLoginWithRoomId = getIntent().getBooleanExtra(EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID, false);
-        meetingType = getIntent().getStringExtra(MEETIING_TYPE) == null ? "0" : getIntent().getStringExtra(MEETIING_TYPE);
+        meetingType = getIntent().getIntExtra(MEETIING_TYPE, 3);
         //会议开始绑定会议退出状态监测管理类
         _MeetingStateManager.getInstance().bindActivity(this);
 
@@ -293,7 +293,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         meetingBottomAndTopMenuContainer.correlationMeetingTopMenu(meetingTopTitleView);
         meetingBottomAndTopMenuContainer.correlationMeetingBottomMenu(meetingBottomMenuView,
                 true);
-        if (null != channelCode && meetingType.equals("0")){
+        if (null != channelCode && (meetingType == 2 || meetingType == 3)){
             mPresenter.checkAdmin(channelCode);
             mPresenter.getChannelUser(channelCode);
         }

@@ -161,7 +161,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         mPresenter.getContactList(getActivity());
         if (null != entity.getRoomId() && null != entity.getChannelCode()){
             ContactEnterUtils.getInstance(getContext())
-                    .joinForCode(String.valueOf(entity.getRoomId()), getActivity(), entity.getChannelCode());
+                    .joinForCode(String.valueOf(entity.getRoomId()),entity.getChannelCode(),3, getActivity() );
         }
     }
 
@@ -193,7 +193,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         if (data != null){
             PopupWindowToUserData popuWin = new PopupWindowToUserData(getActivity(), data, info, SharedPrefsUtil.getUserId() + "", new PopupWindowToUserData.OnPopWindowClickListener() {
                 @Override
-                public void onCreatRecord(String userId, String collectUserId, String recordType) {
+                public void onCreatRecord(String userId, String collectUserId, int recordType) {
                     //创建临时会话
 //                    mPresenter.creatRecord(getActivity(),collectUserId, recordType);
                 }
@@ -224,7 +224,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     }
 
     @Override
-    public void creatRecordSuccess(String data, String collectUserId, String recordType) {
+    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
 //        SharedPrefsUtil.putValue(getActivity(),KeyStore.RECORDCODE,data);
 //        String[] array = {collectUserId};
 //        joinGroupVoiceUser(array,data,recordType);

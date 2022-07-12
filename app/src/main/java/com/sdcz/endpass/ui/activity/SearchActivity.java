@@ -163,7 +163,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
             PopupWindowToUserData popuWin = new PopupWindowToUserData(this, data, info, "",
                     new PopupWindowToUserData.OnPopWindowClickListener() {
                         @Override
-                        public void onCreatRecord(String userId, String collectUserId, String recordType) {
+                        public void onCreatRecord(String userId, String collectUserId, int recordType) {
                             //创建临时会话
                             mPresenter.creatRecord(SearchActivity.this, collectUserId, recordType);
                         }

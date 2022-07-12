@@ -26,9 +26,12 @@ import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.constant.Constant;
 import com.sdcz.endpass.dialog.CallInDialog;
 import com.sdcz.endpass.model.AppCache;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.ContactEnterUtils;
 
@@ -137,16 +140,30 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
                 PaasOnlineManager.getInstance().setInviteId(inviteId);
                 SdkUtil.getContactManager().AcceptRejectInvite(userId, inviteId, true);
 //                PaasOnlineManager.getInstance().acceptInvite(userId, inviteId, true);
+//
+//                if (inviteData.getInviteCode() < 0){
+//                    String inviteType = String.valueOf(inviteData.getInviteCode()).substring(0,2);
+//                    String inviteCode = String.valueOf(inviteData.getInviteCode()).substring(2);
+//                    ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
+//                            .joinInstantMeetingRoom(inviteCode, ApplicationInstance.getInstance().getCurrentActivity(), inviteType);
+//                    return;
+//                }
 
-                if (inviteData.getInviteCode() < 0){
-                    String inviteType = String.valueOf(inviteData.getInviteCode()).substring(0,2);
-                    String inviteCode = String.valueOf(inviteData.getInviteCode()).substring(2);
-                    ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
-                            .joinInstantMeetingRoom(inviteCode, ApplicationInstance.getInstance().getCurrentActivity(), inviteType);
-                    return;
-                }
-                ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
-                        .joinInstantMeetingRoom(String.valueOf(inviteData.getInviteCode()), ApplicationInstance.getInstance().getCurrentActivity());
+
+
+
+                RequestUtils.getChannelTypeByCode(inviteData.getInviteCode(), new MyObserver<ChannelTypeBean>(SdkBaseActivity.this) {
+                    @Override
+                    public void onSuccess(ChannelTypeBean result) {
+                        ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
+                                .joinForCode(String.valueOf(inviteData.getInviteCode()),result.getChannelCode(),result.getRoomType(), ApplicationInstance.getInstance().getCurrentActivity());
+
+                    }
+                    @Override
+                    public void onFailure(Throwable e, String errorMsg) {
+
+                    }
+                });
 
 
 

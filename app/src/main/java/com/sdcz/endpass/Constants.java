@@ -42,8 +42,8 @@ public class Constants {
         public static final String GROUPNAME = "groupName";
         public static final String DEPTNAME = "deptName";
 
-        public static final String CREATERECORD_VOIDE = "-2";
-        public static final String CREATERECORD_VOICE = "-1";
+        public static final int CREATERECORD_VOIDE = 1;
+        public static final int CREATERECORD_VOICE = 0;
 
 
         public static final String Token = "token";

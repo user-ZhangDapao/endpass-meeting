@@ -24,7 +24,7 @@ public interface ILikeView extends IBaseView {
      * 创建临时任务
      * @param data
      */
-    void creatRecordSuccess(String data, String collectUserId, String recordType);
+    void creatRecordSuccess(String data, String collectUserId, int recordType);
 
     /**
      * 修改是否收藏用户成功

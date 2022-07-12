@@ -207,7 +207,7 @@ public class PopupWindowToUserData extends PopupWindow{
     //接口
     public interface OnPopWindowClickListener {
 
-        void onCreatRecord(String userId,String collectUserId,String recordType);
+        void onCreatRecord(String userId,String collectUserId,int recordType);
 
         void onCollectUser(String userId, String collectUserId);
 

@@ -66,7 +66,7 @@ public class LikePresenter extends BasePresenter<ILikeView> {
         });
     }
 
-    public void creatRecord(Activity activity, String collectUserId, String recordType){
+    public void creatRecord(Activity activity, String collectUserId, int recordType){
         RequestUtils.creatRecord(recordType, new MyObserver<String>(activity) {
             @Override
             public void onSuccess(String result) {

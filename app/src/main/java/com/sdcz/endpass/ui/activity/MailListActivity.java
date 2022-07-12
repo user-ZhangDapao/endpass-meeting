@@ -201,7 +201,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
             PopupWindowToUserData popuWin = new PopupWindowToUserData(this, data, info,"",
                 new PopupWindowToUserData.OnPopWindowClickListener() {
                     @Override
-                    public void onCreatRecord(String userId, String collectUserId, String recordType) {
+                    public void onCreatRecord(String userId, String collectUserId, int recordType) {
                         //创建临时会话
                         mPresenter.creatRecord(MailListActivity.this, collectUserId, recordType);
                     }
@@ -232,7 +232,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
      * @param data
      */
     @Override
-    public void creatRecordSuccess(String data, String collectUserId, String recordType) {
+    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
         boolean isHaveUser = false;
         try {
             long id = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(collectUserId).getLong("mdtUserId");
@@ -267,9 +267,9 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                                 return;
                             }
 
-                            String inviteCode = recordType + result.getResult().getInviteCode();
+//                            String inviteCode = recordType + result.getResult().getInviteCode();
 
-                            SdkUtil.getContactManager().inviteUsers(inviteCode, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+                            SdkUtil.getContactManager().inviteUsers(result.getResult().getInviteCode(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
                                 @Override
                                 public void inviteResult(int i, String s) {
                                     if(i == 0){
@@ -279,7 +279,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ContactEnterUtils.getInstance(getContext()).joinInstantMeetingRoom(String.valueOf(result.getResult().getRoomId()), MailListActivity.this);
+                                            ContactEnterUtils.getInstance(getContext()).joinForCode(String.valueOf(result.getResult().getRoomId()), data,recordType, MailListActivity.this);
                                         }
                                     });
                                 }
