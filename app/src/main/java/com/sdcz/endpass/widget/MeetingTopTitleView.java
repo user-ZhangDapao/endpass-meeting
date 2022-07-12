@@ -39,6 +39,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
     private boolean mutesWitch;
 
     private String channelCode;
+    private int meetingType = 3;
     /**
      * 构造函数
      *
@@ -60,9 +61,10 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
      * @param context 上下文
      * @param attrs   属性
      */
-    public MeetingTopTitleView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode) {
+    public MeetingTopTitleView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode, int meetingType) {
         super(context, attrs);
         this.channelCode = channelCode;
+        this.meetingType = meetingType;
         if(EventBus.getDefault().isRegistered(this) == false )
         {
             EventBus.getDefault().register(this);
@@ -100,6 +102,9 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
         outTextView = findViewById(R.id.tv_out);
         imSetting = findViewById(R.id.im_setting);
         ivInfo = findViewById(R.id.im_tip);
+        if (meetingType != 3){
+            imSetting.setVisibility(GONE);
+        }
         return rootView;
     }
 
@@ -215,7 +220,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
                 }
                 mutesWitch = !mutesWitch;
             } else if (id == R.id.tv_out) {
-                meetingTopTitleListener.onClickQuitListener(view);
+                meetingTopTitleListener.onClickQuitListener(view, meetingType);
             } else if (id == R.id.im_tip) {
                 meetingTopTitleListener.onClickMeetingInfoListener();
             } else if (id == R.id.im_setting) {
@@ -275,7 +280,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
          *
          * @param quitMenuView 当前被点击的View
          */
-        void onClickQuitListener(View quitMenuView);
+        void onClickQuitListener(View quitMenuView, int meetingType);
 
         /**
          * 点击会议信息按钮回调

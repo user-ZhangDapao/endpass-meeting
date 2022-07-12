@@ -91,11 +91,11 @@ public class MailListPresenter extends BasePresenter<IMailListView> {
         });
     }
 
-    public void creatRecord(Activity activity, String collectUserId, int recordType){
-        RequestUtils.creatRecord(recordType, new MyObserver<String>(activity) {
+    public void creatRecord(Activity activity, String collectUserId, int recordType, Long inviteCode){
+        RequestUtils.creatRecord(recordType,inviteCode,Long.parseLong(collectUserId), new MyObserver<String>(activity) {
             @Override
-            public void onSuccess(String result) {
-                iView.creatRecordSuccess(result,collectUserId,recordType);
+            public void onSuccess(String channelCode) {
+                iView.creatRecordSuccess(channelCode,collectUserId,recordType,inviteCode);
             }
 
             @Override

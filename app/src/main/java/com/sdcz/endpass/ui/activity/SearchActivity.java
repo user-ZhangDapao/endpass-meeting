@@ -188,19 +188,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
         }
     }
 
-    /**
-     * 创建临时任务
-     *
-     * @param data
-     */
-
-    @Override
-    public void creatRecordSuccess(String data, String collectUserId, String recordType) {
-//        //TODO:data需要修改
-//        SharedPrefsUtil.putValue(this, KeyStore.RECORDCODE,data);
-//        String[] array = {collectUserId};
-//        joinGroupVoiceUser(array,data,recordType);
-    }
 
     /**
      * 修改是否收藏用户
@@ -210,6 +197,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
     @Override
     public void cancelLikeSuccess(Object data) {
         ToastUtils.showLong("操作成功");
+    }
+
+    @Override
+    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
+
     }
 //
 //    @Override

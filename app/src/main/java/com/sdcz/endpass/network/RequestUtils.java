@@ -276,9 +276,9 @@ public class RequestUtils {
      *
      * @param observer
      */
-    public static void creatRecord(int recordType, MyObserver<String> observer) {
+    public static void creatRecord(int recordType, Long recordCode, Long sendUserId, MyObserver<String> observer) {
         RetrofitUtils.getApiUrl()
-                .creatRecord(recordType).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
+                .creatRecord(recordType, recordCode, sendUserId).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
                 .subscribe(observer);
     }
 //

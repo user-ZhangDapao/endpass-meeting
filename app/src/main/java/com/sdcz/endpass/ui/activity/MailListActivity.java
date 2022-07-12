@@ -203,7 +203,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                     @Override
                     public void onCreatRecord(String userId, String collectUserId, int recordType) {
                         //创建临时会话
-                        mPresenter.creatRecord(MailListActivity.this, collectUserId, recordType);
+                        creteHstGroup(userId, collectUserId, recordType);
                     }
 
                     @Override
@@ -228,11 +228,9 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
 
     /**
      * 创建临时任务
-     *
-     * @param data
      */
     @Override
-    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
+    public void creatRecordSuccess(String channelCode, String collectUserId, int recordType, Long inviteCode) {
         boolean isHaveUser = false;
         try {
             long id = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(collectUserId).getLong("mdtUserId");
@@ -245,50 +243,70 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
             }
 
             if (isHaveUser == false) return;
-            RoomListManager manager = SdkUtil.getRoomListManager();
-            String meetingName = String.format(getString(R.string.create_instant_meeting_format), "临时会话");
-            manager.createInstantMeeting(meetingName, Collections.emptyList(), 2,
-                    30, "", "", new IRoomListResultInterface<BaseResponse<InstantMeetingInfo>>() {
+            SdkUtil.getContactManager().inviteUsers(inviteCode.toString(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+                @Override
+                public void inviteResult(int i, String s) {
+                    InstantMeetingOperation.getInstance().clearSelectUserData();
+                    if(i == 0){
+                        ToastUtils.showShort("呼叫失败,请稍后再试");
+                        return;
+                    }
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
-                        public void failed(int code, String errorMsg) {
-                            Log.i("TAG", "failed: code is " + code);
-                            Log.i("TAG", "failed: errorMsg is " + errorMsg);
-                            ToastUtils.showShort(R.string.instant_meeting_create_fail);
-                            PaasOnlineManager.getInstance().setBusy(false);
-                        }
-
-                        @Override
-                        public void succeed(BaseResponse<InstantMeetingInfo> result) {
-                            Log.i("TAG", "succeed: result is " + new Gson().toJson(result));
-                            if (result.getResCode() != 1) {
-                                PaasOnlineManager.getInstance().setBusy(false);
-                                ToastUtils.showShort(result.getResMessage());
-//                                loadingDialog.dismiss();
-                                return;
-                            }
-
-//                            String inviteCode = recordType + result.getResult().getInviteCode();
-
-                            SdkUtil.getContactManager().inviteUsers(result.getResult().getInviteCode(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
-                                @Override
-                                public void inviteResult(int i, String s) {
-                                    if(i == 0){
-                                        ToastUtils.showShort("呼叫失败,请稍后再试");
-                                        return;
-                                    }
-                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ContactEnterUtils.getInstance(getContext()).joinForCode(String.valueOf(result.getResult().getRoomId()), data,recordType, MailListActivity.this);
-                                        }
-                                    });
-                                }
-                            });
+                        public void run() {
+                            ContactEnterUtils.getInstance(getContext()).joinForCode(inviteCode.toString(),recordType, channelCode,MailListActivity.this);
                         }
                     });
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void creteHstGroup(String userId, String collectUserId, int recordType){
+        RoomListManager manager = SdkUtil.getRoomListManager();
+        String meetingName = String.format(getString(R.string.create_instant_meeting_format), SharedPrefsUtil.getUserInfo().getNickName());
+        manager.createInstantMeeting(meetingName, Collections.emptyList(), 2,
+                30, "", "", new IRoomListResultInterface<BaseResponse<InstantMeetingInfo>>() {
+                    @Override
+                    public void failed(int code, String errorMsg) {
+                        Log.i("TAG", "failed: code is " + code);
+                        Log.i("TAG", "failed: errorMsg is " + errorMsg);
+                        ToastUtils.showShort(R.string.instant_meeting_create_fail);
+                        PaasOnlineManager.getInstance().setBusy(false);
+                    }
+
+                    @Override
+                    public void succeed(BaseResponse<InstantMeetingInfo> result) {
+                        Log.i("TAG", "succeed: result is " + new Gson().toJson(result));
+                        if (result.getResCode() != 1) {
+                            PaasOnlineManager.getInstance().setBusy(false);
+                            ToastUtils.showShort(result.getResMessage());
+//                                loadingDialog.dismiss();
+                            return;
+                        }
+                        mPresenter.creatRecord(MailListActivity.this, collectUserId, recordType, Long.parseLong(result.getResult().getInviteCode()));
+
+//                            String inviteCode = recordType + result.getResult().getInviteCode();
+
+//                        SdkUtil.getContactManager().inviteUsers(result.getResult().getInviteCode(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+//                            @Override
+//                            public void inviteResult(int i, String s) {
+//                                if(i == 0){
+//                                    ToastUtils.showShort("呼叫失败,请稍后再试");
+//                                    return;
+//                                }
+//                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        ContactEnterUtils.getInstance(getContext()).joinForCode(String.valueOf(result.getResult().getRoomId()), data,recordType, MailListActivity.this);
+//                                    }
+//                                });
+//                            }
+//                        });
+                    }
+                });
     }
 
     /**

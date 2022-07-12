@@ -124,7 +124,7 @@
     <string name="meetingui_unmute" tools:ignore="ExtraTranslation">解除静音</string>
     <string name="meetingui_give_up_open" tools:ignore="ExtraTranslation">您已放弃申请</string>
     <string name="meetingui_apply_open_camera" tools:ignore="ExtraTranslation">您正在申请开启视频</string>
-    <string name="meetingui_room_closed" tools:ignore="ExtraTranslation">对不起,会议室已被关闭(%1$ss)</string>
+    <string name="meetingui_room_closed" tools:ignore="ExtraTranslation">对不起,临时会话已被关闭(%1$ss)</string>
     <string name="meetingui_speech_applying" tools:ignore="ExtraTranslation">您正在申请发言</string>
     <string name="meetingui_permission_not_permitted_admin" tools:ignore="ExtraTranslation">您没有操作权限，请联系管理员</string>
     <string name="meetingui_wb_count_limit_tips" tools:ignore="ExtraTranslation">您打开的文档数量已超过限制，请先关闭一些已打开的文档</string>
@@ -296,7 +296,7 @@
     <string name="waiting" tools:ignore="ExtraTranslation">请稍候...</string>
     <string name="instant_meeting_create_fail" tools:ignore="ExtraTranslation">即时会议创建失败</string>
     <string name="create_instant_meeting" tools:ignore="ExtraTranslation">即时开会</string>
-    <string name="create_instant_meeting_format" tools:ignore="ExtraTranslation">"%s"的会议</string>
+    <string name="create_instant_meeting_format" tools:ignore="ExtraTranslation">"%s"的临时会话</string>
     <string name="logging" tools:ignore="ExtraTranslation">正在登录···</string>
     <string name="configure_server_success" tools:ignore="ExtraTranslation">服务器设置成功</string>
     <string name="configure_server_fail" tools:ignore="ExtraTranslation">服务器连接失败，请检测服务器地址或稍后再试</string>

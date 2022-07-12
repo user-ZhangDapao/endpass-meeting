@@ -97,14 +97,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.io.File;
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
 
 public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener, ChatManager.ChatMessageListener,
         MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener, VideoModelListener, View.OnClickListener {
@@ -296,6 +292,12 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         if (null != channelCode && (meetingType == 2 || meetingType == 3)){
             mPresenter.checkAdmin(channelCode);
             mPresenter.getChannelUser(channelCode);
+        }
+        if (meetingType == 1){
+            meetingBottomAndTopMenuContainer.onClickMicListener();
+            meetingBottomAndTopMenuContainer.onClickCameraListener();
+        }else if (meetingType == 0){
+            meetingBottomAndTopMenuContainer.onClickMicListener();
         }
     }
 
@@ -998,17 +1000,22 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 return;
             }
         }
-        addVideoInfos(list);
+            addVideoInfos(list);
 
-        if (changeInfo.isLocalUser()){
-            vsLocalUser.attachVideoInfo(changeInfo);
-        }else {
-            if (changeInfo.getVideoUser().getUserId() == idid){
-                if (vsVeuneUser.getVideoInfo() != null) vsVeuneUser.detachVideoInfo();
-                vsVeuneUser.attachVideoInfo(changeInfo);
+            if (changeInfo.isLocalUser()){
+                vsLocalUser.attachVideoInfo(changeInfo);
+            }else {
+                if (meetingType == 3){
+                    if (changeInfo.getVideoUser().getUserId() == idid){
+                        if (vsVeuneUser.getVideoInfo() != null) vsVeuneUser.detachVideoInfo();
+                        vsVeuneUser.attachVideoInfo(changeInfo);
+                    }
+                }else {
+                    vsVeuneUser.attachVideoInfo(changeInfo);
+
+                }
             }
         }
-    }
 
     @Override
     public void onVideoRemoved(List<VideoInfo> list, VideoInfo changeInfo) {
@@ -1016,8 +1023,12 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         if (changeInfo.isLocalUser()){
             vsLocalUser.detachVideoInfo();
         }else {
-            if (changeInfo.getVideoUser().getUserId() == idid){
-                vsVeuneUser.detachVideoInfo();
+            if (meetingType == 3){
+                if (changeInfo.getVideoUser().getUserId() == idid){
+                    vsVeuneUser.detachVideoInfo();
+                }
+            } else {
+                vsLocalUser.detachVideoInfo();
             }
         }
     }

@@ -161,7 +161,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         mPresenter.getContactList(getActivity());
         if (null != entity.getRoomId() && null != entity.getChannelCode()){
             ContactEnterUtils.getInstance(getContext())
-                    .joinForCode(String.valueOf(entity.getRoomId()),entity.getChannelCode(),3, getActivity() );
+                    .joinForCode(String.valueOf(entity.getRoomId()),3,entity.getChannelCode(), getActivity() );
         }
     }
 
@@ -224,47 +224,9 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     }
 
     @Override
-    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
-//        SharedPrefsUtil.putValue(getActivity(),KeyStore.RECORDCODE,data);
-//        String[] array = {collectUserId};
-//        joinGroupVoiceUser(array,data,recordType);
+    public void creatRecordSuccess(String channelCode, String collectUserId, int recordType, Long inviteCode) {
+
     }
-//
-//    @Override
-//    protected void onRefreshAllUserStatusFinished(FspUserInfo[] infos) {
-//        super.onRefreshAllUserStatusFinished(infos);
-////        for (FspUserInfo info : infos) {
-////            Log.e(TAG, "onEventRefreshUserStatusFinished -- onLineName --> " + info.getUserId());
-////        }
-//        //在线人员名单
-//        List<FspUserInfo> m_data = new ArrayList();
-//        m_data.addAll(Arrays.asList(infos));
-//        if (userInfoList != null) {
-//            for (int j = 0; j < userInfoList.size(); j++) {
-//                String userId = userInfoList.get(j).getUserId() + "";
-////                userInfoList.get(j).setIsOnline(0);
-//                for (int i = 0; i < m_data.size(); i++) {
-//                    String hstUser = m_data.get(i).getUserId();
-//                    if (hstUser.equals(userId)) {
-//                        userInfoList.get(j).setIsOnline(1);
-//                    }
-//                }
-//            }
-//            userAdapter.notifyDataSetChanged();
-//            taskAdapter.setOnLinUserList(m_data);
-//        }
-//    }
-//
-//    @Override
-//    protected void onUserStatusChangeResult(FspEvents.UserStatusChange userInfo) {
-//        super.onUserStatusChangeResult(userInfo);
-//        for (UserInfo info : userInfoList){
-//            if (info.getUserId().equals(userInfo.userId)){
-//                info.setIsOnline(userInfo.status);
-//            }
-//        }
-//        userAdapter.notifyDataSetChanged();
-//    }
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {

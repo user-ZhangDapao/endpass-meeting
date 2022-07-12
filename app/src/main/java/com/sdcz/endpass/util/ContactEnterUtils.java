@@ -161,7 +161,7 @@ public class ContactEnterUtils {
 
     //被呼叫加入即时会议
     //roomType:0,    0语音通话  1视频通话 2地图查看 3固
-    public void joinForCode(String inviteCode, String channelCode, int roomType, Activity activity ) {
+    public void joinForCode(String inviteCode, int roomType, String channelCode, Activity activity ) {
 //        if(loadingDialog == null){
         loadingDialog = new LoadingDialog(activity);
 //        }

@@ -10,7 +10,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.base.sdk.SdkManager;
 import com.inpor.log.Logger;
 import com.inpor.manager.application.ApplicationInstance;
 import com.inpor.manager.model.Instantmeeting.GlobalPaasCode;
@@ -28,12 +30,19 @@ import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.constant.Constant;
+import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.dialog.CallInDialog;
 import com.sdcz.endpass.model.AppCache;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.ContactEnterUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.robotpen.utils.StringUtil;
 
 /**
  * @author: HST
@@ -72,32 +81,43 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
             ScreenDeskUtil.returnApp(this, this.getClass().getName());
         }
 
-        if (ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)) {
-            //当前已在该会议中
-            MeetingInfo meetingInfo = MeetingModel.getInstance().getMeetingInfo();
-
-            String inviteCode = inviteData.getInviteCode() < 0 ? String.valueOf(inviteData.getInviteCode()).substring(2) : String.valueOf(inviteData.getInviteCode());
-
-            if (meetingInfo.inviteCode != null
-                    && meetingInfo.inviteCode.equals(inviteCode)) {
-                return;
-            }
-        }
-
-        if(AppCache.getInstance().isFromMeeting()){
-            return;
-        }
-
-//        //会中免打扰：拒绝
-        if (isBusy()) {
-            Log.e("navi", "isBusy");
-            return;
-        }
-
-        if (!ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)) {
-            this.callUserId = inviter;
-            showRoomListRecvDialog(inviter, inviteId, inviteData);
-        }
+        getChannelTypeByCode(inviter, inviteId, inviteData);
+//
+//        if (ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)) {
+//            //当前已在该会议中
+//            MeetingInfo meetingInfo = MeetingModel.getInstance().getMeetingInfo();
+//
+//
+//            if (meetingInfo.inviteCode != null) {
+//                if ( null != SharedPrefsUtil.getUserInfo().getRoomId()
+//                        && !SharedPrefsUtil.getUserInfo().getRoomId().equals(inviteData.getInviteCode())){
+//                    return;
+//                }
+//
+//                    if (meetingInfo.roomID == SharedPrefsUtil.getUserInfo().getRoomId()) return;
+//                    Map<String, Object> reason_map = new HashMap();
+//                    reason_map.put("code", 1);
+//                    reason_map.put("type", 1);
+//                    _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+//                    SdkUtil.getMeetingManager().closeMeeting(0, "");
+//                    if (null == SharedPrefsUtil.getUserInfo().getRoomId()){
+//                        getChannelTypeByCode(inviteData.getInviteCode());
+//                    } else {
+//                        getChannelTypeByCode(SharedPrefsUtil.getUserInfo().getRoomId());
+//                    }
+//                return;
+//            }
+//        }
+//
+//        if(AppCache.getInstance().isFromMeeting()){
+//            return;
+//        }
+//
+////        //会中免打扰：拒绝
+//        if (isBusy() || inviteData.getInviteCode() == 666) {
+//            Log.e("navi", "isBusy");
+//            return;
+//        }
 
     }
 
@@ -105,10 +125,10 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
 
 
 
-    private boolean isBusy() {
-        return ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)
-                || PaasOnlineManager.getInstance().isBusy() ;
-    }
+//    private boolean isBusy() {
+//        return ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)
+//                || PaasOnlineManager.getInstance().isBusy() ;
+//    }
 
     /**
      * 显示会前呼叫弹框
@@ -117,7 +137,8 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
      * @param inviteId   邀请id
      * @param inviteData 邀请信息
      */
-    protected void showRoomListRecvDialog(long userId, long inviteId, InviteData inviteData) {
+    protected void showRoomListRecvDialog(long userId, long inviteId, InviteData inviteData,ChannelTypeBean result) {
+        this.callUserId = userId;
         CompanyUserInfo companyUserInfo = new CompanyUserInfo();
         companyUserInfo.setUserId((int) inviteData.getInviter().getUserId());
         companyUserInfo.setDisplayName(inviteData.getInviter().getUserName());
@@ -139,39 +160,47 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
                 callInDialog.dismiss();
                 PaasOnlineManager.getInstance().setInviteId(inviteId);
                 SdkUtil.getContactManager().AcceptRejectInvite(userId, inviteId, true);
-//                PaasOnlineManager.getInstance().acceptInvite(userId, inviteId, true);
-//
-//                if (inviteData.getInviteCode() < 0){
-//                    String inviteType = String.valueOf(inviteData.getInviteCode()).substring(0,2);
-//                    String inviteCode = String.valueOf(inviteData.getInviteCode()).substring(2);
-//                    ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
-//                            .joinInstantMeetingRoom(inviteCode, ApplicationInstance.getInstance().getCurrentActivity(), inviteType);
-//                    return;
-//                }
-
-
-
-
-                RequestUtils.getChannelTypeByCode(inviteData.getInviteCode(), new MyObserver<ChannelTypeBean>(SdkBaseActivity.this) {
-                    @Override
-                    public void onSuccess(ChannelTypeBean result) {
-                        ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
-                                .joinForCode(String.valueOf(inviteData.getInviteCode()),result.getChannelCode(),result.getRoomType(), ApplicationInstance.getInstance().getCurrentActivity());
-
-                    }
-                    @Override
-                    public void onFailure(Throwable e, String errorMsg) {
-
-                    }
-                });
-
-
-
+                ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
+                        .joinForCode(String.valueOf(inviteData.getInviteCode()),result.getRoomType(), result.getChannelCode(),ApplicationInstance.getInstance().getCurrentActivity());
             }
         });
         callInDialog.setOnDismissListener(dialog -> PaasOnlineManager.getInstance().setBusy(false));
         callInDialog.show();
         PaasOnlineManager.getInstance().setBusy(true);
+    }
+
+    private void getChannelTypeByCode(long inviter, long inviteId, InviteData inviteData){
+        RequestUtils.getChannelTypeByCode(inviteData.getInviteCode(), new MyObserver<ChannelTypeBean>(SdkBaseActivity.this) {
+            @Override
+            public void onSuccess(ChannelTypeBean result) {
+                if (result.getRoomType() == 1 || result.getRoomType() == 0){
+                    showRoomListRecvDialog(inviter, inviteId, inviteData, result);
+                }else {
+                    if (null != SharedPrefsUtil.getUserInfo().getRoomId() && SharedPrefsUtil.getUserInfo().getRoomId().equals(inviteData.getMeetingId())) return;
+                    
+                    if (ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)) {
+                        ///退出
+                        Map<String,Object> reason_map = new HashMap();
+                        reason_map.put("code",1);
+                        reason_map.put("type",1);
+                        _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+                        SdkUtil.getMeetingManager().closeMeeting(0, "");
+                    }
+                    if (null != SharedPrefsUtil.getUserInfo().getRoomId()){
+                        ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
+                                .joinForCode(String.valueOf(inviteData.getInviteCode()),result.getRoomType(), result.getChannelCode(),ApplicationInstance.getInstance().getCurrentActivity());
+                    }else {
+                        ContactEnterUtils.getInstance(ApplicationInstance.getInstance().getCurrentActivity())
+                                .joinForCode(String.valueOf(SharedPrefsUtil.getUserInfo().getRoomId()),result.getRoomType(), result.getChannelCode(),ApplicationInstance.getInstance().getCurrentActivity());
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+
     }
 
 

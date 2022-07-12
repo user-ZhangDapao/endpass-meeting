@@ -707,6 +707,11 @@ public class MeetingBottomAndTopMenuContainer implements
         }
     }
 
+    @Override
+    public void onClickQuitListener(View quitMenuView) {
+
+    }
+
     /**
      * 点击 退出 回调
      *
@@ -714,8 +719,8 @@ public class MeetingBottomAndTopMenuContainer implements
      * @see MeetingBottomMenuView.MeetingBottomMenuListener
      */
     @Override
-    public void onClickQuitListener(View quitMenuView) {
-        showOutLoding();
+    public void onClickQuitListener(View quitMenuView, int meetingType) {
+        showOutLoding(meetingType);
 //        MeetingQuitContainer meetingQuitContainer = new MeetingQuitContainer(context);
 //        meetingQuitContainer.onlyShowQuitMeetingView();
 //        meetingQuitContainer.setMeetingQuitContainerListener(this);
@@ -1279,10 +1284,10 @@ public class MeetingBottomAndTopMenuContainer implements
     /**
      * 离开或者退出
      */
-    private void showOutLoding() {
+    private void showOutLoding(int meetingType) {
         CustomDialog.Builder builder = new CustomDialog.Builder(context);
 
-        if (MobileMeetingActivity.isAdmin) {
+        if (MobileMeetingActivity.isAdmin || meetingType == 3) {
             builder.setMessage("您确认要退出当前任务吗？");
             builder.setTitle("退出任务");
             builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {

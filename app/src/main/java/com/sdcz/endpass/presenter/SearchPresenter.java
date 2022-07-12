@@ -67,17 +67,17 @@ public class SearchPresenter extends BasePresenter<ISearchView> {
     }
 
     public void creatRecord(Activity activity, String collectUserId, int recordType){
-        RequestUtils.creatRecord(recordType, new MyObserver<String>(activity) {
-            @Override
-            public void onSuccess(String result) {
-                iView.creatRecordSuccess(result,collectUserId,recordType);
-            }
-
-            @Override
-            public void onFailure(Throwable e, String errorMsg) {
-                iView.showOnFailure("",errorMsg);
-            }
-        });
+//        RequestUtils.creatRecord(recordType, new MyObserver<String>(activity) {
+//            @Override
+//            public void onSuccess(String result) {
+//                iView.creatRecordSuccess(result,collectUserId,recordType);
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e, String errorMsg) {
+//                iView.showOnFailure("",errorMsg);
+//            }
+//        });
     }
 
 }

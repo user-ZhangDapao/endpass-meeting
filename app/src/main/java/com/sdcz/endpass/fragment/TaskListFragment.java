@@ -110,9 +110,8 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
 
             @Override
             public void onJoinItem(String code, long roomId) {
-
                 ContactEnterUtils.getInstance(getContext())
-                        .joinForCode(String.valueOf(roomId), code, 3, getActivity());
+                        .joinForCode(String.valueOf(roomId), 3, code, getActivity());
             }
         });
     }

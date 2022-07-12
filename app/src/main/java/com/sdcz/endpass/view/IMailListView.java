@@ -20,6 +20,6 @@ public interface IMailListView extends IBaseView {
 
     void cancelLikeSuccess(Object data);
 
-    void creatRecordSuccess(String data, String collectUserId, int recordType);
+    void creatRecordSuccess(String channelCode, String collectUserId, int recordType, Long inviteCode);
 
 }

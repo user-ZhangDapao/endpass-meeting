@@ -99,7 +99,7 @@ public interface ApiUrl {
     Observable<BaseResponse<Object>> changePassWord(@Part("oldPassword") String newPassword, @Part("newPassword") String oldPassword);
 //
     @GET("api/creatRecord")
-    Observable<BaseResponse<String>> creatRecord(@Query("recordType") int recordType);
+    Observable<BaseResponse<String>> creatRecord(@Query("recordType") int recordType, @Query("recordCode") Long recordCode , @Query("sendUserId") Long sendUserId );
 //
     @GET("api/getUserByNameLike")
     Observable<BaseResponse<List<UserEntity>>> getUserByNameLike(@Query("name") String name);
