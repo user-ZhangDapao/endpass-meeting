@@ -13,7 +13,7 @@ public interface ICreateTaskView extends IBaseView {
 
     void showData(ChannelBean data);
 
-    void addUserResult(Object data,String groupId,String[] userIds);
+    void addUserResult(Object data,String groupId,Integer[] userIds);
 
     void onDelete(Object data);
 }

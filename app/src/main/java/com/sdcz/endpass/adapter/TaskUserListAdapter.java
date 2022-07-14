@@ -144,6 +144,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 
 
     public void removeUser(long id) {
+        if (null == mData) return;
         for (int i = 0; i<=mData.size() ;i++){
             if (null == mData.get(i).getBaseUser()) continue;
             if (id == mData.get(i).getBaseUser().getUserId()){

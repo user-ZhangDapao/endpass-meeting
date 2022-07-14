@@ -1331,7 +1331,7 @@ public class MeetingBottomAndTopMenuContainer implements
         reason_map.put("code",1);
         reason_map.put("type",1);
         _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
-        SdkUtil.getMeetingManager().closeMeeting(0, "");
+//        SdkUtil.getMeetingManager().closeMeeting(0, "");
         context.finish();
     }
 

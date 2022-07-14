@@ -191,7 +191,7 @@ public class TaskUserActivity extends BaseActivity<TaskUserPresenter> implements
             if (resultCode == Constants.HttpKey.RESPONSE_200){
                 if (SharedPrefsUtil.getListUserInfo().size() > 0){
 
-                    List<String> selectUsers = new ArrayList<>();
+                    List<Integer> selectUsers = new ArrayList<>();
 
                     if(SharedPrefsUtil.getRoleId().equals("1")){
                         ToastUtils.showLong("超级管理员~");
@@ -199,18 +199,18 @@ public class TaskUserActivity extends BaseActivity<TaskUserPresenter> implements
                             if (info.getChannelName() != null){
 //                                mPresenter.deleteChannelUser(this,info.getChannel().getChannelCode(),info.getUserId());
                             }
-                            selectUsers.add(info.getUserId() + "");
+                            selectUsers.add(info.getUserId());
                         }
                     }else {
                         ToastUtils.showLong("普通管理员~");
                         for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
                             if (info.getChannelName() == null){
-                                selectUsers.add(info.getUserId() + "");
+                                selectUsers.add(info.getUserId());
                             }
                         }
                     }
 
-                    String[] usersId = selectUsers.toArray(new String[selectUsers.size()]);
+                    Integer[] usersId = selectUsers.toArray(new Integer[selectUsers.size()]);
                     if (usersId.length > 0){
                         mPresenter.addChannelUser(this, channelCode, usersId);
                     }

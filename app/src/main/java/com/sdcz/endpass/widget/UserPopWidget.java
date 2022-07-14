@@ -129,7 +129,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
         @Override
         public void run() {
             try {
-                m_handler.postDelayed(this, 2000);
+                m_handler.postDelayed(this, 1000);
                 taskUserAdapter.notifyItemChanged2();
 //                refashChannelUser();
             } catch (Exception e) {

@@ -7,7 +7,10 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
@@ -38,8 +42,10 @@ import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
 import com.comix.meeting.listeners.VideoModelListener;
 import com.inpor.base.sdk.SdkManager;
+import com.inpor.base.sdk.roomlist.ContactManager;
 import com.inpor.base.sdk.video.VideoManager;
 import com.inpor.nativeapi.adaptor.ChatMsgInfo;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.inpor.sdk.online.PaasOnlineManager;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LiveDataBus;
@@ -49,6 +55,7 @@ import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.bean.UserEntity;
@@ -69,7 +76,9 @@ import com.sdcz.endpass.model.UiEntrance;
 import com.sdcz.endpass.presenter.MeetingBottomAndTopMenuContainer;
 import com.sdcz.endpass.presenter.MeetingQuitContainer;
 import com.sdcz.endpass.presenter.MobileMeetingPresenter;
+import com.sdcz.endpass.ui.activity.MailListActivity;
 import com.sdcz.endpass.util.BrandUtil;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.HeadsetMonitorUtil;
 import com.sdcz.endpass.util.MeetingTempDataUtils;
 import com.sdcz.endpass.util.PermissionUtils;
@@ -92,8 +101,10 @@ import com.inpor.nativeapi.adaptor.Platform;
 import com.inpor.nativeapi.adaptor.RoomInfo;
 import com.inpor.sdk.PlatformConfig;
 import com.sdcz.endpass.widget.VideoScreenView;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 
 import java.io.File;
@@ -110,7 +121,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     public static final String EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID = "EXTRA_ANONYMOUS_LOGIN_WITH_ROOMID";
     public static final String MEETIING_TYPE = "MEETIING_TYPE";
     private RelativeLayout rootView;
-//    private VariableLayout variableLayout;
     private MeetingTopTitleView meetingTopTitleView;
     private MeetingBottomMenuView meetingBottomMenuView;
     private PopupWindowBuilder popupWindowBuilder;
@@ -144,6 +154,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     | UserModelListenerImpl.AUDIO_STATE, UserModelListenerImpl.ThreadMode.MAIN) {
                 @Override
                 public void onUserChanged(int type, BaseUser user) {
+
                     if (null != vsLocalUser.getVideoInfo()){
                         if (user.equals(vsLocalUser.getVideoInfo().getVideoUser())){
                             if (type == UserModelListenerImpl.USER_INFO) {
@@ -280,6 +291,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void initData() {
+        EventBus.getDefault().register(this);
         PaasOnlineManager.getInstance().setBusy(true);
         PaasOnlineManager.getInstance().reportMeetingState(true);
         popupWindowBuilder = new PopupWindowBuilder(this);
@@ -479,9 +491,14 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     public void onMeetingRoomClosed(int reason) {
         //主持人关闭会议室
+//        Map<String,Object> reason_map = new HashMap();
+//        ((HashMap)reason_map).put("code",1);
+//        ((HashMap)reason_map).put("type",2);
+//        _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+
         Map<String,Object> reason_map = new HashMap();
-        ((HashMap)reason_map).put("code",1);
-        ((HashMap)reason_map).put("type",2);
+        reason_map.put("code",1);
+        reason_map.put("type",1);
         _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
 
         GlobalPopupView globalPopupView = new GlobalPopupView(this);
@@ -499,6 +516,23 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             countdownRunnable = createPopupWindowCountdownTask(globalPopupView, R.string.meetingui_room_closed);
         }
         ThreadUtils.getMainHandler().post(countdownRunnable);
+    }
+
+    @Override
+    public void onUserLeave(BaseUser user) {
+        if (meetingType != 3) leaveRoom();
+
+
+    }
+
+    private void leaveRoom(){
+        //本地管理员结束会议
+        Map<String,Object> reason_map = new HashMap();
+        reason_map.put("code",1);
+        reason_map.put("type",1);
+        _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
+//        SdkUtil.getMeetingManager().closeMeeting(0, "");
+        finish();
     }
 
     /**
@@ -537,6 +571,18 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         }
         ThreadUtils.getMainHandler().post(countdownRunnable);
     }
+
+    @Subscribe
+    public void onEvent(EventBusMode event) {/* Do something */
+        switch (event.getType()){
+            case "777":
+                if (meetingManager.getMeetingModule().getMeetingInfo().roomId == SharedPrefsUtil.getUserInfo().getRoomId()){
+                    leaveRoom();
+                }
+                break;
+        }
+    };
+
 
     private Runnable createPopupWindowCountdownTask(GlobalPopupView globalPopupView, @StringRes int strId) {
         countdownRunnable = new Runnable() {
@@ -628,17 +674,17 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         PaasOnlineManager.getInstance().setBusy(false);
         PaasOnlineManager.getInstance().reportMeetingState(false);
-        Intent intent = new Intent(this, PosService.class);
-        stopService(intent);
+//        Intent intent = new Intent(this, PosService.class);
+//        stopService(intent);
         Log.i(TAG, "onDestroy()");
         quitRoom();
         if (BrandUtil.checkoutHW() && headsetMonitorUtil != null) {
             headsetMonitorUtil.unregisterHeadsetPlugReceiver();
         }
         proxy.exitRoom();
-
     }
     @Override
     public void onRequestPermissionsResult(
@@ -727,38 +773,29 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         }
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.SharedPreKey.REQUEST_CODE_2){
             if (resultCode == Constants.HttpKey.RESPONSE_200){
                 if (SharedPrefsUtil.getListUserInfo().size() > 0){
-
-                    List<String> selectUsers = new ArrayList<>();
-
-                    if(SharedPrefsUtil.getRoleId().equals("1")){
-                        ToastUtils.showLong("超级管理员~");
-                        for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
-                            if (info.getChannelName() != null){
-//                                mPresenter.deleteChannelUser(this,info.getChannel().getChannelCode(),info.getUserId());
+                    List<Integer> selectUsers = new ArrayList<>();
+                    List<CompanyUserInfo> CompanyUserInfos = InstantMeetingOperation.getInstance().getCompanyUserData();
+                    SharedPrefsUtil.getListUserInfo().forEach( userEntity-> {
+                        selectUsers.add(userEntity.getUserId());
+                        long userHstId = userEntity.getMdtUserId();
+                        CompanyUserInfos.forEach(companyUserInfo->{
+                            if (userHstId == companyUserInfo.getUserId()){
+                                InstantMeetingOperation.getInstance().addSelectUserData(companyUserInfo);
                             }
-                            selectUsers.add(info.getUserId() + "");
-                        }
-                    }else {
-                        ToastUtils.showLong("普通管理员~");
-                        for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
-                            if (info.getChannelName() == null){
-                                selectUsers.add(info.getUserId() + "");
-                            }
-                        }
-                    }
+                        });
+                    });
 
-                    String[] usersId = selectUsers.toArray(new String[selectUsers.size()]);
+                    Integer[] usersId = selectUsers.toArray(new Integer[selectUsers.size()]);
                     if (usersId.length > 0){
                         mPresenter.addChannelUser(this, channelCode, usersId);
                     }
-
                 }
             }else if (resultCode == Constants.SharedPreKey.REQUEST_CODE_201){
 //                tvDept.setText(data.getStringExtra(KeyStore.DEPTNAME));
@@ -879,6 +916,20 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     public void showChannelInfo(ChannelBean channelBean) {
     }
 
+    @Override
+    public void inviteSuccess(Object o) {
+        SdkUtil.getContactManager().inviteUsers(meetingManager.getMeetingModule().getMeetingInfo().inviteCode, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+            @Override
+            public void inviteResult(int i, String s) {
+                InstantMeetingOperation.getInstance().clearSelectUserData();
+                if(i == 0){
+                    ToastUtils.showShort("邀请失败,请稍后再试");
+                    return;
+                }
+                ToastUtils.showShort("邀请成功");
+            }
+        });
+    }
 
     @Override
     public void onChatMessage(ChatMsgInfo message) {
@@ -950,14 +1001,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     });
                 }
                 if (strarray[1].equals("ALL") || SharedPrefsUtil.getUserIdString().equals(strarray[1])){
-//                    MeetingQuitContainer.onClickCloseMeetingListener();
-                    //本地管理员结束会议
-                    Map<String,Object> reason_map = new HashMap();
-                    reason_map.put("code",1);
-                    reason_map.put("type",1);
-                    _MeetingStateManager.getInstance().notify_quit_meeting(reason_map);
-                    meetingManager.closeMeeting(0, "");
-                    finish();
+                    leaveRoom();
                 }
                 break;
             case "ADD_CHANNEL_USER":
@@ -974,7 +1018,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 break;
         }
     }
-
 
     @Override
     public void onVideoAdded(List<VideoInfo> list, VideoInfo changeInfo) {
@@ -1028,7 +1071,11 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     vsVeuneUser.detachVideoInfo();
                 }
             } else {
-                vsLocalUser.detachVideoInfo();
+                if (changeInfo.isLocalUser()){
+                    vsLocalUser.detachVideoInfo();
+                }else {
+                    vsVeuneUser.detachVideoInfo();
+                }
             }
         }
     }

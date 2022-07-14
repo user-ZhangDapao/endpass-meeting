@@ -76,11 +76,11 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
         return new ArrayList<>();
     }
 
-    public void addChannelUser(Activity activity, String groupId, String[] userIds){
+    public void addChannelUser(Activity activity, String groupId, Integer[] userIds){
         RequestUtils.addChannelUser(groupId, userIds, new MyObserver<Object>(activity) {
             @Override
             public void onSuccess(Object result) {
-                ToastUtils.showLong("添加成功");
+                iView.inviteSuccess(result);
             }
 
             @Override

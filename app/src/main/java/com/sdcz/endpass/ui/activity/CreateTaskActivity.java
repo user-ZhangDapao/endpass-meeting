@@ -142,7 +142,7 @@ public class CreateTaskActivity extends BaseActivity<CreateTaskPresenter> implem
     public void showData(ChannelBean data) {
         if (data != null){
 //            sendRefresh();
-            List<String> selectUsers = new ArrayList<>();
+            List<Integer> selectUsers = new ArrayList<>();
             //TODO:添加人员 加逻辑 先判断是否有权限强邀， 然后添加
             if(SharedPrefsUtil.getRoleId().equals("1")){
                 ToastUtils.showLong("超级管理员~");
@@ -150,18 +150,18 @@ public class CreateTaskActivity extends BaseActivity<CreateTaskPresenter> implem
                     if (info.getChannelName() != null){
 //                        mPresenter.deleteChannelUser(this,info.getChannel().getChannelCode(),info.getUserId());
                     }
-                    selectUsers.add(info.getUserId()+"");
+                    selectUsers.add(info.getUserId());
                 }
             }else {
                 ToastUtils.showLong("普通管理员~");
                 for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
                     if (info.getChannelName() == null){
-                        selectUsers.add(info.getUserId()+"");
+                        selectUsers.add(info.getUserId());
                     }
                 }
             }
             if (selectUsers.size() > 0){
-                String[] usersId = selectUsers.toArray(new String[selectUsers.size()]);
+                Integer[] usersId = selectUsers.toArray(new Integer[selectUsers.size()]);
                 mPresenter.addChannelUser(this, data.getChannelCode(), usersId);
             }else {
                 ToastUtils.showLong("您未选择成员，创建任务成功~");
@@ -184,7 +184,7 @@ public class CreateTaskActivity extends BaseActivity<CreateTaskPresenter> implem
     }
 
     @Override
-    public void addUserResult(Object data,String ChannelCode,String[] userIds) {
+    public void addUserResult(Object data,String ChannelCode,Integer[] userIds) {
 //        joinGroupVoiceUser(userIds, ChannelCode,Constants.MEETING_TASK);
         setResult(Constants.HttpKey.RESPONSE_200);
 //        sendRefresh();

@@ -51,7 +51,7 @@ public class TaskUserPresenter extends BasePresenter<ITaskUserView> {
         });
     }
 
-    public void addChannelUser(Activity activity, String groupId, String[] userIds){
+    public void addChannelUser(Activity activity, String groupId, Integer[] userIds){
         RequestUtils.addChannelUser(groupId, userIds, new MyObserver<Object>(activity) {
             @Override
             public void onSuccess(Object result) {

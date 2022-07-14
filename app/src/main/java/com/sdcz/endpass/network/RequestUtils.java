@@ -164,7 +164,7 @@ public class RequestUtils {
      *
      * @param
      */
-    public static void addChannelUser(String channelCode, String[] userIds, MyObserver<Object> observer) {
+    public static void addChannelUser(String channelCode, Integer[] userIds, MyObserver<Object> observer) {
         JSONObject postInfo = new JSONObject();
         postInfo.put("channelCode",channelCode);
         postInfo.put("userIds",userIds);

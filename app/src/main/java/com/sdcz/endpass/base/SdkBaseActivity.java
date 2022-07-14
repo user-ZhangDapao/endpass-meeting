@@ -29,6 +29,7 @@ import com.sdcz.endpass.MainActivity;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.ChannelTypeBean;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.constant.Constant;
 import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.dialog.CallInDialog;
@@ -38,6 +39,8 @@ import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,6 +82,11 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
 
         if (ScreenDeskUtil.isBackDesk) {
             ScreenDeskUtil.returnApp(this, this.getClass().getName());
+        }
+        if (inviteData.getInviteCode() == 666 ) return;
+        if (inviteData.getInviteCode() == 777 ) {
+            EventBus.getDefault().post(new EventBusMode("777"));
+            return;
         }
 
         getChannelTypeByCode(inviter, inviteId, inviteData);
