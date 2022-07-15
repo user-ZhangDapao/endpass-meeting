@@ -46,6 +46,7 @@ public class MailListBean {
         private Object parentName;
         private int userCount;
         private List<?> children;
+        private List<Long> mdtUserIds;
 
         public Object getSearchValue() {
             return searchValue;
@@ -224,6 +225,14 @@ public class MailListBean {
         }
 
         public static class ParamsBean {
+        }
+
+        public List<Long> getMdtUserIds() {
+            return mdtUserIds;
+        }
+
+        public void setMdtUserIds(List<Long> mdtUserIds) {
+            this.mdtUserIds = mdtUserIds;
         }
     }
 }

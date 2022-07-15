@@ -65,19 +65,19 @@ public class SearchPresenter extends BasePresenter<ISearchView> {
             }
         });
     }
+    public void creatRecord(Activity activity, String collectUserId, int recordType, Long inviteCode){
+        RequestUtils.creatRecord(recordType,inviteCode,Long.parseLong(collectUserId), new MyObserver<String>(activity) {
+            @Override
+            public void onSuccess(String channelCode) {
+                iView.creatRecordSuccess(channelCode,collectUserId,recordType,inviteCode);
+            }
 
-    public void creatRecord(Activity activity, String collectUserId, int recordType){
-//        RequestUtils.creatRecord(recordType, new MyObserver<String>(activity) {
-//            @Override
-//            public void onSuccess(String result) {
-//                iView.creatRecordSuccess(result,collectUserId,recordType);
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable e, String errorMsg) {
-//                iView.showOnFailure("",errorMsg);
-//            }
-//        });
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+                iView.showOnFailure("",errorMsg);
+            }
+        });
     }
+
 
 }

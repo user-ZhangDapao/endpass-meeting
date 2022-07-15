@@ -52,7 +52,7 @@ public class LikePresenter extends BasePresenter<ILikeView> {
         });
     }
 
-    public void collectUser(Activity activity, String userId, String collectUserId){
+    public void collectUser(Activity activity,  String collectUserId){
         RequestUtils.collectUser(collectUserId, new MyObserver<Object>(activity) {
             @Override
             public void onSuccess(Object result) {

@@ -30,6 +30,7 @@ import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.bean.EventBusMode;
+import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.constant.Constant;
 import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.dialog.CallInDialog;
@@ -70,6 +71,7 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
     @Override
     public void onInviteRejected(long remoteId, long inviteId, int reason) {
         Log.e("navi", "onInviteRejected");
+        EventBus.getDefault().post(new EventBusMode("TemporaryUserLeave"));
     }
 
     @Override
@@ -184,7 +186,12 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
                 if (result.getRoomType() == 1 || result.getRoomType() == 0){
                     showRoomListRecvDialog(inviter, inviteId, inviteData, result);
                 }else {
-                    if (null != SharedPrefsUtil.getUserInfo().getRoomId() && SharedPrefsUtil.getUserInfo().getRoomId().equals(inviteData.getMeetingId())) return;
+                    if (result.getRoomType() == 3) {
+                        UserEntity userEntity = SharedPrefsUtil.getUserInfo();
+                        userEntity.setRoomId(result.getRoomId());
+                        SharedPrefsUtil.putUserInfo(userEntity);
+                    }
+//                    if (null != SharedPrefsUtil.getUserInfo().getRoomId() && SharedPrefsUtil.getUserInfo().getRoomId().equals(inviteData.getMeetingId())) return;
                     
                     if (ApplicationInstance.getInstance().isSpecifiedActivity(MobileMeetingActivity.class)) {
                         ///退出
@@ -232,7 +239,7 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
     private void toastByReason(long remoteId, int reason) {
         switch (reason) {
             case GlobalPaasCode.NORMAL_BYUSER:
-                ToastUtils.showShort(R.string.hst_main_call_user_call_finsh);
+//                ToastUtils.showShort(R.string.hst_main_call_user_call_finsh);
                 break;
             case GlobalPaasCode.NORMAL_CLEAR:
                 if (remoteId != 0) {

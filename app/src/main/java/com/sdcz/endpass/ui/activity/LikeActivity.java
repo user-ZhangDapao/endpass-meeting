@@ -32,10 +32,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
+
 /**
  * 收藏
  */
-//@RuntimePermissions
+@RuntimePermissions
 public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeView {
 
     private ImageView ivBack;
@@ -58,6 +61,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
             }
         }
     };
+
 
     @Override
     protected int provideContentViewId() {
@@ -106,28 +110,26 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
         hideLoading();
         if (data != null){
             this.userInfoList = data;
-
-            List<CompanyUserInfo> list =  InstantMeetingOperation.getInstance().getCompanyUserData();
-            for (UserEntity entity : data){
-                long userId = entity.getMdtUserId();
-                for (CompanyUserInfo info : list){
-                    if (userId == info.getUserId()){
-                        entity.setIsOnline(info.isMeetingState());
-                        Log.d("****", info.getUserName() + ":" + info.isMeetingState());
-                        break;
+            if (data.size() > 0){
+                List<CompanyUserInfo> list =  InstantMeetingOperation.getInstance().getCompanyUserData();
+                for (UserEntity entity : data){
+                    long userId = entity.getMdtUserId();
+                    for (CompanyUserInfo info : list){
+                        if (userId == info.getUserId()){
+                            entity.setIsOnline(info.isMeetingState());
+                            Log.d("****", info.getUserName() + ":" + info.isMeetingState());
+                            break;
+                        }
                     }
                 }
-            }
 
-//            FspManager.getInstance().refreshAllUserStatus();
-            if (data.size() > 0){
                 ivNoData.setVisibility(View.GONE);
                 rvRoot.setVisibility(View.VISIBLE);
                 rvRoot.setLayoutManager(new LinearLayoutManager(this));
                 adapter = new MailUserAdapter(R.layout.item_maillist_user, data, new MailUserAdapter.onItemClick() {
                     @Override
                     public void onClick(UserEntity item) {
-                        LikeActivity.this.info = item;
+                        info = item;
                         mPresenter.postCollectStatus(LikeActivity.this, item.getUserId() + "");
                     }
                 });
@@ -147,6 +149,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
             }
         }
     }
+
 
 
 //
@@ -198,7 +201,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
     @Override
     public void showCollectStatus(Integer data) {
         if (data != null) {
-            PopupWindowToUserData popuWin = new PopupWindowToUserData(this, data, info,"",
+            PopupWindowToUserData popuWin = new PopupWindowToUserData(this, data, info, "",
                     new PopupWindowToUserData.OnPopWindowClickListener() {
                         @Override
                         public void onCreatRecord(String userId, String collectUserId, int recordType) {
@@ -209,7 +212,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
                         @Override
                         public void onCollectUser(String userId, String collectUserId) {
                             //取消收藏
-                            mPresenter.collectUser(LikeActivity.this, userId, collectUserId);
+                            mPresenter.collectUser(LikeActivity.this, collectUserId);
                         }
 
                         @Override
@@ -217,7 +220,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
                             new PopupWindowToCall(LikeActivity.this, new PopupWindowToCall.OnPopWindowClickListener() {
                                 @Override
                                 public void onPopWindowClickListener(View view) {
-//                                    LikeActivityPermissionsDispatcher.CallWithPermissionCheck(LikeActivity.this, phoneNum);
+                                    LikeActivityPermissionsDispatcher.CallWithPermissionCheck(LikeActivity.this, phoneNum);
                                 }
                             }, info.getPhonenumber()).show();
                         }
@@ -253,12 +256,12 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
         StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.color_4D6B4A));
     }
 
-//    @NeedsPermission({Manifest.permission.CALL_PHONE})
-//    public void Call(String phoneNum) {
-//        Intent intent = new Intent(Intent.ACTION_CALL);
-//        Uri data = Uri.parse("tel:" + phoneNum);
-//        intent.setData(data);
-//        startActivity(intent);
-//    }
+    @NeedsPermission({Manifest.permission.CALL_PHONE})
+    public void Call(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
+    }
 
 }

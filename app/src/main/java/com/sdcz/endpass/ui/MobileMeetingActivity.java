@@ -55,6 +55,7 @@ import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
@@ -578,8 +579,13 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             case "777":
                 if (meetingManager.getMeetingModule().getMeetingInfo().roomId == SharedPrefsUtil.getUserInfo().getRoomId()){
                     leaveRoom();
+                }else {
+                    mPresenter.getChannelTypeByCode(MobileMeetingActivity.this,meetingManager.getMeetingModule().getMeetingInfo().roomId);
                 }
-                break;
+            break;
+            case "TemporaryUserLeave":
+                leaveRoom();
+            break;
         }
     };
 
@@ -929,6 +935,15 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 ToastUtils.showShort("邀请成功");
             }
         });
+    }
+
+    @Override
+    public void showRoomInfo(ChannelTypeBean o) {
+        if (o.getRoomType() == 3){
+            if (o.getRoomId().equals(SharedPrefsUtil.getUserInfo().getRoomId())){
+                leaveRoom();
+            }
+        }
     }
 
     @Override

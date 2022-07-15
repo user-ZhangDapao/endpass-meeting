@@ -4,6 +4,7 @@ public class ChannelTypeBean {
     private int roomType;
     private String channelCode;
     private String name;
+    private Long roomId;
 
     public int getRoomType() {
         return roomType;
@@ -27,5 +28,13 @@ public class ChannelTypeBean {
 
     public void setRoomType(int roomType) {
         this.roomType = roomType;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }

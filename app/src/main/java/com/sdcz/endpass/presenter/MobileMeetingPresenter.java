@@ -5,20 +5,28 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.manager.application.ApplicationInstance;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.DemoApp;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.base.BasePresenter;
+import com.sdcz.endpass.base.SdkBaseActivity;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.bean.UserEntity;
+import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.model.ChatManager;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.IMobileMeetingView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
     public MobileMeetingPresenter(IMobileMeetingView view) {
@@ -89,6 +97,22 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
             }
         });
     }
+
+    public void getChannelTypeByCode(Activity activity,Long inviteCode){
+        RequestUtils.getChannelTypeByCode(inviteCode, new MyObserver<ChannelTypeBean>(activity) {
+            @Override
+            public void onSuccess(ChannelTypeBean result) {
+                if (result != null){
+                    iView.showRoomInfo(result);
+                }
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+    }
+
 
 
 }

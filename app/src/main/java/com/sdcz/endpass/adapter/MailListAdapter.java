@@ -8,10 +8,15 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.inpor.nativeapi.adaptor.OnlineUserInfo;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.bean.MailListBean;
+import com.sdcz.endpass.bean.UserEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: Administrator
@@ -22,7 +27,6 @@ public class MailListAdapter extends BaseQuickAdapter<MailListBean.DeptBean, Bas
 
     private onItemClick monItemClick;
 
-//    private List<FspUserInfo> mOnLinUserList;
 
     public interface onItemClick{
         void onClick(String deptId,String groupName);
@@ -34,10 +38,6 @@ public class MailListAdapter extends BaseQuickAdapter<MailListBean.DeptBean, Bas
         this.monItemClick = onItemClick;
     }
 
-//    public void setOnLinUserList(List<FspUserInfo> onLinUserList){
-//        this.mOnLinUserList = onLinUserList;
-//        notifyDataSetChanged();
-//    }
 
     public void setOnLinUserList(){
         notifyDataSetChanged();
@@ -47,21 +47,19 @@ public class MailListAdapter extends BaseQuickAdapter<MailListBean.DeptBean, Bas
     protected void convert(BaseViewHolder helper, MailListBean.DeptBean item) {
         helper.setText(R.id.tv_name,item.getDeptName()+"");
         TextView textView = helper.getView(R.id.tv_class_sum);
-//        if (null != mOnLinUserList){
-//            int onlineUsers = 0;
-//            for (int j = 0; j < mOnLinUserList.size(); j++) {
-//                String userId = mOnLinUserList.get(j).getUserId() + "";
-//                for (int i = 0; i < item.getList().size(); i++) {
-//                    String hstUser = item.getList().get(i).getUserId();
-//                    if (hstUser.equals(userId)) {
-//                        onlineUsers++;
-//                    }
-//                }
-//            }
-//            textView.setText("("+onlineUsers + "/" +item.getTotal()+")");
-//        }else {
+        Set<Long> map = SdkUtil.getContactManager().getOnlineDeviceInfo().keySet();
+
+        if (null != item.getMdtUserIds() && null != map){
+            int onlineUsers = 0;
+            for (Long userId : item.getMdtUserIds()){
+                if (map.contains(userId)){
+                    onlineUsers++;
+                }
+            }
+            textView.setText("("+onlineUsers + "/" +item.getUserCount()+")");
+        }else {
             textView.setText("("+item.getUserCount()+")");
-//        }
+        }
 
         RelativeLayout relativeLayout = helper.getView(R.id.rl_maillist_list);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
