@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,13 +16,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
+import com.inpor.base.sdk.roomlist.ContactManager;
 import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
+import com.inpor.base.sdk.roomlist.RoomListManager;
 import com.inpor.manager.beans.CompanyUserDto;
-import com.inpor.nativeapi.adaptor.OnlineUserInfo;
-import com.inpor.sdk.annotation.ProcessStep;
-import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.manager.util.HandlerUtils;
 import com.inpor.sdk.online.InstantMeetingOperation;
 import com.inpor.sdk.online.PaasOnlineManager;
+import com.inpor.sdk.repository.BaseResponse;
+import com.inpor.sdk.repository.bean.InstantMeetingInfo;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -31,14 +36,12 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.MailListAdapter;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseFragment;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.bean.UserEntity;
-import com.sdcz.endpass.login.JoinMeetingManager;
-import com.sdcz.endpass.login.LoginMeetingCallBack;
 import com.sdcz.endpass.network.QueryCompanyUsersHttp;
 import com.sdcz.endpass.presenter.MailListPresenter;
 import com.sdcz.endpass.ui.activity.LikeActivity;
-import com.sdcz.endpass.ui.activity.LoginActivityApp;
 import com.sdcz.endpass.ui.activity.MailListActivity;
 import com.sdcz.endpass.ui.activity.MainActivityApp;
 import com.sdcz.endpass.ui.activity.SearchActivity;
@@ -50,11 +53,13 @@ import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.PopupWindowToUserData;
 import com.universal.clientcommon.beans.CompanyUserInfo;
 
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -81,6 +86,18 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     private SmartRefreshLayout refreshLayout;
     private MailListBean mData;
 
+
+
+    private Observer userStateObserver = new Observer() {
+        @Override
+        public void update(Observable observable, Object arg) {
+            if (arg instanceof CompanyUserInfo) {
+                Log.e("navi", "userStateObserver");
+                onUserStateChange((CompanyUserInfo) arg);
+            }
+        }
+    };
+
     @Override
     protected MailListPresenter createPresenter() {
         return new MailListPresenter(this);
@@ -103,16 +120,9 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         rlUser = rootView.findViewById(R.id.rlUser);
         rlLike = rootView.findViewById(R.id.rlLike);
         layoutFind = rootView.findViewById(R.id.layout_find);
-//        tvTitle.setText(R.string.mail);
-//        ivHead.setVisibility(View.VISIBLE);
-//        ivRight.setVisibility(View.VISIBLE);
-//        ivRight.setImageResource(R.drawable.video_refresh_press);
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
         StatusBarUtils.setTranslucentBar(getActivity());
-//        StatusBarUtils.setStatusBarFontIconDark(true,getActivity());
-
     }
-
 
 
     @Override
@@ -155,6 +165,17 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         }
     }
 
+
+    protected void onUserStateChange(CompanyUserInfo info) {
+        for (UserEntity userEntity : mData.getUserList()){
+            if (userEntity.getMdtUserId() == info.getUserId()){
+                userEntity.setIsOnline(info.isMeetingState());
+                HandlerUtils.postToMain(() -> userAdapter.notifyDataSetChanged());
+            }
+        }
+    }
+
+
     @Override
     public void showUserInfo(UserEntity entity) {
         showLoading();
@@ -167,53 +188,79 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
 
     @Override
     public void showData(MailListBean data) {
-
-
-//        HashMap<Long, OnlineUserInfo> map = SdkUtil.getContactManager().getOnlineDeviceInfo();
-        refreshLayout.finishRefresh();
-        if (data != null){
+        if (data != null) {
             mData = data;
-            new QueryCompanyUsersHttp(1, 1000, this);
-//            userInfoList = data.getUserList();
-//            for (UserEntity entity : userInfoList){
-//                if (map.containsKey(entity.getMdtUserId())){
-//                    entity.setIsOnline(map.get(Long.getLong(entity.getMdtUserId() + "")).getUserState());
-//                }else {
-//                    entity.setIsOnline(0);
-//                }
+            if (data.getDeptList().size() > 0 || data.getUserList().size() > 0){
+                List<CompanyUserInfo> list =  InstantMeetingOperation.getInstance().getCompanyUserData();
+                for (UserEntity entity : data.getUserList()){
+                    long userId = entity.getMdtUserId();
+                    for (CompanyUserInfo info : list){
+                        if (userId == info.getUserId()){
+                            entity.setIsOnline(info.isMeetingState());
+                            Log.d("****", info.getUserName() + ":" + info.isMeetingState());
+                            break;
+                        }
+                    }
+                }
+
+                recyclerUser.setLayoutManager(initLayoutManager(getContext()));
+                recyclerList.setLayoutManager(initLayoutManager(getContext()));
+                userAdapter = new MailUserAdapter(R.layout.item_maillist_user, data.getUserList(), new MailUserAdapter.onItemClick() {
+                    @Override
+                    public void onClick(UserEntity item) {
+                        info = item;
+                        mPresenter.postCollectStatus(getActivity(), item.getUserId() + "");
+                    }
+                });
+                recyclerUser.setAdapter(userAdapter);
+
+                taskAdapter = new MailListAdapter(R.layout.item_my_group_list, data.getDeptList(), new MailListAdapter.onItemClick() {
+                    @Override
+                    public void onClick(String deptId, String groupName) {
+                        startActivity(new Intent(getActivity(), MailListActivity.class).putExtra(Constants.SharedPreKey.DEPTID, deptId).putExtra(Constants.SharedPreKey.DEPTNAME, groupName));
+                    }
+                });
+                recyclerList.setAdapter(taskAdapter);
+            }else {
+                showEmpty();
             }
 
-//            FspManager.getInstance().refreshAllUserStatus();
-//        }
+            if(null == data.getUserList() || data.getUserList().size() == 0){
+                rlUser.setVisibility(View.GONE);
+            }
+            hideLoading();
+        }
+
     }
 
 
     @Override
     public void showStatus(Integer data) {
-        if (data != null){
-            PopupWindowToUserData popuWin = new PopupWindowToUserData(getActivity(), data, info, SharedPrefsUtil.getUserId() + "", new PopupWindowToUserData.OnPopWindowClickListener() {
-                @Override
-                public void onCreatRecord(String userId, String collectUserId, int recordType) {
-                    //创建临时会话
-//                    mPresenter.creatRecord(getActivity(),collectUserId, recordType);
-                }
-
-                @Override
-                public void onCollectUser(String userId, String collectUserId) {
-                    //取消收藏
-//                    mPresenter.collectUser(getActivity(),userId,collectUserId);
-                }
-
-                @Override
-                public void onCallPhone(String phoneNum) {
-                    new PopupWindowToCall(getActivity(), new PopupWindowToCall.OnPopWindowClickListener() {
+        if (data != null) {
+            PopupWindowToUserData popuWin = new PopupWindowToUserData(getActivity(), data, info,"",
+                    new PopupWindowToUserData.OnPopWindowClickListener() {
                         @Override
-                        public void onPopWindowClickListener(View view) {
-                            MailListFragmentPermissionsDispatcher.CallWithPermissionCheck(MailListFragment.this, phoneNum);
+                        public void onCreatRecord(String userId, String collectUserId, int recordType) {
+                            //创建临时会话
+                            creteHstGroup(collectUserId, recordType);
                         }
-                    }, info.getPhonenumber()).show();
-                }
-            });
+
+                        @Override
+                        public void onCollectUser(String userId, String collectUserId) {
+                            //取消收藏
+                            mPresenter.collectUser(getActivity(), collectUserId);
+                        }
+
+                        @Override
+                        public void onCallPhone(String phoneNum) {
+                            new PopupWindowToCall(getActivity(), new PopupWindowToCall.OnPopWindowClickListener() {
+                                @Override
+                                public void onPopWindowClickListener(View view) {
+//                                    .CallWithPermissionCheck(getActivity(), phoneNum);
+                                }
+                            }, info.getPhonenumber()).show();
+                        }
+                    });
             popuWin.show();
         }
     }
@@ -225,7 +272,38 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
 
     @Override
     public void creatRecordSuccess(String channelCode, String collectUserId, int recordType, Long inviteCode) {
+        boolean isHaveUser = false;
+        try {
+            long id = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(collectUserId).getLong("mdtUserId");
+            for (CompanyUserInfo userInfo : InstantMeetingOperation.getInstance().getCompanyUserData()){
+                if (id == userInfo.getUserId()){
+                    InstantMeetingOperation.getInstance().addSelectUserData(userInfo);
+                    isHaveUser = true;
+                    break;
+                }
+            }
 
+            if (isHaveUser == false) return;
+            SdkUtil.getContactManager().inviteUsers(inviteCode.toString(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+                @Override
+                public void inviteResult(int i, String s) {
+                    InstantMeetingOperation.getInstance().clearSelectUserData();
+                    if(i == 0){
+                        ToastUtils.showShort("呼叫失败,请稍后再试");
+                        EventBus.getDefault().post(new EventBusMode("TemporaryUserLeave"));
+                        return;
+                    }
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ContactEnterUtils.getInstance(getContext()).joinForCode(inviteCode.toString(),recordType, channelCode,getActivity());
+                        }
+                    });
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -238,17 +316,6 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         super.onResume();
         mPresenter.getContactList(getActivity());
     }
-//
-//    @Override
-//    protected void sendRefrech() {
-//        super.sendRefrech();
-//        String role = SharedPrefsUtil.getString(ROLE,"3");
-//        if (role.equals("1")){
-//            mPresenter.getContactList(getActivity(), "0");
-//        }else {
-//            mPresenter.getContactList(getActivity(), SharedPrefsUtil.getString(DEPTID,null));
-//        }
-//    }
 
     @NeedsPermission({Manifest.permission.CALL_PHONE})
     public void Call(String phoneNum) {
@@ -257,20 +324,6 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         intent.setData(data);
         startActivity(intent);
     }
-
-//    /**
-//     * 刷新
-//     * @param event
-//     */
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onRefach(EventRefach event) {
-//        String role = SharedPrefsUtil.getString(ROLE,"3");
-//        if (role.equals("1")){
-//            mPresenter.getContactList(getActivity(), "0");
-//        }else {
-//            mPresenter.getContactList(getActivity(), SharedPrefsUtil.getString(DEPTID,null));
-//        }
-//    }
 
     private LinearLayoutManager initLayoutManager(Context context){
         LinearLayoutManager layoutManager = new LinearLayoutManager(context){
@@ -338,4 +391,31 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
             }
         });
     }
+
+    private void creteHstGroup(String collectUserId, int recordType){
+        RoomListManager manager = SdkUtil.getRoomListManager();
+        String meetingName = String.format(getString(R.string.create_instant_meeting_format), SharedPrefsUtil.getUserInfo().getNickName());
+        manager.createInstantMeeting(meetingName, Collections.emptyList(), 2,
+                30, "", "", new IRoomListResultInterface<BaseResponse<InstantMeetingInfo>>() {
+                    @Override
+                    public void failed(int code, String errorMsg) {
+                        Log.i("TAG", "failed: code is " + code);
+                        Log.i("TAG", "failed: errorMsg is " + errorMsg);
+                        ToastUtils.showShort(R.string.instant_meeting_create_fail);
+                        PaasOnlineManager.getInstance().setBusy(false);
+                    }
+
+                    @Override
+                    public void succeed(BaseResponse<InstantMeetingInfo> result) {
+                        Log.i("TAG", "succeed: result is " + new Gson().toJson(result));
+                        if (result.getResCode() != 1) {
+                            PaasOnlineManager.getInstance().setBusy(false);
+                            ToastUtils.showShort(result.getResMessage());
+                            return;
+                        }
+                        mPresenter.creatRecord(getActivity(), collectUserId, recordType, Long.parseLong(result.getResult().getInviteCode()));
+                    }
+                });
+    }
+
 }

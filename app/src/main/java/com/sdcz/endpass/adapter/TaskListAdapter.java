@@ -75,18 +75,20 @@ public class TaskListAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
+                        if (getAdapterPosition() > mData.size()) return;
                         onItemClickListener.onSelectedItem(mData.get(getAdapterPosition()));
                     }
-                    notifyDataSetChanged();
+//                    notifyDataSetChanged();
                 }
             });
             ivJoin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
+                        if (getAdapterPosition() > mData.size()) return;
                         onItemClickListener.onJoinItem(mData.get(getAdapterPosition()).getChannelCode(), mData.get(getAdapterPosition()).getRoomId());
                     }
-                    notifyDataSetChanged();
+//                    notifyDataSetChanged();
                 }
             });
         }
@@ -103,5 +105,12 @@ public class TaskListAdapter extends RecyclerView.Adapter {
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
 
 }

@@ -36,6 +36,7 @@ import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.MailListAdapter;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseActivity;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.MailListPresenter;
@@ -47,6 +48,7 @@ import com.sdcz.endpass.widget.PopupWindowToUserData;
 import com.sdcz.endpass.widget.TitleBarView;
 import com.universal.clientcommon.beans.CompanyUserInfo;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.util.Collections;
@@ -249,6 +251,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                     InstantMeetingOperation.getInstance().clearSelectUserData();
                     if(i == 0){
                         ToastUtils.showShort("呼叫失败,请稍后再试");
+                        EventBus.getDefault().post(new EventBusMode("TemporaryUserLeave"));
                         return;
                     }
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -283,28 +286,9 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                         if (result.getResCode() != 1) {
                             PaasOnlineManager.getInstance().setBusy(false);
                             ToastUtils.showShort(result.getResMessage());
-//                                loadingDialog.dismiss();
                             return;
                         }
                         mPresenter.creatRecord(MailListActivity.this, collectUserId, recordType, Long.parseLong(result.getResult().getInviteCode()));
-
-//                            String inviteCode = recordType + result.getResult().getInviteCode();
-
-//                        SdkUtil.getContactManager().inviteUsers(result.getResult().getInviteCode(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
-//                            @Override
-//                            public void inviteResult(int i, String s) {
-//                                if(i == 0){
-//                                    ToastUtils.showShort("呼叫失败,请稍后再试");
-//                                    return;
-//                                }
-//                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        ContactEnterUtils.getInstance(getContext()).joinForCode(String.valueOf(result.getResult().getRoomId()), data,recordType, MailListActivity.this);
-//                                    }
-//                                });
-//                            }
-//                        });
                     }
                 });
     }
@@ -318,44 +302,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
     public void cancelLikeSuccess(Object data) {
         ToastUtils.showLong( "操作成功");
     }
-//
-//    @Override
-//    protected void onRefreshAllUserStatusFinished(FspUserInfo[] infos) {
-//        super.onRefreshAllUserStatusFinished(infos);
-////        for (FspUserInfo info : infos) {
-////            Log.e(TAG, "onEventRefreshUserStatusFinished -- onLineName --> " + info.getUserId());
-////        }
-//        //在线人员名单
-//        List<FspUserInfo> m_data = new ArrayList();
-//        m_data.addAll(Arrays.asList(infos));
-//        if (userInfoList != null) {
-//            for (int j = 0; j < userInfoList.size(); j++) {
-//                String userId = userInfoList.get(j).getUserId() + "";
-////                userInfoList.get(j).setIsOnline(0);
-//                for (int i = 0; i < m_data.size(); i++) {
-//                    String hstUser = m_data.get(i).getUserId();
-//                    if (hstUser.equals(userId)) {
-//                        userInfoList.get(j).setIsOnline(1);
-//                    }
-//                }
-//            }
-//            userAdapter.notifyDataSetChanged();
-//        }
-//        taskAdapter.setOnLinUserList(m_data);
-//    }
-//
-//    @Override
-//    protected void onUserStatusChangeResult(FspEvents.UserStatusChange userInfo) {
-////        super.onUserStatusChangeResult(userInfo);
-//        for (UserInfo info : userInfoList){
-//            if (info.getUserId().equals(userInfo.userId)){
-//                info.setIsOnline(userInfo.status);
-//            }
-//        }
-//        if (null != userAdapter){
-//            userAdapter.notifyDataSetChanged();
-//        }
-//    }
+
 
     private LinearLayoutManager initLayoutManager(Context context) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context) {

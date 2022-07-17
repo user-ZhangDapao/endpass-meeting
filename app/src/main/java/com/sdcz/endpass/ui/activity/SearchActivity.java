@@ -33,6 +33,7 @@ import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseActivity;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.SearchPresenter;
 import com.sdcz.endpass.util.ContactEnterUtils;
@@ -43,6 +44,7 @@ import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.PopupWindowToUserData;
 import com.universal.clientcommon.beans.CompanyUserInfo;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.security.KeyStore;
@@ -266,6 +268,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
                 public void inviteResult(int i, String s) {
                     InstantMeetingOperation.getInstance().clearSelectUserData();
                     if(i == 0){
+                        EventBus.getDefault().post(new EventBusMode("TemporaryUserLeave"));
                         ToastUtils.showShort("呼叫失败,请稍后再试");
                         return;
                     }

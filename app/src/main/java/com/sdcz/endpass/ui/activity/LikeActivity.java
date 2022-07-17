@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,20 +16,36 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
+import com.inpor.base.sdk.roomlist.ContactManager;
+import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
+import com.inpor.base.sdk.roomlist.RoomListManager;
 import com.inpor.manager.util.HandlerUtils;
 import com.inpor.sdk.online.InstantMeetingOperation;
+import com.inpor.sdk.online.PaasOnlineManager;
+import com.inpor.sdk.repository.BaseResponse;
+import com.inpor.sdk.repository.bean.InstantMeetingInfo;
 import com.jaeger.library.StatusBarUtil;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
+import com.sdcz.endpass.SdkUtil;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseActivity;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.LikePresenter;
+import com.sdcz.endpass.util.ContactEnterUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ILikeView;
 import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.PopupWindowToUserData;
 import com.sdcz.endpass.widget.TitleBarView;
 import com.universal.clientcommon.beans.CompanyUserInfo;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -201,12 +219,13 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
     @Override
     public void showCollectStatus(Integer data) {
         if (data != null) {
-            PopupWindowToUserData popuWin = new PopupWindowToUserData(this, data, info, "",
+
+            PopupWindowToUserData popuWin = new PopupWindowToUserData(LikeActivity.this, data, info,"",
                     new PopupWindowToUserData.OnPopWindowClickListener() {
                         @Override
                         public void onCreatRecord(String userId, String collectUserId, int recordType) {
                             //创建临时会话
-                            mPresenter.creatRecord(LikeActivity.this, collectUserId, recordType);
+                            creteHstGroup(collectUserId, recordType);
                         }
 
                         @Override
@@ -220,25 +239,85 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
                             new PopupWindowToCall(LikeActivity.this, new PopupWindowToCall.OnPopWindowClickListener() {
                                 @Override
                                 public void onPopWindowClickListener(View view) {
-                                    LikeActivityPermissionsDispatcher.CallWithPermissionCheck(LikeActivity.this, phoneNum);
+//                                    .CallWithPermissionCheck(getActivity(), phoneNum);
                                 }
                             }, info.getPhonenumber()).show();
                         }
                     });
             popuWin.show();
+
         }
     }
+
+    private void creteHstGroup(String collectUserId, int recordType){
+        RoomListManager manager = SdkUtil.getRoomListManager();
+        String meetingName = String.format(getString(R.string.create_instant_meeting_format), SharedPrefsUtil.getUserInfo().getNickName());
+        manager.createInstantMeeting(meetingName, Collections.emptyList(), 2,
+                30, "", "", new IRoomListResultInterface<BaseResponse<InstantMeetingInfo>>() {
+                    @Override
+                    public void failed(int code, String errorMsg) {
+                        Log.i("TAG", "failed: code is " + code);
+                        Log.i("TAG", "failed: errorMsg is " + errorMsg);
+                        ToastUtils.showShort(R.string.instant_meeting_create_fail);
+                        PaasOnlineManager.getInstance().setBusy(false);
+                    }
+
+                    @Override
+                    public void succeed(BaseResponse<InstantMeetingInfo> result) {
+                        Log.i("TAG", "succeed: result is " + new Gson().toJson(result));
+                        if (result.getResCode() != 1) {
+                            PaasOnlineManager.getInstance().setBusy(false);
+                            ToastUtils.showShort(result.getResMessage());
+                            return;
+                        }
+                        mPresenter.creatRecord(LikeActivity.this, collectUserId, recordType, Long.parseLong(result.getResult().getInviteCode()));
+                    }
+                });
+    }
+
 
     /**
      * 创建临时任务
      * @param data
      */
+
+    /**
+     * 创建临时任务
+     */
     @Override
-    public void creatRecordSuccess(String data, String collectUserId, int recordType) {
-//        SharedPrefsUtil.putValue(this, KeyStore.RECORDCODE,data);
-//        String[] array = {collectUserId};
-//        joinGroupVoiceUser(array,data,recordType);
-        ToastUtils.showShort("创建成功");
+    public void creatRecordSuccess(String channelCode, String collectUserId, int recordType, Long inviteCode) {
+        boolean isHaveUser = false;
+        try {
+            long id = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(collectUserId).getLong("mdtUserId");
+            for (CompanyUserInfo userInfo : InstantMeetingOperation.getInstance().getCompanyUserData()){
+                if (id == userInfo.getUserId()){
+                    InstantMeetingOperation.getInstance().addSelectUserData(userInfo);
+                    isHaveUser = true;
+                    break;
+                }
+            }
+
+            if (isHaveUser == false) return;
+            SdkUtil.getContactManager().inviteUsers(inviteCode.toString(), InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+                @Override
+                public void inviteResult(int i, String s) {
+                    InstantMeetingOperation.getInstance().clearSelectUserData();
+                    if(i == 0){
+                        ToastUtils.showShort("呼叫失败,请稍后再试");
+                        EventBus.getDefault().post(new EventBusMode("TemporaryUserLeave"));
+                        return;
+                    }
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ContactEnterUtils.getInstance(getContext()).joinForCode(inviteCode.toString(),recordType, channelCode,LikeActivity.this);
+                        }
+                    });
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,13 +14,19 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +34,8 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileIOUtils;
@@ -51,6 +60,7 @@ import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.LiveDataBus;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.adapter.TaskUserListAdapter;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.AudioEventOnWrap;
 import com.sdcz.endpass.bean.CameraAndAudioEventOnWrap;
@@ -78,6 +88,7 @@ import com.sdcz.endpass.presenter.MeetingBottomAndTopMenuContainer;
 import com.sdcz.endpass.presenter.MeetingQuitContainer;
 import com.sdcz.endpass.presenter.MobileMeetingPresenter;
 import com.sdcz.endpass.ui.activity.MailListActivity;
+import com.sdcz.endpass.ui.activity.SelectUserActivity;
 import com.sdcz.endpass.util.BrandUtil;
 import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.HeadsetMonitorUtil;
@@ -101,6 +112,7 @@ import com.inpor.nativeapi.adaptor.AudioParam;
 import com.inpor.nativeapi.adaptor.Platform;
 import com.inpor.nativeapi.adaptor.RoomInfo;
 import com.inpor.sdk.PlatformConfig;
+import com.sdcz.endpass.widget.PopupWindowToCall;
 import com.sdcz.endpass.widget.VideoScreenView;
 import com.universal.clientcommon.beans.CompanyUserInfo;
 
@@ -109,6 +121,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 
 import java.io.File;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -261,7 +274,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         llRoot.setOnClickListener(this);
     }
 
-
     private void initBottomAndTopMenu() {
         RelativeLayout.LayoutParams topLayoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -313,7 +325,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             meetingBottomAndTopMenuContainer.onClickMicListener();
         }
     }
-
 
     /**
      * 用户状态回调
@@ -395,7 +406,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     }
 
-
     /**
      * 用戶音頻状态变更
      *
@@ -404,7 +414,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private void onUserAudioStateChanged(BaseUser localUser) {
         onUserAudioStateChanged(localUser, true);
     }
-
 
     /**
      * 用戶音頻状态变更
@@ -464,7 +473,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     @Override
     public void onMeetingRename(String newName) {
         meetingBottomAndTopMenuContainer.updateTopTitle(newName);
-
     }
 
     /**
@@ -588,7 +596,6 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             break;
         }
     };
-
 
     private Runnable createPopupWindowCountdownTask(GlobalPopupView globalPopupView, @StringRes int strId) {
         countdownRunnable = new Runnable() {
@@ -792,7 +799,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                         selectUsers.add(userEntity.getUserId());
                         long userHstId = userEntity.getMdtUserId();
                         CompanyUserInfos.forEach(companyUserInfo->{
-                            if (userHstId == companyUserInfo.getUserId()){
+                            if (userHstId == companyUserInfo.getUserId() && companyUserInfo.isMeetingState() != 0){
                                 InstantMeetingOperation.getInstance().addSelectUserData(companyUserInfo);
                             }
                         });
@@ -924,15 +931,15 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void inviteSuccess(Object o) {
+        ToastUtils.showShort("邀请成功");
+
+        if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()) {
+            meetingBottomAndTopMenuContainer.getUserPopWidget().initData();
+        }
         SdkUtil.getContactManager().inviteUsers(meetingManager.getMeetingModule().getMeetingInfo().inviteCode, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
             @Override
             public void inviteResult(int i, String s) {
                 InstantMeetingOperation.getInstance().clearSelectUserData();
-                if(i == 0){
-                    ToastUtils.showShort("邀请失败,请稍后再试");
-                    return;
-                }
-                ToastUtils.showShort("邀请成功");
             }
         });
     }
@@ -1011,7 +1018,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("PLEASE_LEAVE",strarray[1]);
+                            meetingBottomAndTopMenuContainer.getUserPopWidget().initData();
                         }
                     });
                 }
@@ -1020,7 +1027,14 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 }
                 break;
             case "ADD_CHANNEL_USER":
-
+                if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()){
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            meetingBottomAndTopMenuContainer.getUserPopWidget().initData();
+                        }
+                    });
+                }
                 break;
             case "APPLY_LEAVE":
                 if (strarray[1].equals(SharedPrefsUtil.getUserId())){
@@ -1166,5 +1180,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 });
         builder.create().show();
     }
+
+
 
 }

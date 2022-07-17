@@ -123,8 +123,18 @@ public class PopupWindowToUserData extends PopupWindow{
             imageLike.setBackgroundResource(R.drawable.grouping_personnel_add_normal);
         }
 
-        //是否在线 1不在线
-        if (info.getIsOnline() == 0){// bu在线
+        //是否在线
+        if (info.getIsOnline() == 1){//
+            //语音
+            imgVoice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //创建临时会话
+                    listener.onCreatRecord(userId,info.getUserId()+"", Constants.SharedPreKey.CREATERECORD_VOICE);
+                    dismiss();
+                }
+            });
+        }else {
             layoutVideo.setVisibility(View.GONE);
             tvVoice.setText("拨打电话");
             imgVoice.setBackgroundResource(R.drawable.button_popu_phone);
@@ -142,16 +152,6 @@ public class PopupWindowToUserData extends PopupWindow{
                         dismiss();
                     }
 
-                }
-            });
-        }else {
-            //语音
-            imgVoice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //创建临时会话
-                    listener.onCreatRecord(userId,info.getUserId()+"", Constants.SharedPreKey.CREATERECORD_VOICE);
-                    dismiss();
                 }
             });
         }
@@ -179,23 +179,6 @@ public class PopupWindowToUserData extends PopupWindow{
                 dismiss();
             }
         });
-        //TODO: mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框 未解决 无效
-//        mMenuView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int height = mMenuView.findViewById(R.id.rl_pupo).getTop();
-//                int y = (int) event.getY();
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    if (y < height) {
-//                        ToastUtils.show("123123123");
-//                        dismiss();
-//                    }
-//                }
-//                return true;
-//            }
-//        });
-
-
     }
 
     //dismiss

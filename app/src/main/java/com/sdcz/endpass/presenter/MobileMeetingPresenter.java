@@ -89,6 +89,7 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
             @Override
             public void onSuccess(Object result) {
                 iView.inviteSuccess(result);
+                SharedPrefsUtil.putListUserInfo(new ArrayList<>());
             }
 
             @Override

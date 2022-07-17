@@ -1,5 +1,7 @@
 package com.sdcz.endpass.adapter;
 
+import static com.sdcz.endpass.util.AttendeeUtils.getMicStateLogo;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -46,7 +48,7 @@ import java.util.Map;
 public class TaskUserListAdapter extends RecyclerView.Adapter{
 
     private List<ChannerUser> mData;
-    private HashSet<Long> ids = new HashSet<>();
+    private HashSet<Long> ids;
     private Context mContext;
     private ItemClickEvent mClick;
 
@@ -54,10 +56,10 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         this.mContext = mContext;
     }
 
-    public TaskUserListAdapter(List<ChannerUser> mData, Context mContext) {
-        this.mData = mData;
-        this.mContext = mContext;
-    }
+//    public TaskUserListAdapter(List<ChannerUser> mData, Context mContext) {
+//        this.mData = mData;
+//        this.mContext = mContext;
+//    }
 
     public void setData(List<ChannerUser> mData) {
         Collections.sort(mData,new PersonComparator());
@@ -73,7 +75,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
     }
 
     public void setMuteUserIds(List<Long> ids) {
-        this.ids.addAll(ids);
+        this.ids = new HashSet<>(ids);
         notifyDataSetChanged();
     }
 
@@ -113,10 +115,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         for (ChannerUser channerUser : mData){
             ids.add(channerUser.getUserId());
         }
-//        ids.addAll(SdkUtil.getUserManager().getAllUsers());
-//        if (ids.contains(id)){
-//            ids.remove(id);
-//        }
+
         notifyDataSetChanged();
     }
 
@@ -132,46 +131,12 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         notifyDataSetChanged();
     }
 
-    public void removeUser(String id) {
-        if (null == id) return;
-        for (ChannerUser user : mData){
-            if (id.equals(user.getUserId())){
-            }
-            break;
-        }
-        notifyDataSetChanged();
-    }
-
-
-    public void removeUser(long id) {
-        if (null == mData) return;
-        for (int i = 0; i<=mData.size() ;i++){
-            if (null == mData.get(i).getBaseUser()) continue;
-            if (id == mData.get(i).getBaseUser().getUserId()){
-                mData.remove(i);
-                break;
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-
 
     public void removeAllMuteUserIds() {
-//        if (ids.contains(id)){
-//            ids.clear();
-//            ids.add(id);
-//        }else {
-            ids.clear();
-//        }
+        ids.clear();
         notifyDataSetChanged();
     }
 
-    public void notifyItemChanged2() {
-        for (int i = 0; i < getItemCount(); i++) {
-            notifyItemChanged(i, R.id.group_user_item_iv_audio);
-        }
-    }
 
     public void setClickListener(ItemClickEvent mClick) {
         this.mClick = mClick;
@@ -180,15 +145,19 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-//        View view = null;
-//
-//        if (style) {
-           View view = LayoutInflater.from(mContext).inflate(R.layout.item_group_user, parent, false);
-//        } else {
-//            view = LayoutInflater.from(mContext).inflate(R.layout.item_group_user_false, parent, false);
-//        }
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_group_user, parent, false);
         return new ViewHolder(view);
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List payloads) {
+        TaskUserListAdapter.ViewHolder viewHolder = (TaskUserListAdapter.ViewHolder) holder;
+        if (payloads.isEmpty()){
+            onBindViewHolder(viewHolder, position);
+        }else {
+            viewHolder.ivAudio.setImageResource(AttendeeUtils.getMicStateLogo(mData.get(position).getBaseUser()));
+        }
     }
 
     @Override
@@ -196,13 +165,6 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         ViewHolder viewHolder = (ViewHolder) holder;
 
         ChannerUser user = mData.get(position);
-
-//        if (userId.equals(SharedPrefsUtil.getValue(mContext, KeyStore.USERID, null))){
-//            viewHolder.ivDelect.setVisibility(View.INVISIBLE);
-//        }
-
-
-//        viewHolder.pbVioce.setProgress(null == user.getBaseUser() ? 0 : user.getBaseUser().getVideoManager().ge);
 
         /**
          * 在离线状态
@@ -223,9 +185,9 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 
 
         try {
-            viewHolder.tvUserName.setMarqueeText(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(user.getUserId())).getString("nickName"));
+            viewHolder.tvUserName.setText(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(user.getUserId())).getString("nickName"));
         } catch (JSONException e) {
-            viewHolder.tvUserName.setMarqueeText(user.getNickName());
+            viewHolder.tvUserName.setText(user.getNickName());
         }
 
 
@@ -235,22 +197,6 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
 
         viewHolder.ivVenue.setImageResource(mData.get(position).isVenue() ? R.drawable.icon_venue_green2 : R.drawable.icon_venue_blue);
 
-//        /**
-//         * 名字 和 头像
-//         */
-//        try {
-//            viewHolder.tvUserName.setText(SharedPrefsUtil.getJSONValue(mContext).getJSONObject(userId).get("realname").toString());
-//            if (SharedPrefsUtil.getJSONValue(mContext).getJSONObject(userId).has("headImg")) {
-//                GlideUtils.showCircleImage(mContext, viewHolder.ivHeadImg, SharedPrefsUtil.getJSONValue(mContext).getJSONObject(userId).get("headImg").toString(), R.drawable.icon_head);
-//            } else {
-//                viewHolder.ivHeadImg.setImageResource(R.drawable.icon_head);
-//            }
-//        } catch (JSONException e) {
-////            //e.printStackTrace();
-//            viewHolder.ivHeadImg.setImageResource(R.drawable.icon_head);
-//        }
-
-        //---------------------------------
 
         /**
          * 麦克风
@@ -261,32 +207,6 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
          * 摄像头
          */
         viewHolder.ivVideo.setImageResource(AttendeeUtils.getCameraStateLogo(user.getBaseUser()));
-//        if (FspManager.getInstance().HaveUserVideo(userId)) {
-//            viewHolder.ivVideo.setImageResource(style ? R.drawable.group_user_video_open : R.drawable.group_user_video_open2);
-//            viewHolder.ivVenue.setVisibility(View.VISIBLE);
-//        } else {
-//            viewHolder.ivVideo.setImageResource(style ? R.drawable.group_user_video_close : R.drawable.group_user_video_close2);
-//            viewHolder.ivVenue.setVisibility(View.INVISIBLE);
-//        }
-//        if (userId.equals(SharedPrefsUtil.getValue(mContext, KeyStore.USERID, null))) {
-//            if (FspManager.getInstance().isVideoPublishing()) {
-//                viewHolder.ivVideo.setImageResource(style ? R.drawable.group_user_video_open : R.drawable.group_user_video_open2);
-//                viewHolder.ivVenue.setVisibility(View.VISIBLE);
-//            } else {
-//                viewHolder.ivVideo.setImageResource(style ? R.drawable.group_user_video_close : R.drawable.group_user_video_close2);
-//                viewHolder.ivVenue.setVisibility(View.INVISIBLE);
-//            }
-//        }
-
-//        /**
-//         * 主会场
-//         */
-//
-//        if (!VideoActivity.getUserRole()) {
-//            viewHolder.ivDelect.setVisibility(View.INVISIBLE);
-//            viewHolder.ivCall.setVisibility(View.INVISIBLE);
-//            viewHolder.ivVenue.setVisibility(View.INVISIBLE);
-//        }
 
         /**
          * 听筒
@@ -308,7 +228,6 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivIsOnline;
-        ProgressBar pbVioce;
         ImageView ivHeadImg;
         ImageView ivAudio;
         ImageView ivVideo;
@@ -386,7 +305,7 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
                                     tvUserName.setMarqeeTrue();
                                     mClick.clickCallKickOut(mData.get(getAdapterPosition()).getUserId() + "");
                                     mData.remove(getAdapterPosition());
-                                    notifyDataSetChanged();
+                                    //notifyDataSetChanged();
                                 }
                             }
                         }
@@ -446,29 +365,16 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
         return position;
     }
 
-//    public void setVonueState(String id) {
-//        if (mData != null) {
-//            if (id.equals("0")) {
-//                for (int i = 0; i < mData.size(); i++) {
-//                    mData.get(i).setIsVenue(false);
-//                }
-//            } else {
-//                for (int i = 0; i < mData.size(); i++) {
-//                    mData.get(i).setIsVenue(false);
-//                    if (id.equals(mData.get(i).getUserId())) {
-//                        mData.get(i).setIsVenue(true);
-//                    }
-//                }
-//            }
-//            notifyDataSetChanged();
-//        }
-//    }
+    public void notifyItemChanged2() {
+        for (int i = 0; i < getItemCount(); i++) {
+            notifyItemChanged(i, R.id.group_user_item_iv_audio);
+        }
+    }
 
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
 
 
 }

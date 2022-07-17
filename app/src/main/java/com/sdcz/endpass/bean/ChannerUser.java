@@ -22,6 +22,8 @@ public class ChannerUser {
     private BaseUser baseUser;
     private boolean isVenue;
     private int isOnline;
+    private Long mdtUserId;
+    private String userName;
 
     public int getIsOnline() {
         return isOnline;
@@ -168,5 +170,21 @@ public class ChannerUser {
 
     public void setBaseUser(BaseUser baseUser) {
         this.baseUser = baseUser;
+    }
+
+    public Long getMdtUserId() {
+        return mdtUserId;
+    }
+
+    public void setMdtUserId(Long mdtUserId) {
+        this.mdtUserId = mdtUserId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

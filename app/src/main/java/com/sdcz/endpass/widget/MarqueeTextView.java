@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView {
+public class MarqueeTextView extends AppCompatTextView {
 
     private boolean isFrist = true;
 
@@ -31,7 +31,6 @@ public class MarqueeTextView extends androidx.appcompat.widget.AppCompatTextView
         setMarqueeRepeatLimit(-1);
         //强制获得焦点
         setFocusableInTouchMode(true);
-
     }
 
     public MarqueeTextView(Context context, AttributeSet attrs, int defStyleAttr) {

@@ -46,6 +46,7 @@ public class SplashActivity extends BaseActivity {
     private RelativeLayout rlRoot;
     private TextView tvTime;
     private int i = 3;
+    private boolean isStart = false;
 
     @Override
     protected int provideContentViewId() {
@@ -76,8 +77,7 @@ public class SplashActivity extends BaseActivity {
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SplashActivity.this, MainActivityApp.class));
-                finish();
+                isStart = true;
             }
         });
     }
@@ -133,51 +133,16 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public boolean onLoginSuccess() {
-                handler.sendEmptyMessageDelayed(0,1000);
+                if (isStart){
+                    timeOverStart();
+                }else {
+                    handler.sendEmptyMessageDelayed(0,1000);
+                }
                 return true;
             }
         });
 
     }
-
-//
-//    void HSTlogin(String userId, String realName) {
-//        if (userId.isEmpty()) {
-//            return;
-//        }
-//        if (FspManager.getInstance().checkAppConfigChange()) {
-//            if (!FspManager.getInstance().init()) {
-//                showToast("无初始化配置信息，请联系开发人员");
-//                return;
-//            }
-//        } else {
-//            showToast("请输入配置信息，请联系开发人员");
-//            return;
-//        }
-//        boolean result = FspManager.getInstance().login(userId, realName);
-//        if (!result) {
-//            showToast("身份验证过期");
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
-//        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-//            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-//        } else {
-//            audioManager.setMode(AudioManager.MODE_IN_CALL);
-//        }
-//        audioManager.setSpeakerphoneOn(true);
-//    }
-//
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onLoginResult(FspEvents.LoginResult result) {
-//        if (result.isSuccess) {
-//            handler.sendEmptyMessageDelayed(0,1000);
-//        }else {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//            ToastUtils.show(this,"服务器连接失败,请重新登录");
-//        }
-//    }
 
     //handler
     Handler handler = new Handler(){
@@ -188,13 +153,7 @@ public class SplashActivity extends BaseActivity {
             //判断i是否小于0
             //如果小于0就跳转页面，并结束当前页面
             if (i <= 0){
-                String token = SharedPrefsUtil.getString(Constants.SharedPreKey.Token, "");
-                if (token.isEmpty()){
-                    startActivity(new Intent(SplashActivity.this, LoginActivityApp.class));
-                }else {
-                    startActivity(new Intent(SplashActivity.this, MainActivityApp.class));
-                }
-                finish();
+                timeOverStart();
             }else {
                 //改变倒计时
                 handler.sendEmptyMessageDelayed(0,1000);
@@ -202,10 +161,22 @@ public class SplashActivity extends BaseActivity {
         }
     };
 
+    private void timeOverStart(){
+        String token = SharedPrefsUtil.getString(Constants.SharedPreKey.Token, "");
+        if (token.isEmpty()){
+            startActivity(new Intent(SplashActivity.this, LoginActivityApp.class));
+        }else {
+            startActivity(new Intent(SplashActivity.this, MainActivityApp.class));
+        }
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+        if (handler != null){
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 
     @Override

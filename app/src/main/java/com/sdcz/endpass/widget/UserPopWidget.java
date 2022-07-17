@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.listeners.MeetingModelListener;
 import com.comix.meeting.listeners.UserModelListenerImpl;
+import com.google.firebase.auth.UserInfo;
 import com.inpor.base.sdk.meeting.MeetingManager;
 import com.inpor.base.sdk.user.UserManager;
 import com.sdcz.endpass.Constants;
@@ -29,16 +30,16 @@ import com.sdcz.endpass.adapter.TaskUserListAdapter;
 import com.sdcz.endpass.base.BasePopupWindowContentView;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannerUser;
+import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.gps.EasyPermissions;
 import com.sdcz.endpass.model.ChatManager;
+import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.activity.SelectUserActivity;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import org.json.JSONException;
 import java.util.List;
-
-
 
 
 public class UserPopWidget extends BasePopupWindowContentView {
@@ -48,7 +49,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
     private int channelId;
 
     private List<ChannerUser> userInfoList;
-    public static TaskUserListAdapter taskUserAdapter;
+    public TaskUserListAdapter taskUserAdapter;
     private Handler m_handler = new Handler();
 
     private MeetingManager meetingModel;
@@ -65,9 +66,6 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 return;
             }
             refashChannelUser();
-            // 有用户进入会议室重新计算各个类别的总数
-//            Log.i(TAG, "count user on user enter");
-//            presenter.countUser();
         }
 
         @Override
@@ -75,10 +73,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
             if (user == null) {
                 return;
             }
-            taskUserAdapter.removeUser(user.getUserId());
-//            // 用户离开会议室重新计算各个类别的总数
-//            Log.i(TAG, "count user on user leave");
-//            presenter.countUser();
+            initData();
         }
 
 
@@ -98,6 +93,15 @@ public class UserPopWidget extends BasePopupWindowContentView {
 
         @Override
         public void onUserChanged(int type, BaseUser user) {
+            switch (type) {
+                case UserModelListenerImpl.ADD_USER:
+                case UserModelListenerImpl.REMOVE_USER:
+                    initData();
+                    break;
+                default:
+                    break;
+            }
+
 //            if (user.isLocalUser() && (UserModelListenerImpl.MAIN_SPEAKER == type
 //                    || UserModelListenerImpl.USER_RIGHT == type)) {
 //                updateHost();
@@ -105,6 +109,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
 //            }
 //            Log.i(TAG, "count user on user changed");
 //            presenter.countUser();
+            initData();
         }
 
         @Override
@@ -129,16 +134,15 @@ public class UserPopWidget extends BasePopupWindowContentView {
         @Override
         public void run() {
             try {
-                m_handler.postDelayed(this, 1000);
                 taskUserAdapter.notifyItemChanged2();
-//                refashChannelUser();
+                m_handler.postDelayed(this, 1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     };
 
-    public static void onMassageEvent(String type,String id) {/* Do something */
+    public void onMassageEvent(String type,String id) {/* Do something */
         if(null == taskUserAdapter) return;
         switch (type){
             case "MAIN_VENUE":
@@ -157,12 +161,6 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 }else {
                     taskUserAdapter.addMuteUserIds(Long.valueOf(id));
                 }
-                break;
-            case "PLEASE_LEAVE":
-                taskUserAdapter.removeUser(id);
-                break;
-            case "ADD_CHANNEL_USER":
-
                 break;
         }
 
@@ -190,12 +188,15 @@ public class UserPopWidget extends BasePopupWindowContentView {
         rvRoot.setLayoutManager(new LinearLayoutManager(context));
         rvRoot.setAdapter(taskUserAdapter);
 
+        BaseUser localUser = userModel.getLocalUser();
+
         m_handler.removeCallbacks(m_OneSecondRunnable);
         m_handler.postDelayed(m_OneSecondRunnable, 1000);
     }
 
-    private void initData() {
+    public void initData() {
         if(null == channelCode) return;
+        if (userInfoList != null) userInfoList.clear();
         getChannelByCode(channelCode);
     }
 
@@ -262,38 +263,35 @@ public class UserPopWidget extends BasePopupWindowContentView {
         //当前会议室所有的人
         List<BaseUser> inGroupUsers = userModel.getAllUsers();
 
-        for (BaseUser userPass : inGroupUsers) {
-            String fspName = userPass.getNickName();
+        for (int i = 0; i < inGroupUsers.size(); i++) {
+            Long fspId = inGroupUsers.get(i).getUserId();
             boolean isIn = false;
-
-            for (ChannerUser user : userInfoList){
-                if (fspName.equals(user.getNickName())){
-                    user.setBaseUser(userPass);
-                    user.setIsOnline(1);
+            for (int j = 0; j < userInfoList.size(); j++) {
+                if (fspId.equals(userInfoList.get(j).getMdtUserId())) {
+                    userInfoList.get(j).setIsOnline(1);
+                    userInfoList.get(j).setBaseUser(inGroupUsers.get(i));
                     isIn = true;
                     break;
                 }
             }
-
             if (isIn == false) {
                 ChannerUser user = new ChannerUser();
+                user.setMdtUserId(fspId);
                 try {
-                    user.setUserId(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(userPass.getUserId() + "").getLong("userId"));
+                    user.setUserId(SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(String.valueOf(fspId)).getLong("userId"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                user.setNickName(userPass.getNickName());
-                user.setBaseUser(userPass);
                 user.setIsOnline(1);
+                user.setBaseUser(inGroupUsers.get(i));
                 userInfoList.add(user);
             }
-
         }
 
-        taskUserAdapter.setData(userInfoList);
+        if (userInfoList != null) {
+            taskUserAdapter.setData(userInfoList);
+        }
     }
-
-
 
     public void getChannelByCode(String channelCode){
         RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>(context) {
@@ -312,7 +310,6 @@ public class UserPopWidget extends BasePopupWindowContentView {
             }
         });
     }
-
 
     public void setMute(String channelCode, long userId){
         RequestUtils.setMute(channelCode, userId, new MyObserver<Object>(context) {
@@ -390,8 +387,5 @@ public class UserPopWidget extends BasePopupWindowContentView {
         intent.setData(data);
         context.startActivity(intent);
     }
-
-
-
 
 }

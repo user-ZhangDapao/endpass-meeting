@@ -128,11 +128,8 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
         builder.setPositiveButton("加入任务", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-//                if (joinGroup(data.getChannelCode())){
-//                    SharedPrefsUtil.putValue(getActivity(), KeyStore.RECORDCODE,data.getChannelCode());
-//                    EventBus.getDefault().post(new EventManualJoin(true));
-//                    EventBus.getDefault().post(new EventChannelType(Constants.MEETING_TASK));
-//                }
+                ContactEnterUtils.getInstance(getContext())
+                        .joinForCode(String.valueOf(data.getRoomId()), 3, data.getChannelCode(), getActivity());
             }
         });
         builder.setNegativeButton("取消",
@@ -145,14 +142,6 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
         builder.create().show();
     }
 
-//    /**
-//     * 刷新
-//     * @param event
-//     */
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onRefach(EventRefach event) {
-//        mPresenter.getChannelList(getActivity());
-//    }
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {

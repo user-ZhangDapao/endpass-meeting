@@ -129,6 +129,7 @@ public class MeetingBottomAndTopMenuContainer implements
         if (meetingType == 2 || meetingType == 3){
             attendeeView2 = new UserPopWidget(context, channelCode);
         }
+        getChannelByCode(context,channelCode);
     }
 
 
@@ -176,6 +177,7 @@ public class MeetingBottomAndTopMenuContainer implements
         String strRoomName = meetingModel.getRoomInfo().strRoomName;
         updateTopTitle(strRoomName);
     }
+
     /**
      * 更新顶部标题栏名称
      *
@@ -1341,6 +1343,21 @@ public class MeetingBottomAndTopMenuContainer implements
             public void onSuccess(ChannelBean result) {
                 if (null != result){
                     ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.APPLY_LEAVE + result.getCreateUser() + "*" + txt);
+                }
+            }
+            @Override
+            public void onFailure(Throwable e, String errorMsg) {
+
+            }
+        });
+    }
+
+    public void getChannelByCode(Activity activity,String channelCode){
+        RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>(activity) {
+            @Override
+            public void onSuccess(ChannelBean result) {
+                if (null != result){
+                    meetingTopTitleView.setTitleText(result.getChannelName());
                 }
             }
             @Override
