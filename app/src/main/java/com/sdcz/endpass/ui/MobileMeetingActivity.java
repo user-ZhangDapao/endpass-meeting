@@ -529,9 +529,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void onUserLeave(BaseUser user) {
-        if (meetingType != 3) leaveRoom();
-
-
+        if (meetingType != 3 && meetingType != 2) leaveRoom();
     }
 
     private void leaveRoom(){
@@ -942,6 +940,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                 InstantMeetingOperation.getInstance().clearSelectUserData();
             }
         });
+        ContactEnterUtils.getInstance(getContext()).sendRefash();
     }
 
     @Override
@@ -1084,8 +1083,10 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     }
                 }else {
                     vsVeuneUser.attachVideoInfo(changeInfo);
-
                 }
+            }
+            if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()) {
+                meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("REFASH","");
             }
         }
 
@@ -1106,6 +1107,9 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
                     vsVeuneUser.detachVideoInfo();
                 }
             }
+        }
+        if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()) {
+            meetingBottomAndTopMenuContainer.getUserPopWidget().onMassageEvent("REFASH","");
         }
     }
 
@@ -1140,7 +1144,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         try {
             idid = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserId).getJSONObject(String.valueOf(userId)).getLong("mdtUserId");
         } catch (JSONException e) {
-            e.printStackTrace();
+            idid = 0;
         }
         vsVeuneUser.detachVideoInfo();
         if (userId == SharedPrefsUtil.getUserId() || userId == 0) return;

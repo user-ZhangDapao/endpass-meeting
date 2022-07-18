@@ -131,7 +131,7 @@ public class SelectDeptActivity extends BaseActivity<SelectDeptPresenter> implem
             case R.id.tvRight:
                 Intent intent = new Intent();
                 intent.putExtra(Constants.SharedPreKey.DEPTID,SharedPrefsUtil.getString(Constants.SharedPreKey.SELECT_DEPT_ID,""));
-                intent.putExtra(Constants.SharedPreKey.DEPTID,SharedPrefsUtil.getString(Constants.SharedPreKey.SELECT_DEPT_NAME,""));
+                intent.putExtra(Constants.SharedPreKey.DEPTNAME,SharedPrefsUtil.getString(Constants.SharedPreKey.SELECT_DEPT_NAME,""));
                 setResult(Constants.SharedPreKey.REQUEST_CODE_201,intent);
                 finish();
                 break;

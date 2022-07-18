@@ -77,6 +77,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
         mPresenter.getUserInfo(getActivity());
     }
 
+
+
     @Override
     public void initListener() {
         super.initListener();
@@ -120,7 +122,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constants.HttpKey.RESPONSE_200){
-//            mPresenter.getUserInfo(getActivity(),"");
+            mPresenter.getUserInfo(getActivity());
         }
     }
 

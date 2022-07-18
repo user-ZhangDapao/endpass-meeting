@@ -126,6 +126,7 @@ public class MailListActivity extends BaseActivity<MailListPresenter> implements
                 HandlerUtils.postToMain(() -> userAdapter.notifyDataSetChanged());
             }
         }
+        HandlerUtils.postToMain(() -> taskAdapter.notifyDataSetChanged());
     }
 
     @Override

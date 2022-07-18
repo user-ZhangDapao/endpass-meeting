@@ -37,6 +37,7 @@ import com.sdcz.endpass.model.MicEnergyMonitor;
 import com.sdcz.endpass.network.MyObserver;
 import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.activity.SelectUserActivity;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import org.json.JSONException;
 import java.util.List;
@@ -161,6 +162,8 @@ public class UserPopWidget extends BasePopupWindowContentView {
                 }else {
                     taskUserAdapter.addMuteUserIds(Long.valueOf(id));
                 }
+            case "REFASH":
+                taskUserAdapter.notifyDataSetChanged();
                 break;
         }
 
@@ -361,6 +364,7 @@ public class UserPopWidget extends BasePopupWindowContentView {
             @Override
             public void onSuccess(Object result) {
                 ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.PLEASE_LEAVE + userId);
+                ContactEnterUtils.getInstance(context).sendRefash();
             }
 
             @Override

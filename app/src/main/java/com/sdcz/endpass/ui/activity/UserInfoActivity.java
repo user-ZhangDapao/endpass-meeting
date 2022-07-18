@@ -130,16 +130,16 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
                 break;
             case R.id.btnFinish:
                 String num = etPhone.getText().toString();
-                String realName = etNikeName.getText().toString();
+                String realName1 = etNikeName.getText().toString();
 
-                if (num.equals(phoneNum) || realName.equals(this.realName)){
+                if (num.equals(phoneNum) && realName1.equals(realName)){
                     finish();
                 }else {
                     if (!(PhoneFormatCheckUtil.isMobile(num)) || !(PhoneFormatCheckUtil.isMobile(num))){
                         ToastUtils.showLong("联系方式 格式错误~");
                         return;
                     }
-                    mPresenter.updateUser(this,  realName,num,"","","" );
+                    mPresenter.updateUser(this,  realName1,num,"","","" );
                 }
                 break;
             case R.id.tv_take:
@@ -165,7 +165,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
             GlideUtils.showCircleImage(this, ivHead, data.getAvatar(), R.drawable.icon_head);
             tvName.setText(data.getUserName());
             etNikeName.setText(data.getNickName());
-            realName = data.getRoleName();
+            realName = data.getNickName();
             tvDeptName.setText(data.getDept().getDeptName());
             phoneNum = data.getPhonenumber();
             if (!"".equals(phoneNum)){

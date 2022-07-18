@@ -3,11 +3,14 @@ package com.sdcz.endpass.util;
 import android.content.Context;
 
 import com.comix.meeting.entities.BaseUser;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
 import com.inpor.nativeapi.adaptor.AudioChannel;
 import com.inpor.nativeapi.adaptor.RoomUserInfo;
 import com.inpor.nativeapi.adaptor.VideoChannel;
+
+import org.json.JSONException;
 
 /**
  * @Description: 参会人功能封装的方法
@@ -25,12 +28,21 @@ public class AttendeeUtils {
         if (attendee == null) {
             return "";
         }
-        if (!attendee.isLocalUser()) {
-            return attendee.getNickName();
-        }
         StringBuilder sb = new StringBuilder();
+        String nickName;
+
+        try {
+            nickName = SharedPrefsUtil.getJSONValue(Constants.SharedPreKey.AllUserName).getJSONObject(String.valueOf(attendee.getUserId())).getString("nickName");
+        } catch (JSONException e) {
+            nickName = attendee.getNickName();
+        }
+
+        if (!attendee.isLocalUser()) {
+            return nickName;
+        }
+
         sb.append("(").append(context.getResources().getString(R.string.meetingui_me)).append(")")
-                .append(attendee.getNickName());
+                .append(nickName);
         return sb.toString();
     }
 

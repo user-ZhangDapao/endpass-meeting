@@ -86,14 +86,14 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
     private SmartRefreshLayout refreshLayout;
     private MailListBean mData;
 
-
-
     private Observer userStateObserver = new Observer() {
         @Override
         public void update(Observable observable, Object arg) {
             if (arg instanceof CompanyUserInfo) {
                 Log.e("navi", "userStateObserver");
                 onUserStateChange((CompanyUserInfo) arg);
+                HandlerUtils.postToMain(() -> userAdapter.notifyDataSetChanged());
+                HandlerUtils.postToMain(() -> taskAdapter.notifyDataSetChanged());
             }
         }
     };
@@ -131,6 +131,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
         ivHead.setImageResource(R.drawable.icon_head);
         showLoading();
         mPresenter.getUserInfo(getActivity());
+        InstantMeetingOperation.getInstance().addObserver(userStateObserver);
     }
 
     @Override
@@ -173,6 +174,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
                 HandlerUtils.postToMain(() -> userAdapter.notifyDataSetChanged());
             }
         }
+        HandlerUtils.postToMain(() -> taskAdapter.notifyDataSetChanged());
     }
 
 
@@ -256,7 +258,7 @@ public class MailListFragment extends BaseFragment<MailListPresenter> implements
                             new PopupWindowToCall(getActivity(), new PopupWindowToCall.OnPopWindowClickListener() {
                                 @Override
                                 public void onPopWindowClickListener(View view) {
-//                                    .CallWithPermissionCheck(getActivity(), phoneNum);
+                                    MailListFragmentPermissionsDispatcher.CallWithPermissionCheck(MailListFragment.this,phoneNum);
                                 }
                             }, info.getPhonenumber()).show();
                         }

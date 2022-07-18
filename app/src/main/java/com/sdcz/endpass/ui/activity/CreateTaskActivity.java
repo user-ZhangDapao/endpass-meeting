@@ -21,6 +21,7 @@ import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.CreateTaskPresenter;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ICreateTaskView;
 import com.sdcz.endpass.widget.FlowLayout;
@@ -141,23 +142,11 @@ public class CreateTaskActivity extends BaseActivity<CreateTaskPresenter> implem
     @Override
     public void showData(ChannelBean data) {
         if (data != null){
-//            sendRefresh();
+            ContactEnterUtils.getInstance(this).sendRefash();
             List<Integer> selectUsers = new ArrayList<>();
-            //TODO:添加人员 加逻辑 先判断是否有权限强邀， 然后添加
-            if(SharedPrefsUtil.getRoleId().equals("1")){
-                ToastUtils.showLong("超级管理员~");
-                for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
-                    if (info.getChannelName() != null){
-//                        mPresenter.deleteChannelUser(this,info.getChannel().getChannelCode(),info.getUserId());
-                    }
+            for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
+                if (info.getChannelName() == null){
                     selectUsers.add(info.getUserId());
-                }
-            }else {
-                ToastUtils.showLong("普通管理员~");
-                for (UserEntity info : SharedPrefsUtil.getListUserInfo()){
-                    if (info.getChannelName() == null){
-                        selectUsers.add(info.getUserId());
-                    }
                 }
             }
             if (selectUsers.size() > 0){
@@ -168,7 +157,7 @@ public class CreateTaskActivity extends BaseActivity<CreateTaskPresenter> implem
                 setResult(Constants.HttpKey.RESPONSE_200);
                 finish();
             }
-
+            SharedPrefsUtil.putListUserInfo(new ArrayList<>());
         }
     }
 

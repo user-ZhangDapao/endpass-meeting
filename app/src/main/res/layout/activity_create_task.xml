@@ -84,19 +84,19 @@
                     android:text="@string/belong_class"
 
                     />
+
                 <TextView
                     android:id="@+id/tvDept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/select_task_class"
-                    android:textSize="@dimen/text_size_14"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_23"
                     android:drawableRight="@drawable/icon_right"
                     android:drawablePadding="@dimen/margin_8"
                     android:gravity="right"
-                    />
+                    android:text="@string/select_task_class"
+                    android:textSize="@dimen/text_size_14" />
             </RelativeLayout>
 
             <RelativeLayout

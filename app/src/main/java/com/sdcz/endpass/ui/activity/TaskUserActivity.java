@@ -28,6 +28,7 @@ import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.ChannerUser;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.TaskUserPresenter;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.view.ITaskUserView;
 import com.sdcz.endpass.widget.CustomDialog;
@@ -134,6 +135,7 @@ public class TaskUserActivity extends BaseActivity<TaskUserPresenter> implements
     public void onDelete(Object data,String userId) {
         ToastUtils.showLong("操作成功");
         mPresenter.queryChannelUser(this, channelCode);
+        ContactEnterUtils.getInstance(this).sendRefash();
 //        FspManager.getInstance().sendUserMsg(userId,Constants.KICK_OUT);
 //        sendRefresh();
     }
@@ -147,6 +149,7 @@ public class TaskUserActivity extends BaseActivity<TaskUserPresenter> implements
 //        joinGroupVoiceUser(strings,channelCode,Constants.MEETING_TASK);
         SharedPrefsUtil.putListUserInfo(new ArrayList<>());
         mPresenter.queryChannelUser(this, channelCode);
+        ContactEnterUtils.getInstance(this).sendRefash();
 //        sendRefresh();
     }
 
@@ -154,6 +157,7 @@ public class TaskUserActivity extends BaseActivity<TaskUserPresenter> implements
     public void updateChannelResult(Object data) {
         hideLoading();
         titleBar.setLeftText(channelName);
+        ContactEnterUtils.getInstance(this).sendRefash();
 //        EventBus.getDefault().post(new EventRefach());
 //        sendRefresh();
     }

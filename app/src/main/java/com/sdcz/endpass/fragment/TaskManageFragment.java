@@ -21,6 +21,7 @@ import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.presenter.TaskManagePresenter;
 import com.sdcz.endpass.ui.activity.CreateTaskActivity;
 import com.sdcz.endpass.ui.activity.TaskUserActivity;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.view.ITaskManageView;
 import com.sdcz.endpass.widget.CustomDialog;
 
@@ -110,9 +111,7 @@ public class TaskManageFragment extends BaseFragment<TaskManagePresenter> implem
     public void deleteSuccess(Object data) {
         ToastUtils.showLong("解散成功");
         mPresenter.getChannelList(getActivity());
-//        EventBus.getDefault().post(new EventRefach());
-//        MainActivity activity = (MainActivity) getActivity();
-//        activity.sendRefresh();
+        ContactEnterUtils.getInstance(getContext()).sendRefash();
     }
 
     private void showDeleteloding(String groupId){
@@ -122,7 +121,6 @@ public class TaskManageFragment extends BaseFragment<TaskManagePresenter> implem
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
             }
         });
         builder.setNegativeButton("确定",

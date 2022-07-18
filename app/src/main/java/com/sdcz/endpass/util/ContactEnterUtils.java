@@ -6,20 +6,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.base.sdk.roomlist.ContactManager;
 import com.inpor.base.sdk.roomlist.IRoomListResultInterface;
 import com.inpor.base.sdk.roomlist.RoomListManager;
+import com.inpor.manager.util.HandlerUtils;
 import com.inpor.sdk.PlatformConfig;
 import com.inpor.sdk.annotation.ProcessStep;
 import com.inpor.sdk.callback.JoinMeetingCallback;
 import com.inpor.sdk.kit.workflow.Procedure;
+import com.inpor.sdk.online.InstantMeetingOperation;
 import com.inpor.sdk.open.pojo.InputPassword;
 import com.inpor.sdk.repository.BaseResponse;
 import com.inpor.sdk.repository.bean.InstantMeetingInfo;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.dialog.InputPasswordDialog;
 import com.sdcz.endpass.dialog.LoadingDialog;
 import com.sdcz.endpass.login.JoinMeetingManager;
@@ -27,8 +33,13 @@ import com.sdcz.endpass.login.LoginErrorUtil;
 import com.sdcz.endpass.login.LoginStateUtil;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.ui.RoomListActivity;
+import com.universal.clientcommon.beans.CompanyUserInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -159,6 +170,8 @@ public class ContactEnterUtils {
                 });
     }
 
+
+
     //被呼叫加入即时会议
     //roomType:0,    0语音通话  1视频通话 2地图查看 3固
     public void joinForCode(String inviteCode, int roomType, String channelCode, Activity activity ) {
@@ -217,4 +230,18 @@ public class ContactEnterUtils {
 
 
     }
+
+    public void sendRefash() {
+
+        ArrayList list = new ArrayList();
+        list.addAll(InstantMeetingOperation.getInstance().getCompanyUserData());
+
+        SdkUtil.getContactManager().inviteUsers("666", list, new ContactManager.OnInviteUserCallback() {
+            @Override
+            public void inviteResult(int i, String s) {
+
+            }
+        });
+    }
+
 }

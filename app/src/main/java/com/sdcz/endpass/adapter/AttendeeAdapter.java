@@ -70,15 +70,15 @@ public class AttendeeAdapter extends RecyclerViewAdapter<BaseUser> {
         View view;
         view = inflater.inflate(R.layout.recycler_item_attendee, parent, false);
         AttendeeViewHolder holder = new AttendeeViewHolder(view, itemListener);
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                int pos = holder.getLayoutPosition();
-                if (pos == RecyclerView.NO_POSITION) {
-                    return;
-                }
-                onItemClickListener.onItemClick(AttendeeAdapter.this, pos, holder.itemView);
-            }
-        });
+//        holder.itemView.setOnClickListener(v -> {
+//            if (onItemClickListener != null) {
+//                int pos = holder.getLayoutPosition();
+//                if (pos == RecyclerView.NO_POSITION) {
+//                    return;
+//                }
+//                onItemClickListener.onItemClick(AttendeeAdapter.this, pos, holder.itemView);
+//            }
+//        });
         return holder;
     }
 
@@ -194,9 +194,9 @@ public class AttendeeAdapter extends RecyclerViewAdapter<BaseUser> {
             imgMic = itemView.findViewById(R.id.imgMic);
             imgCamera = itemView.findViewById(R.id.imgCamera);
             linearDetails = itemView.findViewById(R.id.linearDetails);
-            imgMic.setOnClickListener(this);
-            imgCamera.setOnClickListener(this);
-            imgHost.setOnClickListener(this);
+//            imgMic.setOnClickListener(this);
+//            imgCamera.setOnClickListener(this);
+//            imgHost.setOnClickListener(this);
             this.itemListener = itemListener;
         }
 
@@ -219,6 +219,7 @@ public class AttendeeAdapter extends RecyclerViewAdapter<BaseUser> {
                 imgHost.setVisibility(View.GONE);
             }
             tvDetails.setTextColor(getColor(R.color.color_F0834D));
+            tvDetails.setVisibility(View.GONE);
             bindAudioOutMute(item);
             bindMic(item);
             bindCamera(item);

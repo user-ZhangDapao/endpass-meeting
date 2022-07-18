@@ -16,9 +16,12 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.transition.TransitionManager;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseMeetingMenuBar;
 import com.inpor.base.sdk.video.CustomImageOnOffEvent;
+import com.sdcz.endpass.model.ChatManager;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -239,9 +242,11 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
         if (isMute) {
             volumeSwitch.setActivated(false);
             mutesWitch = false;
+            ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.ON_LISTEN + SharedPrefsUtil.getUserInfo().getUserId());
         } else {
             volumeSwitch.setActivated(true);
             mutesWitch = true;
+            ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.OFF_LISTEN + SharedPrefsUtil.getUserInfo().getUserId());
         }
     }
 

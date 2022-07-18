@@ -66,11 +66,9 @@ public interface ApiUrl {
     Observable<BaseResponse<Object>> deletChannel(@Query("channelCode") String channelCode);
 
     @POST("api/addChannel")
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
     Observable<BaseResponse<ChannelBean>> addChannel(@Body JSONObject body);
 
     @POST("api/addChannelUser")
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
     Observable<BaseResponse<Object>> addChannelUser(@Body JSONObject body);
 
     @GET("api/queryChannelUser")

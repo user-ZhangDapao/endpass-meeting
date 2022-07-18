@@ -122,19 +122,7 @@ public class AttendeePresenter implements AttendeeContracts.IPresenter {
         return 0;
     }
 
-    private List<UserEntity> getChannelUser(String channelCode){
-        RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>() {
-            @Override
-            public void onSuccess(ChannelBean result) {
 
-            }
-            @Override
-            public void onFailure(Throwable e, String errorMsg) {
-
-            }
-        });
-        return new ArrayList<>();
-    }
 
 }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.bean.MailListBean;
 import com.sdcz.endpass.util.SharedPrefsUtil;
@@ -42,7 +43,7 @@ public class SelectDeptAdapter extends RecyclerView.Adapter{
         //展示单个条目数
         MailListBean.DeptBean data = mData.get(position);
         viewHolder.tvName.setText(data.getDeptName());
-        if ((data.getDeptId()+"").equals(SharedPrefsUtil.getDeptId())){
+        if ((data.getDeptId()+"").equals(SharedPrefsUtil.getString(Constants.SharedPreKey.SELECT_DEPT_ID))){
             viewHolder.radioButton.setChecked(true);
         }else {
             viewHolder.radioButton.setChecked(false);

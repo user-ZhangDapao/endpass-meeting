@@ -81,11 +81,11 @@
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/dp11"
+                    android:layout_centerVertical="true"
                     android:layout_weight="1"
-                    android:text="@string/meeting_attender"
+                    android:paddingEnd="@dimen/dp11"
+                    android:text="任务成员"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/text_size_20sp"
                     android:textStyle="bold" />
@@ -94,11 +94,13 @@
                     android:id="@+id/imgSearch"
                     android:layout_width="@dimen/dp24"
                     android:layout_height="@dimen/dp24"
-                    android:layout_marginEnd="@dimen/dp22"
-                    android:scaleType="centerInside"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp22"
                     android:layout_toLeftOf="@+id/imgQuit"
-                    android:src="@mipmap/meeting_ui_search" />
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/meeting_ui_search"
+                    android:visibility="gone"
+                    />
                 <ImageView
                     android:id="@+id/imgQuit"
                     android:layout_gravity="right"
@@ -159,7 +161,9 @@
                 android:background="@color/color_2B2F3D"
                 android:gravity="center"
                 android:paddingStart="@dimen/dp20"
-                android:paddingEnd="@dimen/dp20">
+                android:paddingEnd="@dimen/dp20"
+                android:visibility="gone"
+                >
 
                 <LinearLayout
                     android:id="@+id/linearHost"
