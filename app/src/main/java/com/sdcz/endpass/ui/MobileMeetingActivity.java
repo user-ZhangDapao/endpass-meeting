@@ -278,7 +278,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
         RelativeLayout.LayoutParams topLayoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
-        meetingTopTitleView = new MeetingTopTitleView(this, channelCode);
+        meetingTopTitleView = new MeetingTopTitleView(this, channelCode, meetingType);
         meetingTopTitleView.setLayoutParams(topLayoutParams);
         RelativeLayout.LayoutParams bottomLayoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,

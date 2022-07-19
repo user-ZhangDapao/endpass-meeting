@@ -16,11 +16,13 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.transition.TransitionManager;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.inpor.manager.util.HandlerUtils;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseMeetingMenuBar;
 import com.inpor.base.sdk.video.CustomImageOnOffEvent;
 import com.sdcz.endpass.model.ChatManager;
+import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,7 +41,7 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
     private Chronometer chronometer;
     private MeetingTopTitleListener meetingTopTitleListener;
     private long lastClickTime;
-    private boolean mutesWitch;
+    public static boolean mutesWitch;
 
     private String channelCode;
     private int meetingType = 3;
@@ -48,31 +50,39 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
      *
      * @param context 上下文
      */
-    public MeetingTopTitleView(@NonNull Context context, String channelCode) {
+    public MeetingTopTitleView(@NonNull Context context, String channelCode, int type) {
         super(context);
         this.channelCode = channelCode;
+        this.meetingType = type;
+        if (meetingType != 3 ){
+            imSetting.setVisibility(GONE);
+        }else {
+            if (!MobileMeetingActivity.isAdmin){
+                imSetting.setVisibility(GONE);
+            }
+        }
+
         if(EventBus.getDefault().isRegistered(this) == false )
         {
             EventBus.getDefault().register(this);
         }
     }
 
-
-    /**
-     * 构造函数
-     *
-     * @param context 上下文
-     * @param attrs   属性
-     */
-    public MeetingTopTitleView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode, int meetingType) {
-        super(context, attrs);
-        this.channelCode = channelCode;
-        this.meetingType = meetingType;
-        if(EventBus.getDefault().isRegistered(this) == false )
-        {
-            EventBus.getDefault().register(this);
-        }
-    }
+//
+//    /**
+//     * 构造函数
+//     *
+//     * @param context 上下文
+//     * @param attrs   属性
+//     */
+//    public MeetingTopTitleView(@NonNull Context context, @Nullable AttributeSet attrs, String channelCode) {
+//        super(context, attrs);
+//        this.channelCode = channelCode;
+//        if(EventBus.getDefault().isRegistered(this) == false )
+//        {
+//            EventBus.getDefault().register(this);
+//        }
+//    }
 
     //changeCamera
 
@@ -105,9 +115,6 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
         outTextView = findViewById(R.id.tv_out);
         imSetting = findViewById(R.id.im_setting);
         ivInfo = findViewById(R.id.im_tip);
-        if (meetingType != 3){
-            imSetting.setVisibility(GONE);
-        }
         return rootView;
     }
 
@@ -217,11 +224,13 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
                 if (mutesWitch) {
                     volumeSwitch.setActivated(false);
                     meetingTopTitleListener.onClickOpenAudioListener();
+                    HandlerUtils.postToMain(() -> ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.ON_LISTEN + SharedPrefsUtil.getUserInfo().getUserId()));
                 } else {
                     volumeSwitch.setActivated(true);
                     meetingTopTitleListener.onClickCloseAudioListener();
+                    HandlerUtils.postToMain(() -> ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.OFF_LISTEN + SharedPrefsUtil.getUserInfo().getUserId()));
                 }
-                mutesWitch = !mutesWitch;
+//                mutesWitch = !mutesWitch;
             } else if (id == R.id.tv_out) {
                 meetingTopTitleListener.onClickQuitListener(view, meetingType);
             } else if (id == R.id.im_tip) {
@@ -242,11 +251,9 @@ public class MeetingTopTitleView extends BaseMeetingMenuBar {
         if (isMute) {
             volumeSwitch.setActivated(false);
             mutesWitch = false;
-            ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.ON_LISTEN + SharedPrefsUtil.getUserInfo().getUserId());
         } else {
             volumeSwitch.setActivated(true);
             mutesWitch = true;
-            ChatManager.getInstance().sendMessage(0, Constants.SharedPreKey.OFF_LISTEN + SharedPrefsUtil.getUserInfo().getUserId());
         }
     }
 

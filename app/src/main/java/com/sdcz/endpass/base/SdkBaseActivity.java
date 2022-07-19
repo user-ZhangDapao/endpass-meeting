@@ -75,8 +75,8 @@ public class SdkBaseActivity extends AppCompatActivity implements InviteStateLis
 
     @Override
     public void onInviteRejected(long remoteId, long inviteId, int reason) {
+        ///拒接 如果临时会话 退出
         Log.e("navi", "onInviteRejected");
-
     }
 
     @Override

@@ -31,6 +31,7 @@ import com.comix.meeting.entities.BaseUser;
 import com.comix.meeting.entities.WhiteBoard;
 //import com.comix.meeting.listeners.CustomYUVModelListener;
 import com.comix.meeting.listeners.ShareModelListener;
+import com.inpor.manager.util.HandlerUtils;
 import com.sdcz.endpass.Constants;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.SdkUtil;
@@ -52,6 +53,7 @@ import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.ui.MobileMeetingActivity;
 import com.sdcz.endpass.util.PermissionUtils;
 import com.sdcz.endpass.util.PermissionsPageUtils;
+import com.sdcz.endpass.util.SharedPrefsUtil;
 import com.sdcz.endpass.widget.AttendeeView;
 import com.sdcz.endpass.widget.CustomDialog;
 import com.sdcz.endpass.widget.MeetLeftView;
@@ -401,6 +403,7 @@ public class MeetingBottomAndTopMenuContainer implements
         audioParam.playVolume = 50;
         audioManager.setAudioParam(audioParam);
         audioManager.setAppMute(userModel.getLocalUser().getUserId(), (byte) 0);
+        meetingTopTitleView.mutesWitch = !meetingTopTitleView.mutesWitch;
     }
 
     /**shi wpo
@@ -416,6 +419,7 @@ public class MeetingBottomAndTopMenuContainer implements
         audioParam.playVolume = 0;
         audioManager.setAudioParam(audioParam);
         SdkUtil.getAudioManager().setAppMute(userModel.getLocalUser().getUserId(), (byte) 1);
+        meetingTopTitleView.mutesWitch = !meetingTopTitleView.mutesWitch;
     }
 
 
