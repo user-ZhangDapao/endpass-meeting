@@ -28,6 +28,7 @@ import com.sdcz.endpass.R;
 import com.sdcz.endpass.base.BaseActivity;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.UserInfoPresenter;
+import com.sdcz.endpass.util.ContactEnterUtils;
 import com.sdcz.endpass.util.GlideUtils;
 import com.sdcz.endpass.util.PhoneFormatCheckUtil;
 import com.sdcz.endpass.util.PopWindowUtil;
@@ -180,7 +181,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     public void reviseSuccess(Object o) {
         ToastUtils.showLong("修改成功");
         setResult(Constants.HttpKey.RESPONSE_200);
-//        EventBus.getDefault().post(new EventRefach());
+        ContactEnterUtils.getInstance(this).sendRefash();
         finish();
     }
 
@@ -188,6 +189,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     public void updataName(Object data) {
         ToastUtils.showLong("修改成功");
         setResult(Constants.HttpKey.RESPONSE_200);
+        ContactEnterUtils.getInstance(this).sendRefash();
     }
 
     @Override

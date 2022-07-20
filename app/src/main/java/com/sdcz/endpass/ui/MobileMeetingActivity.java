@@ -919,8 +919,13 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     }
 
     @Override
-    public void venueId(long id) {
-       setUserId(id);
+    public void venueId(ChannelBean bean) {
+       setUserId(bean.getVenue());
+       List<Long> mlist = bean.getMuteUserIds();
+       if (mlist.contains((long)SharedPrefsUtil.getUserInfo().getUserId())){
+           meetingBottomAndTopMenuContainer.onClickCloseAudioListener();
+       }
+       setUserId(bean.getVenue());
     }
 
     @Override
@@ -929,18 +934,31 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
 
     @Override
     public void inviteSuccess(Object o) {
+        ContactEnterUtils.getInstance(getContext()).sendRefash();
+
         ToastUtils.showShort("邀请成功");
 
-        if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()) {
-            meetingBottomAndTopMenuContainer.getUserPopWidget().initData();
-        }
-        SdkUtil.getContactManager().inviteUsers(meetingManager.getMeetingModule().getMeetingInfo().inviteCode, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void inviteResult(int i, String s) {
-                InstantMeetingOperation.getInstance().clearSelectUserData();
+            public void run() {
+
+                /**
+                 * 延时执行的代码
+                 */
+
+                if(null != meetingBottomAndTopMenuContainer.getUserPopWidget()) {
+                    meetingBottomAndTopMenuContainer.getUserPopWidget().initData();
+                }
+                SdkUtil.getContactManager().inviteUsers(meetingManager.getMeetingModule().getMeetingInfo().inviteCode, InstantMeetingOperation.getInstance().getSelectUserData(), new ContactManager.OnInviteUserCallback() {
+                    @Override
+                    public void inviteResult(int i, String s) {
+                        InstantMeetingOperation.getInstance().clearSelectUserData();
+                    }
+                });
+
             }
-        });
-        ContactEnterUtils.getInstance(getContext()).sendRefash();
+        },1000); // 延时1秒
+
     }
 
     @Override

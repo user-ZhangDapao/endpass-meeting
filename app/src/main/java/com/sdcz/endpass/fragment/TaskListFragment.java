@@ -23,6 +23,7 @@ import com.sdcz.endpass.R;
 import com.sdcz.endpass.adapter.TaskListAdapter;
 import com.sdcz.endpass.base.BaseFragment;
 import com.sdcz.endpass.bean.ChannelBean;
+import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.dialog.LoadingDialog;
 import com.sdcz.endpass.login.JoinMeetingManager;
 import com.sdcz.endpass.login.LoginErrorUtil;
@@ -46,6 +47,7 @@ import java.util.List;
  * CreateDate: 2021/6/29 11:12
  * Description: @
  */
+
 public class TaskListFragment extends BaseFragment<TaskListPresenter> implements ITaskListView, OnRefreshListener {
 
     private RecyclerView rvRoot;
@@ -80,7 +82,15 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
         rvRoot.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRoot.setAdapter(adapter);
         mPresenter.getChannelList(getActivity());
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Subscribe
+    public void onEvent(EventBusMode event) {/* Do something */
+        if (event.getType().equals("deleteChannel")){
+            mPresenter.getChannelList(getActivity());
+        }
     }
 
     @Override
@@ -148,4 +158,9 @@ public class TaskListFragment extends BaseFragment<TaskListPresenter> implements
         mPresenter.getChannelList(getActivity());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

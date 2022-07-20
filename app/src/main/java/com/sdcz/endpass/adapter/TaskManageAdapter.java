@@ -83,7 +83,7 @@ public class TaskManageAdapter extends RecyclerView.Adapter {
                 ivDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.deleteClick(mData.get(getAdapterPosition()).getChannelCode());
+                        mListener.deleteClick(mData.get(getAdapterPosition()));
                     }
                 });
             }
@@ -92,7 +92,7 @@ public class TaskManageAdapter extends RecyclerView.Adapter {
     }
 
     public interface ItemListener{
-        void deleteClick(String groupId);
+        void deleteClick(ChannelBean bean);
         void InfoClick(String groupId,String channelCode);
     }
 }

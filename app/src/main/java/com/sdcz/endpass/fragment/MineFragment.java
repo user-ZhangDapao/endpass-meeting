@@ -109,7 +109,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
                 Intent intent = new Intent(getContext(), PosActivity.class);
                 intent.putExtra(Constants.SharedPreKey.POS_LAT,Lat);
                 intent.putExtra(Constants.SharedPreKey.POS_LON,Lon);
-                startActivity(intent);                break;
+                startActivity(intent);
+                break;
             case R.id.layout_outline:
                 showLoginOutDialog();
                 break;

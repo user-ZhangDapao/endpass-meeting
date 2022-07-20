@@ -304,8 +304,6 @@ public class TaskUserListAdapter extends RecyclerView.Adapter{
                                 if (mData.size() > getAdapterPosition()) {
                                     tvUserName.setMarqeeTrue();
                                     mClick.clickCallKickOut(mData.get(getAdapterPosition()).getUserId() + "");
-                                    mData.remove(getAdapterPosition());
-                                    //notifyDataSetChanged();
                                 }
                             }
                         }

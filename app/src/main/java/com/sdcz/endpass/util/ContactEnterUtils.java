@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.inpor.base.sdk.roomlist.ContactManager;
@@ -239,7 +240,7 @@ public class ContactEnterUtils {
         SdkUtil.getContactManager().inviteUsers("666", list, new ContactManager.OnInviteUserCallback() {
             @Override
             public void inviteResult(int i, String s) {
-
+                Log.d("邀请刷新~","code:" + i + "//msg:" + s);
             }
         });
     }

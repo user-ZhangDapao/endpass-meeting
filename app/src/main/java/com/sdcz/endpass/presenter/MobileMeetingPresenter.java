@@ -74,7 +74,7 @@ public class MobileMeetingPresenter extends BasePresenter<IMobileMeetingView> {
         RequestUtils.getChannelByCode(channelCode, new MyObserver<ChannelBean>() {
             @Override
             public void onSuccess(ChannelBean result) {
-                iView.venueId(result.getVenue());
+                iView.venueId(result);
             }
             @Override
             public void onFailure(Throwable e, String errorMsg) {
