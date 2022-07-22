@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <com.sdcz.endpass.widget.TitleBarView
+        android:id="@+id/rlTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_50"
+        app:themeColors="@color/color_4D6B4A"
+        app:backDrawbles="@drawable/icon_left_white"
+        app:leftTextColors="@color/color_FFFFFF"
+        app:leftTextSizes="17"
+        />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_white_10"
+                android:layout_margin="@dimen/margin_10dp"
+                android:padding="@dimen/padding_10"/>
+    </RelativeLayout>
+</LinearLayout>

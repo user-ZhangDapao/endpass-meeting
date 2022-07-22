@@ -3,6 +3,7 @@ package com.sdcz.endpass.adapter;
 import static com.inpor.nativeapi.adaptor.RoomUserInfo.USER_OFFLINE;
 import static com.inpor.nativeapi.adaptor.RoomUserInfo.USER_ONLINE;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;

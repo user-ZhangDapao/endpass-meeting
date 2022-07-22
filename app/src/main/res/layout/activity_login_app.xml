@@ -146,14 +146,13 @@
         android:id="@+id/tv_loginSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="设置"
-        android:textSize="@dimen/text_size_13"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_60"
-        android:layout_marginTop="@dimen/margin_16"
-        android:textColor="@color/color_A6A6A6"
         android:layout_below="@id/layout_password"
-        />
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginRight="@dimen/margin_60"
+        android:text="设置"
+        android:textColor="@color/color_A6A6A6"
+        android:textSize="@dimen/text_size_13" />
 
     <Button
         android:id="@+id/btnLogin"

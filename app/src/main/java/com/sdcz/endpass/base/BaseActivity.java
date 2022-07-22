@@ -135,6 +135,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxActivity i
         }
     }
 
+    /**
+     * 禁止截屏
+     */
     protected void requestWindowSet(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }

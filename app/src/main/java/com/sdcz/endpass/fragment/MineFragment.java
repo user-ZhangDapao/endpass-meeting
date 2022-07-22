@@ -21,6 +21,7 @@ import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.presenter.LoginPresenter;
 import com.sdcz.endpass.presenter.MinePresenter;
 import com.sdcz.endpass.ui.activity.ChangePassActivity;
+import com.sdcz.endpass.ui.activity.DemoActivity;
 import com.sdcz.endpass.ui.activity.LoginActivityApp;
 import com.sdcz.endpass.ui.activity.PosActivity;
 import com.sdcz.endpass.ui.activity.UserInfoActivity;
@@ -50,6 +51,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
     private double Lon;
     private double Lat;
 
+    private RelativeLayout rlInfo;
+
     @Override
     protected int provideContentViewId() {
         return R.layout.fragment_mine;
@@ -65,6 +68,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
         ivHead = rootView.findViewById(R.id.ivHead);
         tvUserName = rootView.findViewById(R.id.tv_userName);
         rlChangePassw = rootView.findViewById(R.id.rl_changePassw);
+        rlInfo = rootView.findViewById(R.id.rl_info);
         rlPos = rootView.findViewById(R.id.rl_pos);
         layoutOutline = rootView.findViewById(R.id.layout_outline);
         tvRole = rootView.findViewById(R.id.tvRole);
@@ -88,6 +92,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
         ivHead.setOnClickListener(this);
         layoutOutline.setOnClickListener(this);
         rlPos.setOnClickListener(this);
+        rlInfo.setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +118,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
                 break;
             case R.id.layout_outline:
                 showLoginOutDialog();
+                break;
+            case R.id.rl_info:
+                startActivity(new Intent(getActivity(), DemoActivity.class));
                 break;
             default:
                 break;

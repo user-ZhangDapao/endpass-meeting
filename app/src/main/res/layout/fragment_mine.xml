@@ -184,10 +184,11 @@
         >
 
         <RelativeLayout
+            android:id="@+id/rl_info"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/margin_20"
-            android:visibility="gone"
+            android:visibility="visible"
             >
             <ImageView
                 android:id="@+id/iv1"

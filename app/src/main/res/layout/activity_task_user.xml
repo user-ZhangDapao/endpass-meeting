@@ -46,12 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             >
+
             <ImageView
                 android:id="@+id/ivMsgFlag"
-                android:layout_centerHorizontal="true"
                 android:layout_width="@dimen/width_180"
                 android:layout_height="@dimen/height_180"
-                android:src="@drawable/icon_wuxinxi"/>
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon_wuxinxi" />
 
             <TextView
                 android:id="@+id/tvMsgFlag"

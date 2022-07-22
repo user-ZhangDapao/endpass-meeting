@@ -44,6 +44,8 @@
         android:theme="@style/MeetingAppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
+        <activity android:name=".ui.activity.DemoActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.TempMeetingActivity"
             android:exported="false" />
