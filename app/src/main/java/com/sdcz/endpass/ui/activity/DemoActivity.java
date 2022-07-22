@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ToastUtils;
 import com.inpor.manager.util.HandlerUtils;
 import com.inpor.sdk.online.InstantMeetingOperation;
+import com.jaeger.library.StatusBarUtil;
 import com.sdcz.endpass.R;
 import com.sdcz.endpass.adapter.MailUserAdapter;
 import com.sdcz.endpass.base.BaseActivity;
@@ -125,6 +126,10 @@ public class DemoActivity extends BaseActivity<LikePresenter> implements ILikeVi
         });
     }
 
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.color_4D6B4A));
+    }
 
     protected void onUserStateChange(CompanyUserInfo info) {
         for (UserEntity userEntity : userEntityList){

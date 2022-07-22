@@ -119,9 +119,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
             case R.id.layout_outline:
                 showLoginOutDialog();
                 break;
-            case R.id.rl_info:
-                startActivity(new Intent(getActivity(), DemoActivity.class));
-                break;
+//            case R.id.rl_info:
+//                startActivity(new Intent(getActivity(), DemoActivity.class));
+//                break;
             default:
                 break;
         }

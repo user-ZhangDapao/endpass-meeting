@@ -188,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_50"
             android:layout_marginTop="@dimen/margin_20"
-            android:visibility="visible"
+            android:visibility="gone"
             >
             <ImageView
                 android:id="@+id/iv1"
