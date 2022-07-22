@@ -1293,7 +1293,7 @@ public class MeetingBottomAndTopMenuContainer implements
     private void showOutLoding(int meetingType) {
         CustomDialog.Builder builder = new CustomDialog.Builder(context);
 
-        if (MobileMeetingActivity.isAdmin || meetingType == 3) {
+        if (MobileMeetingActivity.isAdmin && meetingType == 3) {
             builder.setMessage("您确认要退出当前任务吗？");
             builder.setTitle("退出任务");
             builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {

@@ -239,7 +239,7 @@ public class LikeActivity extends BaseActivity<LikePresenter> implements ILikeVi
                             new PopupWindowToCall(LikeActivity.this, new PopupWindowToCall.OnPopWindowClickListener() {
                                 @Override
                                 public void onPopWindowClickListener(View view) {
-//                                    .CallWithPermissionCheck(getActivity(), phoneNum);
+                                    LikeActivityPermissionsDispatcher.CallWithPermissionCheck(LikeActivity.this, phoneNum);
                                 }
                             }, info.getPhonenumber()).show();
                         }
