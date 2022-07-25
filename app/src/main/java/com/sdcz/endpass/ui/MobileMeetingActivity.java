@@ -68,12 +68,14 @@ import com.sdcz.endpass.bean.ChannelBean;
 import com.sdcz.endpass.bean.ChannelTypeBean;
 import com.sdcz.endpass.bean.EventBusMode;
 import com.sdcz.endpass.bean.MeetingSettingsKey;
+import com.sdcz.endpass.bean.PosBean;
 import com.sdcz.endpass.bean.StorageEventOnWrap;
 import com.sdcz.endpass.bean.UserEntity;
 import com.sdcz.endpass.callback.BottomMenuLocationUpdateListener;
 import com.sdcz.endpass.callback.MeetingMenuEventManagerListener;
 import com.sdcz.endpass.callback.MeetingRoomControl;
 import com.sdcz.endpass.callback.OnSettingsChangedListener;
+import com.sdcz.endpass.contract.AttendeeContracts;
 import com.sdcz.endpass.custommade.meetingover._manager._MeetingStateManager;
 import com.sdcz.endpass.dialog.GlobalPopupView;
 import com.sdcz.endpass.gps.PosService;
@@ -84,6 +86,8 @@ import com.sdcz.endpass.model.MeetingLifecycleObserver;
 import com.sdcz.endpass.model.MeetingSettings;
 import com.sdcz.endpass.model.MeetingSettingsModel;
 import com.sdcz.endpass.model.UiEntrance;
+import com.sdcz.endpass.network.MyObserver;
+import com.sdcz.endpass.network.RequestUtils;
 import com.sdcz.endpass.presenter.MeetingBottomAndTopMenuContainer;
 import com.sdcz.endpass.presenter.MeetingQuitContainer;
 import com.sdcz.endpass.presenter.MobileMeetingPresenter;
@@ -126,6 +130,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> implements IMobileMeetingView, MeetingModelListener, ChatManager.ChatMessageListener,
         MeetingMenuEventManagerListener, BottomMenuLocationUpdateListener, AudioModelListener, MeetingRoomControl, RawCapDataSinkCallback, OnSettingsChangedListener, VideoModelListener, View.OnClickListener {
@@ -162,6 +168,10 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
     private LinearLayout llRoot;
     private List<VideoInfo> videoInfoList = new ArrayList<>();
     private long idid = 0;
+
+    private Timer timer = new Timer();
+
+
 
     private final UserModelListenerImpl userModelListener2 =
             new UserModelListenerImpl(UserModelListenerImpl.USER_INFO
@@ -969,6 +979,7 @@ public class MobileMeetingActivity extends BaseActivity<MobileMeetingPresenter> 
             }
         }
     }
+
 
     @Override
     public void onChatMessage(ChatMsgInfo message) {

@@ -176,7 +176,7 @@ public class RoomListActivity extends AppCompatActivity {
 
                 if ((vGps.contains("$")) && (vGps.contains("E")) && (vGps.contains("N")))
                 {
-                    retStr = "在门口 FullStr: " + vGps + "\n";
+                    retStr = "FullStr: " + vGps + "\n";
                     int vPosiE, vPosiN;
                     vPosiE = vGps.indexOf("E");
                     vPosiN = vGps.indexOf("N");
@@ -185,7 +185,7 @@ public class RoomListActivity extends AppCompatActivity {
                         retStr = retStr + " N: " + vGps.substring(vPosiE + 1, vPosiN) + "\n";
                     }
                 } else {
-                    retStr = "在门口 recvGpsInfo : " + gpsInfo;
+                    retStr = "recvGpsInfo : " + gpsInfo;
                 }
                 aStr = retStr + "\n";
                 ToastUtils.showShort(aStr);
@@ -202,7 +202,7 @@ public class RoomListActivity extends AppCompatActivity {
                         //TextView view = ((TextView) findViewById(R.id.result));
                         if (recvGPSStr.length() >= 21) {
                             aFinalStr = trancIncome(recvGPSStr.trim());
-                            Log.e("在门口  recv:",aFinalStr);
+                            Log.e("recv:",aFinalStr);
                             recvGPSStr = "";
                         } else {
                             ;//recvGPSStr =recvGPSStr + fskRecvTxt;

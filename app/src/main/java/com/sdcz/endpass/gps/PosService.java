@@ -77,37 +77,37 @@ public class PosService extends Service {
 
     };
 
-//    protected Runnable mRecordFeed = new Runnable() {
-//
-//        @Override
-//        public void run() {
-//            Log.e("111111111111",AudioRecord.RECORDSTATE_RECORDING+"=="+mRecorder.getRecordingState());
-//            while (mRecorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
-//                short[] data = new short[mBufferSize / 2]; //the buffer size is in bytes
-//                // gets the audio output from microphone to short array samples
-//                mRecorder.read(data, 0, mBufferSize / 2);
-//                mDecoder.appendSignal(data);
-//            }
-//        }
-//    };
+    protected Runnable mRecordFeed = new Runnable() {
+
+        @Override
+        public void run() {
+            Log.e("111111111111",AudioRecord.RECORDSTATE_RECORDING+"=="+mRecorder.getRecordingState());
+            while (mRecorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
+                short[] data = new short[mBufferSize / 2]; //the buffer size is in bytes
+                // gets the audio output from microphone to short array samples
+                mRecorder.read(data, 0, mBufferSize / 2);
+                mDecoder.appendSignal(data);
+            }
+        }
+    };
 
     private final Timer timer = new Timer();
     private TimerTask task;
-//    Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            // TODO Auto-generated method stub
-//            // 要做的事情
-//            genTone();
-//            zGiveLocTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-//                    mConfig.sampleRate, AudioFormat.CHANNEL_OUT_MONO,
-//                    AudioFormat.ENCODING_PCM_16BIT, 4096,
-//                    AudioTrack.MODE_STREAM);
-//            zGiveLocTrack.play();
-//            new Thread(zGvLocThread).start();
-//            super.handleMessage(msg);
-//        }
-//    };
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            // 要做的事情
+            genTone();
+            zGiveLocTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                    mConfig.sampleRate, AudioFormat.CHANNEL_OUT_MONO,
+                    AudioFormat.ENCODING_PCM_16BIT, 4096,
+                    AudioTrack.MODE_STREAM);
+            zGiveLocTrack.play();
+            new Thread(zGvLocThread).start();
+            super.handleMessage(msg);
+        }
+    };
 
 
     private void showDialog(){
@@ -181,58 +181,58 @@ public class PosService extends Service {
             e1.printStackTrace();
         }
 //
-//        /// INIT FSK DECODER
-//        mDecoder = new FSKDecoder(mConfig, new FSKDecoder.FSKDecoderCallback() {
-//
-//            @Override
-//            public void decoded(byte[] newData) {
-//                final String text = new String(newData);
-//
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//
-//                        result = result + text;
-//                        Log.e( "==============",  result);
-//                        i++;
-//                        Log.e( "888888888",  "执行了" + i);
-//                        if (i == 3) {
-////                            mRecorder.stop();
-////                            mRecorder.release();
-//                            result = "";
-//                            i = 0;
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//
-//
-//        mBufferSize = AudioRecord.getMinBufferSize(FSKConfig.SAMPLE_RATE_44100,
-//                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-//        mBufferSize *= 10;
-//        //again, make sure the recorder settings match the decoder settings
-//
-//        if (mRecorder == null) {
-//            mRecorder = new AudioRecord(MediaRecorder.AudioSource.MIC, FSKConfig.SAMPLE_RATE_44100,
-//                    AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, mBufferSize);
-//        }
-//
-//        if (mRecorder.getState() == AudioRecord.STATE_INITIALIZED) {
-//            mRecorder.startRecording();
-//            Log.e("22222222",mRecorder.getRecordingState()+ "");
-//            //start a thread to read the audio data
-//            Thread thread = new Thread(mRecordFeed);
-//            thread.setPriority(Thread.MAX_PRIORITY);
-//            thread.start();
-//        }
-//
-//        genTone();
-//        zGiveLocTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-//                mConfig.sampleRate, AudioFormat.CHANNEL_OUT_MONO,
-//                AudioFormat.ENCODING_PCM_16BIT, 4096,
-//                AudioTrack.MODE_STREAM);
-//        zGiveLocTrack.play();
-//        new Thread(zGvLocThread).start();
+        /// INIT FSK DECODER
+        mDecoder = new FSKDecoder(mConfig, new FSKDecoder.FSKDecoderCallback() {
+
+            @Override
+            public void decoded(byte[] newData) {
+                final String text = new String(newData);
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        result = result + text;
+                        Log.e( "==============",  result);
+                        i++;
+                        Log.e( "888888888",  "执行了" + i);
+                        if (i == 3) {
+//                            mRecorder.stop();
+//                            mRecorder.release();
+                            result = "";
+                            i = 0;
+                        }
+                    }
+                });
+            }
+        });
+
+
+        mBufferSize = AudioRecord.getMinBufferSize(FSKConfig.SAMPLE_RATE_44100,
+                AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        mBufferSize *= 10;
+        //again, make sure the recorder settings match the decoder settings
+
+        if (mRecorder == null) {
+            mRecorder = new AudioRecord(MediaRecorder.AudioSource.MIC, FSKConfig.SAMPLE_RATE_44100,
+                    AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, mBufferSize);
+        }
+
+        if (mRecorder.getState() == AudioRecord.STATE_INITIALIZED) {
+            mRecorder.startRecording();
+            Log.e("22222222",mRecorder.getRecordingState()+ "");
+            //start a thread to read the audio data
+            Thread thread = new Thread(mRecordFeed);
+            thread.setPriority(Thread.MAX_PRIORITY);
+            thread.start();
+        }
+
+        genTone();
+        zGiveLocTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                mConfig.sampleRate, AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT, 4096,
+                AudioTrack.MODE_STREAM);
+        zGiveLocTrack.play();
+        new Thread(zGvLocThread).start();
 
 //        if (verifyPermissions()) {
 //            Log.e("7777777",mRecorder.getRecordingState()+ "");

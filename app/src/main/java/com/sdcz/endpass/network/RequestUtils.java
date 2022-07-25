@@ -466,5 +466,7 @@ public class RequestUtils {
                 .getChannelTypeByCode(inviteCode).compose(RxHelper.observableIO2Main(DemoApp.getContext()))
                 .subscribe(observer);
     }
+
+    
 }
 

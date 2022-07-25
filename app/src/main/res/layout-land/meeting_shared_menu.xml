@@ -71,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/back_iv"
                 android:layout_weight="1"
                 android:paddingEnd="@dimen/dp11"
                 android:text="@string/meetingui_shared_select"
