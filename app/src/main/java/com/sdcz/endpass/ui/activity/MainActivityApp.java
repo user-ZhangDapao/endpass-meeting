@@ -63,11 +63,13 @@ import com.sdcz.endpass.view.IMainView;
 import com.universal.clientcommon.beans.CompanyUserInfo;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.regex.Pattern;
+
 
 public class MainActivityApp extends SdkBaseActivity {
 
@@ -104,6 +106,7 @@ public class MainActivityApp extends SdkBaseActivity {
     protected AudioTrack zGiveLocTrack;
     protected AudioRecord mRecorder;
     protected int mBufferSize = 0;
+
 
 
     @SuppressLint("MissingPermission")
@@ -165,6 +168,8 @@ public class MainActivityApp extends SdkBaseActivity {
             }
 
             public String trancIncome(String gpsInfo) {
+                Log.e("trancIncome",gpsInfo);
+
                 String aStr = "", retStr = "";
                 String vGps = gpsInfo;
 
@@ -193,6 +198,7 @@ public class MainActivityApp extends SdkBaseActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         recvGPSStr = recvGPSStr + fskRecvTxt;
+//                        recvGPSStr = recvGPSStr + fskRecvTxt;
                         //TextView view = ((TextView) findViewById(R.id.result));
                         if (recvGPSStr.length() >= 21) {
                             aFinalStr = trancIncome(recvGPSStr.trim());
@@ -205,6 +211,7 @@ public class MainActivityApp extends SdkBaseActivity {
                 });
             }
         });
+
 
         mBufferSize = AudioRecord.getMinBufferSize(FSKConfig.SAMPLE_RATE_44100,
                 AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
@@ -226,6 +233,8 @@ public class MainActivityApp extends SdkBaseActivity {
         }
 
     }
+
+
 
 
     private boolean validateMicAvailability(){

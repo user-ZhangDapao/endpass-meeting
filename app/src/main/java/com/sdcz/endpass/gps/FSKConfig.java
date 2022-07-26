@@ -24,6 +24,7 @@
 package com.sdcz.endpass.gps;
 
 import android.media.AudioFormat;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -102,6 +103,9 @@ public class FSKConfig {
 
 	public int rmsSilenceThreshold;
 
+	/**
+	 * 参数 1、取样器 2、PCM格式 3、渠道 4、调制解调器 5、门槛
+	 * */
 	public FSKConfig(int sampleRate, int pcmFormat, int channels,
 			int modemMode, int threshold) throws IOException {
 		this.sampleRate = sampleRate;
@@ -111,7 +115,7 @@ public class FSKConfig {
 
 		switch (modemMode) {
 		case SOFT_MODEM_MODE_1:
-
+			Log.e("Configfsk","mode1");
 			this.modemBaudRate = SOFT_MODEM_MODE_1_BAUD_RATE;
 			this.modemFreqLow = SOFT_MODEM_MODE_1_LOW_FREQ;
 			this.modemFreqHigh = SOFT_MODEM_MODE_1_HIGH_FREQ;
@@ -119,7 +123,7 @@ public class FSKConfig {
 			break;
 
 		case SOFT_MODEM_MODE_2:
-
+			Log.e("Configfsk","mode2");
 			this.modemBaudRate = SOFT_MODEM_MODE_2_BAUD_RATE;
 			this.modemFreqLow = SOFT_MODEM_MODE_2_LOW_FREQ;
 			this.modemFreqHigh = SOFT_MODEM_MODE_2_HIGH_FREQ;
@@ -127,7 +131,7 @@ public class FSKConfig {
 			break;
 
 		case SOFT_MODEM_MODE_3:
-
+			Log.e("Configfsk","mode3");
 			this.modemBaudRate = SOFT_MODEM_MODE_3_BAUD_RATE;
 			this.modemFreqLow = SOFT_MODEM_MODE_3_LOW_FREQ;
 			this.modemFreqHigh = SOFT_MODEM_MODE_3_HIGH_FREQ;
@@ -135,7 +139,7 @@ public class FSKConfig {
 			break;
 
 		case SOFT_MODEM_MODE_4:
-
+			Log.e("Configfsk","mode4");
 			this.modemBaudRate = SOFT_MODEM_MODE_4_BAUD_RATE;
 			this.modemFreqLow = SOFT_MODEM_MODE_4_LOW_FREQ;
 			this.modemFreqHigh = SOFT_MODEM_MODE_4_HIGH_FREQ;
@@ -143,7 +147,7 @@ public class FSKConfig {
 			break;
 
 		case SOFT_MODEM_MODE_5:
-
+			Log.e("Configfsk","mode5");
 			this.modemBaudRate = SOFT_MODEM_MODE_5_BAUD_RATE;
 			this.modemFreqLow = SOFT_MODEM_MODE_5_LOW_FREQ;
 			this.modemFreqHigh = SOFT_MODEM_MODE_5_HIGH_FREQ;
